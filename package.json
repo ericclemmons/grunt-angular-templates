@@ -1,9 +1,8 @@
 {
   "name": "grunt-angular-templates",
-  "version": "0.0.1",
   "description": "Grunt build task to concatenate & register your AngularJS templates in the $templateCache",
+  "version": "0.1.0",
   "homepage": "https://github.com/ericclemmons/grunt-angular-templates",
-  "bugs": "https://github.com/ericclemmons/grunt-angular-templates/issues",
   "author": {
     "name": "Eric Clemmons",
     "email": "eric@smarterspam.com"
@@ -12,28 +11,27 @@
     "type": "git",
     "url": "git://github.com/ericclemmons/grunt-angular-templates.git"
   },
-  "devDependencies": {
-    "grunt": "~0.3.17"
+  "bugs": {
+    "url": "https://github.com/ericclemmons/grunt-angular-templates/issues"
   },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/ericclemmons/grunt-angular-templates/blob/master/LICENSE-MIT"
+    }
+  ],
   "main": "grunt.js",
+  "bin": "bin/grunt-angular-templates",
   "engines": {
     "node": "*"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.17"
   },
   "keywords": [
-    "gruntplugin",
-    "angular",
-    "template",
-    "html",
-    "templates"
-  ],
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/ericclemmons/grunt-angular-templates/master/LICENSE"
-    }
-  ],
-  "readmeFilename": "README.md"
+    "gruntplugin"
+  ]
 }
