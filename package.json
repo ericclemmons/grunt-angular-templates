@@ -1,7 +1,7 @@
 {
   "name": "grunt-angular-templates",
   "description": "Grunt build task to concatenate & register your AngularJS templates in the $templateCache",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/ericclemmons/grunt-angular-templates",
   "author": {
     "name": "Eric Clemmons",
@@ -32,6 +32,10 @@
     "grunt": "~0.3.17"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "angular",
+    "template",
+    "templates",
+    "concat"
   ]
 }
