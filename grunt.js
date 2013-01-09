@@ -39,11 +39,18 @@ module.exports = function(grunt) {
       globals: {}
     },
     ngtemplates: {
+      multiple: {
+        options: {
+          base: 'test/fixtures'
+        },
+        src: ['test/fixtures/multiple/**/*.html'],
+        dest: 'tmp/multiple.js'
+      },
       simple: {
         options: {
           base: 'test/fixtures'
         },
-        src: ['test/fixtures/**/simple.html'],
+        src: ['test/fixtures/simple.html'],
         dest: 'tmp/simple.js'
       }
     }
