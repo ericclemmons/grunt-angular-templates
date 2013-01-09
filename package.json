@@ -23,13 +23,14 @@
   "main": "grunt.js",
   "bin": "bin/grunt-angular-templates",
   "engines": {
-    "node": "*"
+    "node": "0.8.x",
+    "npm": "1.1.x"
   },
   "scripts": {
     "test": "grunt"
   },
   "devDependencies": {
-    "grunt": "~0.3.17"
+    "grunt": "0.3.17"
   },
   "keywords": [
     "gruntplugin",
