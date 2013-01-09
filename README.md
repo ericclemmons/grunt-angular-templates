@@ -1,4 +1,4 @@
-# grunt-angular-templates
+# grunt-angular-templates [![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.png?branch=master)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
 
 Grunt build task to concatenate & register your AngularJS templates in the $templateCache
 
