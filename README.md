@@ -49,6 +49,16 @@ angular.module('app', [
 
 ## Changelog
 
+### v0.1.3
+
+- Fixes
+
+    - Convert `\\` to `/` in template IDs (for on win32 systems) ([#3](https://github.com/ericclemmons/grunt-angular-templates/issues/3))
+
+### v0.1.2
+
+- Added NPM keywords
+
 ### v0.1.1
 
 - Fixes
