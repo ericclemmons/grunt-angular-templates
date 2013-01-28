@@ -2,6 +2,11 @@
 
 Grunt build task to concatenate & register your AngularJS templates in the $templateCache
 
+**NOTE**:
+
+- Use `0.1.x` for Grunt `0.3.x`.
+- Use `0.2.x` for Grunt `0.4.x`.
+
 
 ## Getting Started
 Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-angular-templates`
@@ -48,6 +53,10 @@ angular.module('app', [
 
 
 ## Changelog
+
+### v0.2
+
+  - Update to Grunt 0.4, thanks to @jgrund. ([#5](https://github.com/ericclemmons/grunt-angular-templates/issues/5))
 
 ### v0.1.3
 
