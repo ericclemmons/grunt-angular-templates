@@ -54,7 +54,11 @@ angular.module('app', [
 
 ## Changelog
 
-### v0.2
+### v0.2.1
+
+  - Remove `./bin/grunt-angular-templates`.  No need for it!
+
+### v0.2.0
 
   - Update to Grunt 0.4, thanks to @jgrund. ([#5](https://github.com/ericclemmons/grunt-angular-templates/issues/5))
 
