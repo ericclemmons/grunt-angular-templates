@@ -54,6 +54,12 @@ angular.module('app', [
 
 ## Changelog
 
+### v0.2.2
+
+- Fixes
+
+  - Escape backslashes, thanks to @dallonf. ([#9](https://github.com/ericclemmons/grunt-angular-templates/pull/9))
+
 ### v0.2.1
 
   - Remove `./bin/grunt-angular-templates`.  No need for it!
