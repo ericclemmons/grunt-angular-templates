@@ -5,7 +5,7 @@ Grunt build task to concatenate & register your AngularJS templates in the $temp
 **NOTE**:
 
 - Use `0.1.x` for Grunt `0.3.x`.
-- Use `0.2.x` for Grunt `0.4.x`.
+- Use `0.2.x` or `0.3.x` for Grunt `0.4.x`.
 
 
 ## Getting Started
