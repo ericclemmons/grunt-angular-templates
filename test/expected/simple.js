@@ -1,4 +1,4 @@
-angular.module("simple.templates", []).run(["$templateCache", function($templateCache) {
+angular.module("simple").run(["$templateCache", function($templateCache) {
 
   $templateCache.put("simple.html",
     "Howdy there! \\ Your name is \"{{ name }}\"." +

@@ -30,7 +30,7 @@ module.exports.init = function(grunt) {
   };
 
   var compile = function(id, base, files, callback) {
-    var template = 'angular.module("<%= id %>", []).run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
+    var template = 'angular.module("<%= id %>").run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
 
     concat(base, files, function(err, concated) {
       var options = {
