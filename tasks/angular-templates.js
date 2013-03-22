@@ -21,7 +21,7 @@ module.exports = function(grunt) {
     var dest      = path.normalize(this.files[0].dest);
     var done      = this.async();
 
-	compiler.compile(id, this.options(), files, function(err, compiled) {
+    compiler.compile(id, this.options(), files, function(err, compiled) {
       if (err) {
         done(false);
       } else {
