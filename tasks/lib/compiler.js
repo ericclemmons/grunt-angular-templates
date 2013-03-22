@@ -16,7 +16,7 @@ module.exports.init = function(grunt) {
     var compilerOptions = options;
 	
     grunt.util.async.concatSeries(files, function(file, next) {
-	  var prepend   = compilerOptions.pathPrepend || '';
+      var prepend   = compilerOptions.pathPrepend || '';
       var id        = prepend + path.relative(compilerOptions.base, file).replace( /\\/g, '/');
       var template  = '\n  $templateCache.put("<%= id %>",\n    "<%= content %>"\n  );\n';
       var cleaned   = grunt.file.read(file).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, '" +\n    "');
