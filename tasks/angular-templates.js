@@ -16,12 +16,12 @@ module.exports = function(grunt) {
 
   grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates', function() {
     var id        = this.target;
-    var base      = grunt.file.expand(this.options().base || '.')[0];
+    //var base      = grunt.file.expand(this.options().base || '.')[0];
     var files     = grunt.file.expand(this.files[0].src);
     var dest      = path.normalize(this.files[0].dest);
     var done      = this.async();
 
-    compiler.compile(id, base, files, function(err, compiled) {
+	compiler.compile(id, this.options(), files, function(err, compiled) {
       if (err) {
         done(false);
       } else {
