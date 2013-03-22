@@ -12,9 +12,12 @@ var path = require('path');
 
 module.exports.init = function(grunt) {
 
-  var concat = function(base, files, callback) {
+  var concat = function(options, files, callback) {
+    var compilerOptions = options;
+	
     grunt.util.async.concatSeries(files, function(file, next) {
-      var id        = path.relative(base, file).replace( /\\/g, '/');
+      var prepend   = compilerOptions.pathPrepend || '';
+      var id        = prepend + path.relative(compilerOptions.base, file).replace( /\\/g, '/');
       var template  = '\n  $templateCache.put("<%= id %>",\n    "<%= content %>"\n  );\n';
       var cleaned   = grunt.file.read(file).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, '" +\n    "');
       var options   = {
@@ -29,10 +32,10 @@ module.exports.init = function(grunt) {
     }, callback);
   };
 
-  var compile = function(id, base, files, callback) {
+  var compile = function(id, options, files, callback) {
     var template = 'angular.module("<%= id %>").run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
 
-    concat(base, files, function(err, concated) {
+    concat(options, files, function(err, concated) {
       var options = {
         data: {
           id: id,
