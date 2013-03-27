@@ -11,7 +11,7 @@ exports.ngtemplates = {
     var actual    = grunt.file.read('tmp/simple.js');
     var expected  = grunt.file.read('test/expected/simple.js');
 
-    test.equal(expected, actual, 'should compile template as module `simple.templates`');
+    test.equal(expected, actual, 'should compile template as module `simple`');
     test.done();
   },
 
@@ -21,7 +21,17 @@ exports.ngtemplates = {
     var actual    = grunt.file.read('tmp/multiple.js');
     var expected  = grunt.file.read('test/expected/multiple.js');
 
-    test.equal(expected, actual, 'should compile multiple templates together as `multiple.templates`');
+    test.equal(expected, actual, 'should compile multiple templates together as `multiple`');
+    test.done();
+  },
+
+  prepend: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/simple_prepend.js');
+    var expected  = grunt.file.read('test/expected/simple_prepend.js');
+
+    test.equal(expected, actual, 'should prepend $templateCache ID with /prepend/simple.html"');
     test.done();
   }
 

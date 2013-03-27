@@ -50,6 +50,14 @@ module.exports = function(grunt) {
         },
         src: ['test/fixtures/simple.html'],
         dest: 'tmp/simple.js'
+      },
+      prepend: {
+        options: {
+          base: 'test/fixtures',
+          prepend: '/prepend/'
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/simple_prepend.js'
       }
     }
   });
