@@ -4,6 +4,12 @@ angular.module("multiple").run(["$templateCache", function($templateCache) {
     "<h1>One</h1>" +
     "" +
     "<p>I am one.</p>" +
+    "" +
+    "<script>" +
+    "  // Test" +
+    "  /* comments */" +
+    "  var foo = 'bar';" +
+    "</script>" +
     ""
   );
 
