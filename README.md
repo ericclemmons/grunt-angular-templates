@@ -31,14 +31,14 @@ which preloads `$templateCache` to prevent round-trips to the server.
 ```js
 // grunt.js
 grunt.initConfig({
-  ngtemplates:  {
-    myapp:      {
-      options:  { 
-        base: 'src/views',               // strips this string from beggining of $templateCache id
-        pathPrepend: '/static/assets/'   // optional, prepends this string to $templateCache id
+  ngtemplates:    {
+    myapp:        {
+      options:    {
+        base:     'src/views',        // $templateCache ID will be relative to this folder
+        prepend:  '/static/assets/'   // (Optional) Prepend path to $templateCache ID
       },
-      src:      [ 'src/views/**.html' ],
-      dest:     'dist/templates.js'
+      src:        [ 'src/views/**.html' ],
+      dest:       'dist/templates.js'
     }
   }
 });
