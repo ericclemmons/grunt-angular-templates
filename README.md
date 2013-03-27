@@ -33,7 +33,10 @@ which preloads `$templateCache` to prevent round-trips to the server.
 grunt.initConfig({
   ngtemplates:  {
     myapp:      {
-      options:  { base: 'src/views' },
+      options:  { 
+        base: 'src/views',               // strips this string from beggining of $templateCache id
+        pathPrepend: '/static/assets/'   // optional, prepends this string to $templateCache id
+      },
       src:      [ 'src/views/**.html' ],
       dest:     'dist/templates.js'
     }
