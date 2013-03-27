@@ -80,6 +80,10 @@ concat: {
 
 ## Changelog
 
+### v0.3.1
+
+- Add `prepend` option for modifying final `$templateCache` IDs, thanks to @mbarchein. ([#16](https://github.com/ericclemmons/grunt-angular-templates/pull/16))
+
 ### v0.3.0
 
 - **BC break** - Templates are added to an existing module (e.g. `myapp`) rather than being their own `myapp.templates` module to be manually included, thanks to @geddesign. ([#10](https://github.com/ericclemmons/grunt-angular-templates/issues/10))
