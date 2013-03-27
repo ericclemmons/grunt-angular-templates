@@ -13,20 +13,11 @@ var path = require('path');
 module.exports.init = function(grunt) {
 
   var concat = function(options, files, callback) {
-    var compilerOptions = options;
-	
     grunt.util.async.concatSeries(files, function(file, next) {
-      var prepend   = compilerOptions.pathPrepend || '';
-      var id        = prepend + path.relative(compilerOptions.base, file).replace( /\\/g, '/');
+      var id        = (options.prepend || '') + path.relative(options.base, file).replace( /\\/g, '/');
       var template  = '\n  $templateCache.put("<%= id %>",\n    "<%= content %>"\n  );\n';
       var cleaned   = grunt.file.read(file).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, '" +\n    "');
-      var options   = {
-        data: {
-          id: id,
-          content: cleaned
-        }
-      };
-      var cached    = grunt.template.process(template, options);
+      var cached    = process(template, id, cleaned);
 
       next(null, cached);
     }, callback);
@@ -36,15 +27,18 @@ module.exports.init = function(grunt) {
     var template = 'angular.module("<%= id %>").run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
 
     concat(options, files, function(err, concated) {
-      var options = {
-        data: {
-          id: id,
-          content: concated.join('')
-        }
-      };
-      var compiled = grunt.template.process(template, options);
+      var compiled = process(template, id, concated.join(''));
 
       callback(false, compiled);
+    });
+  };
+
+  var process = function(template, id, content) {
+    return grunt.template.process(template, {
+      data: {
+        id:       id,
+        content:  content
+      }
     });
   };
 
