@@ -9,6 +9,7 @@
 'use strict';
 
 var path = require('path');
+var util = require('util');
 
 module.exports = function(grunt) {
 
@@ -19,13 +20,31 @@ module.exports = function(grunt) {
     var files     = grunt.file.expand(this.files[0].src);
     var dest      = path.normalize(this.files[0].dest);
     var done      = this.async();
+    var options   = this.options();
 
-    compiler.compile(id, this.options(), files, function(err, compiled) {
+    compiler.compile(id, options, files, function(err, compiled) {
       if (err) {
         done(false);
       } else {
         grunt.file.write(dest, compiled);
         grunt.log.writeln('File ' + dest.cyan + ' created.');
+
+        if (options.concat){
+          var concat = grunt.config('concat') || {};
+          var concatSrc = concat[options.concat];
+          if (grunt.util.kindOf(concatSrc) === 'object'){
+            concatSrc = concat[options.concat].src;
+          }
+          if (grunt.util.kindOf(concatSrc) !== 'array'){
+            grunt.log.error('Unable to update concat config. Unable to find valid concat config for ' + options.concat.cyan + '.');
+            done(false);
+            return;
+          } else {
+            concatSrc.push(dest);
+            grunt.config('concat',concat);
+            grunt.log.subhead('Updating concat config. Config is now:').writeln('   ' + util.inspect(concat,false,4,true));
+          }
+        }
         done();
       }
     });
