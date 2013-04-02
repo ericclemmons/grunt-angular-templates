@@ -29,22 +29,28 @@ module.exports = function(grunt) {
         grunt.file.write(dest, compiled);
         grunt.log.writeln('File ' + dest.cyan + ' created.');
 
-        if (options.concat){
-          var concat = grunt.config('concat') || {};
-          var concatSrc = concat[options.concat];
-          if (grunt.util.kindOf(concatSrc) === 'object'){
-            concatSrc = concat[options.concat].src;
+        if (options.updatetask){
+          if (!options.updatetask.task || !options.updatetask.target){
+            grunt.log.error('Incorrect configuration. updatetask is missing \'task\' or \'target\'.');
+            done(false);
+            return;
           }
-          if (grunt.util.kindOf(concatSrc) !== 'array'){
-            grunt.log.error('Unable to update concat config. Unable to find valid concat config for ' + options.concat.cyan + '.');
+          var task = grunt.config(options.updatetask.task) || {};
+          var target = task[options.updatetask.target];
+          if (grunt.util.kindOf(target) === 'object'){
+            target = target.src;
+          }
+          if (grunt.util.kindOf(target) !== 'array'){
+            grunt.log.error('Unable to update '+options.updatetask.task+' config. Unable to find valid config for ' + options.updatetask.target.cyan + '.');
             done(false);
             return;
           } else {
-            concatSrc.push(dest);
-            grunt.config('concat',concat);
-            grunt.log.subhead('Updating concat config. Config is now:').writeln('   ' + util.inspect(concat,false,4,true));
+            target.push(dest);
+            grunt.config(options.updatetask.task,task);
+            grunt.log.subhead('Updating '+options.updatetask.task+' config. Config is now:').writeln('   ' + util.inspect(target,false,4,true));
           }
         }
+
         done();
       }
     });
