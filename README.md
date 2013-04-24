@@ -36,7 +36,8 @@ grunt.initConfig({
       options: {
         base:     'src/views',        // $templateCache ID will be relative to this folder
         prepend:  '/static/assets/',  // (Optional) Prepend path to $templateCache ID
-        module:   'App' // (Optional) The module the templates will be added to, defaults to target if not present ('build' in this case)
+        module:   'App'               // (Optional) The module the templates will be added to
+                                      //            Defaults to target name (e.g. `build`)
       },
       src:        [ 'src/views/**.html' ],
       dest:       'dist/templates.js'
