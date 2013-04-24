@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   var compiler = require('./lib/compiler').init(grunt);
 
   grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates', function() {
-    var id        = this.target;
+    var id        = this.options().module || this.target;
     var files     = grunt.file.expand(this.files[0].src);
     var dest      = path.normalize(this.files[0].dest);
     var done      = this.async();

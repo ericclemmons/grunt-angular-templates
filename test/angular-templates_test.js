@@ -33,6 +33,16 @@ exports.ngtemplates = {
 
     test.equal(expected, actual, 'should prepend $templateCache ID with /prepend/simple.html"');
     test.done();
+  },
+
+  module: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/options_module.js');
+    var expected  = grunt.file.read('test/expected/options_module.js');
+
+    test.equal(expected, actual, 'should set the angular module to the provided options value');
+    test.done();
   }
 
 };

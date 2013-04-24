@@ -58,6 +58,14 @@ module.exports = function(grunt) {
         },
         src: ['test/fixtures/simple.html'],
         dest: 'tmp/simple_prepend.js'
+      },
+      target: {
+        options: {
+          base: 'test/fixtures',
+          module: 'ImAModuleNotATarget'
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/options_module.js'
       }
     }
   });
