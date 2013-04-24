@@ -79,6 +79,10 @@ concat: {
 
 ## Changelog
 
+### v0.3.2
+
+- Add `module` option for setting which module the templates will be added to, thanks to @sidwood ([#20](https://github.com/ericclemmons/grunt-angular-templates/pull/20))
+
 ### v0.3.1
 
 - Add `prepend` option for modifying final `$templateCache` IDs, thanks to @mbarchein. ([#16](https://github.com/ericclemmons/grunt-angular-templates/pull/16))
