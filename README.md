@@ -31,11 +31,12 @@ which preloads `$templateCache` to prevent round-trips to the server.
 ```js
 // grunt.js
 grunt.initConfig({
-  ngtemplates:    {
-    myapp:        {
-      options:    {
+  ngtemplates: {
+    build: {
+      options: {
         base:     'src/views',        // $templateCache ID will be relative to this folder
-        prepend:  '/static/assets/'   // (Optional) Prepend path to $templateCache ID
+        prepend:  '/static/assets/',  // (Optional) Prepend path to $templateCache ID
+        module:   'App' // (Optional) The module the templates will be added to, defaults to target if not present ('build' in this case)
       },
       src:        [ 'src/views/**.html' ],
       dest:       'dist/templates.js'
@@ -44,13 +45,10 @@ grunt.initConfig({
 });
 ```
 
-**You should name your sub-target (e.g. `myapp`) after the name of the module the templates will be added to**.
-
-
 This will generate the following at `dist/templates.js`:
 
 ```js
-angular.module('myapp').run(['$templateCache', function($templateCache) {
+angular.module('App').run(['$templateCache', function($templateCache) {
   ...
 }]);
 ```
