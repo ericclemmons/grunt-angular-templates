@@ -75,6 +75,17 @@ concat: {
   }
 }
 ```
+or let `ngtemplates` do it dynamically via the `updatetask` options.  This is particularly useful if you're using a task that dynamically populates your concat configuration like [grunt-usemin](https://github.com/yeoman/grunt-usemin).
+
+```js
+myapp:        {
+  options:    {
+    updatetask:{task: 'concat', target: 'dist/app.js'} //Will append 'dist/template.js' to a concat config for 'dist/app.js'
+  },
+  src:        [ 'src/views/**.html' ],
+  dest:       'dist/templates.js'
+}
+```
 
 
 ## Changelog
