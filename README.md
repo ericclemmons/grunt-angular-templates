@@ -134,6 +134,10 @@ This will append the output file `dist/js/templates.js` to
 
 ## Changelog
 
+### v0.3.4
+
+- Attempt to fix a bug with `Path`, thanks to @cgross ([#19](https://github.com/ericclemmons/grunt-angular-templates/issues/19))
+
 ### v0.3.3
 
 - Add `concat` option for automatically adding compiled template file to existing `concat` (or `usemin`-created) task, thanks to @cgross ([#17](https://github.com/ericclemmons/grunt-angular-templates/pull/17))
