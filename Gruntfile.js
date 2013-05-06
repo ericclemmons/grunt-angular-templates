@@ -36,6 +36,17 @@ module.exports = function(grunt) {
       },
       globals: {}
     },
+    concat: {
+      simple: {
+        files: {
+          'tmp/concat_simple_expected.js': 'test/fixtures/DOES_NOT_EXIST/**/*.html'
+        }
+      },
+      multiple: {
+        src: ['test/fixtures/DOES_NOT_EXIST/**/*.html'],
+        dest: 'tmp/concat_multiple_expected.js'
+      }
+    },
     ngtemplates: {
       multiple: {
         options: {
@@ -72,8 +83,9 @@ module.exports = function(grunt) {
 
   // Load local tasks.
   grunt.loadTasks('tasks');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('default', ['jshint', 'ngtemplates', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'ngtemplates', 'concat', 'nodeunit']);
 };

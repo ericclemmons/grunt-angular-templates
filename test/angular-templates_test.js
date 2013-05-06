@@ -43,6 +43,26 @@ exports.ngtemplates = {
 
     test.equal(expected, actual, 'should set the angular module to the provided options value');
     test.done();
+  },
+
+  concatSimple: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/concat_simple_fixture.js');
+    var expected  = grunt.file.read('tmp/concat_simple_expected.js');
+
+    test.equal(expected, actual, 'should create concat target that equals ngtemplate');
+    test.done();
+  },
+
+  concatMultiple: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/concat_multiple_fixture.js');
+    var expected  = grunt.file.read('tmp/concat_multiple_expected.js');
+
+    test.equal(expected, actual, 'should create concat target that equals ngtemplate');
+    test.done();
   }
 
 };
