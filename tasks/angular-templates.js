@@ -29,26 +29,41 @@ module.exports = function(grunt) {
         grunt.file.write(dest, compiled);
         grunt.log.writeln('File ' + dest.cyan + ' created.');
 
-        if (options.updatetask){
-          if (!options.updatetask.task || !options.updatetask.target){
-            grunt.log.error('Incorrect configuration. updatetask is missing \'task\' or \'target\'.');
-            done(false);
-            return;
-          }
-          var task = grunt.config(options.updatetask.task) || {};
-          var target = task[options.updatetask.target];
-          if (grunt.util.kindOf(target) === 'object'){
-            target = target.src;
-          }
-          if (grunt.util.kindOf(target) !== 'array'){
-            grunt.log.error('Unable to update '+options.updatetask.task+' config. Unable to find valid config for ' + options.updatetask.target.cyan + '.');
-            done(false);
-            return;
-          } else {
-            target.push(dest);
-            grunt.config(options.updatetask.task,task);
-            grunt.log.subhead('Updating '+options.updatetask.task+' config. Config is now:').writeln('   ' + util.inspect(target,false,4,true));
-          }
+        if (options.concat) {
+          var targets = Array.isArray(options.concat) ? options.concat : [ options.concat ];
+          var concat  = grunt.config('concat') || {};
+
+          targets.forEach(function(target) {
+            var task = concat[target];
+
+            if (!task) {
+              grunt.log.error('Unknown concat target: ' + target);
+              done(false);
+
+              return;
+            }
+
+            if (task.src) {
+              task.src = Array.isArray(task.src) ? task.src : [ task.src ];
+              task.src.push(dest);
+            } else if (task.files) {
+              var files = task.files;
+
+              for (var key in files) {
+                files[key] = Array.isArray(files[key]) ? files[key] : [ files[key] ];
+                files[key].push(dest);
+              }
+            } else {
+              grunt.log.error('Could not find src or files in concat target: ' + target);
+              done(false);
+
+              return;
+            }
+
+            grunt.log.writeln('Added ' + dest.cyan + ' to ' + ('concat.' + target).cyan);
+
+            grunt.config('concat', concat);
+          });
         }
 
         done();
