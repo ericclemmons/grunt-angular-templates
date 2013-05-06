@@ -77,6 +77,20 @@ module.exports = function(grunt) {
         },
         src: ['test/fixtures/simple.html'],
         dest: 'tmp/options_module.js'
+      },
+      concatSimple: {
+        options: {
+          concat: 'simple'
+        },
+        src: 'test/fixtures/simple.html',
+        dest: 'tmp/concat_simple_fixture.js'
+      },
+      concatMultiple: {
+        options: {
+          concat: ['multiple']
+        },
+        src: 'test/fixtures/multiple/**/*.html',
+        dest: 'tmp/concat_multiple_fixture.js'
       }
     }
   });
