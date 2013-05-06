@@ -31,15 +31,16 @@ which preloads `$templateCache` to prevent round-trips to the server.
 ```js
 // grunt.js
 grunt.initConfig({
-  ngtemplates: {
-    build: {
-      options: {
+  ngtemplates:    {
+    myapp:        {
+      options:    {
         base:     'src/views',        // $templateCache ID will be relative to this folder
         prepend:  '/static/assets/',  // (Optional) Prepend path to $templateCache ID
         module:   'App'               // (Optional) The module the templates will be added to
                                       //            Defaults to target name (e.g. `build`)
+        concat:   'dist/js/app.js'    // (Optional) Append to existing `concat` target
       },
-      src:        [ 'src/views/**.html' ],
+      src:        'src/views/**.html',
       dest:       'dist/templates.js'
     }
   }
@@ -56,37 +57,80 @@ angular.module('App').run(['$templateCache', function($templateCache) {
 
 ### Include Compiled Templates
 
-This can either be done via HTML:
+There are 3 different ways to make use of the compiled templates in your project:
+an HTML script tag, an existing `concat` task, or `usemin`'s dynamic `concat` task.
+
+
+### Using HTML
 
 ```html
 <script src="dist/templates.js"></script>
 ```
 
-or via your Gruntfile:
+### Using Your Gruntfile
+
+Either add it explicitly to your `concat` task:
 
 ```js
 concat: {
   myapp: {
     src: [
-      'src/js/**/*.js',       // MyApp module first
-      '<%= ngtemplates.myapp.dest %>' // Generated templates
+      'src/js/**/*.js',               // MyApp module first
+      '<%= ngtemplates.myapp.dest %>' // Generated templates (`dist/templates.js`)
     ],
     dest: 'dist/js/app.js'
   }
 }
 ```
-or let `ngtemplates` do it dynamically via the `updatetask` options.  This is particularly useful if you're using a task that dynamically populates your concat configuration like [grunt-usemin](https://github.com/yeoman/grunt-usemin).
+
+or have `ngtemplates` add it to an existing `concat` task for you:
 
 ```js
-myapp:        {
-  options:    {
-    updatetask:{task: 'concat', target: 'dist/app.js'} //Will append 'dist/template.js' to a concat config for 'dist/app.js'
-  },
-  src:        [ 'src/views/**.html' ],
-  dest:       'dist/templates.js'
+concat:   {
+  myapp:  {
+    src:  'src/js/**/*.js', // Will automatically have `dist/templates.js` appended
+    dest: 'dist/js/app.js'
+  }
+},
+
+ngtemplates:  {
+  myapp:      {
+    options:  {
+      concat: 'myapp' // Name of concat target to append to
+    },
+    src:      'src/views/**.html',
+    dest:     'dist/templates.js'
+  }
 }
 ```
 
+
+### Using [grunt-usemin](https://github.com/yeoman/grunt-usemin)
+
+First, note the **output of `build:js`** in your HTML:
+
+```html
+  <!-- build:js dist/js/app.js -->
+  <script src="src/js/app.js"></script>
+  ...
+```
+
+Finally, add `concat: 'dist/js/app.js` to the `concat` option
+
+```js
+ngtemplates:    {
+  myapp:        {
+    options:    {
+      concat:   'dist/js/app.js'
+    },
+    src:        'src/views/**.html',
+    dest:       'dist/templates.js'
+  }
+}
+```
+
+This will append the output file `dist/js/templates.js` to
+`usemin`'s dynamic `concat` task: `dist/js/app.js`.
 
 ## Changelog
 
