@@ -134,6 +134,10 @@ This will append the output file `dist/js/templates.js` to
 
 ## Changelog
 
+### v0.3.5
+
+- Preserver line endings in templates, thanks to @groner ([#21](https://github.com/ericclemmons/grunt-angular-templates/pull/21))
+
 ### v0.3.4
 
 - Attempt to fix a bug with `Path`, thanks to @cgross ([#19](https://github.com/ericclemmons/grunt-angular-templates/issues/19))
