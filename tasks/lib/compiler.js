@@ -15,8 +15,8 @@ module.exports.init = function(grunt) {
   var concat = function(options, files, callback) {
     grunt.util.async.concatSeries(files, function(file, next) {
       var id        = (options.prepend || '') + path.relative(options.base || '.', file).replace( /\\/g, '/');
-      var template  = '\n  $templateCache.put("<%= id %>",\n    "<%= content %>"\n  );\n';
-      var cleaned   = grunt.file.read(file).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\r?\n/g, '" +\n    "');
+      var template  = '\n  $templateCache.put("<%= id %>",\n    <%= content %>\n  );\n';
+      var cleaned   = grunt.file.read(file).split(/^/gm).map(function(line) { return JSON.stringify(line); }).join(' +\n    ');
       var cached    = process(template, id, cleaned);
 
       next(null, cached);
