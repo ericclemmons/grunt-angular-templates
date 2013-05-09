@@ -55,8 +55,7 @@ module.exports = function(grunt) {
               }
             } else if (Array.isArray(task)) {
                 task.push(dest);
-            }
-            else {
+            } else {
               grunt.log.error('Could not find src or files in concat target: ' + target);
               done(false);
 
