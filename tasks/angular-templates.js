@@ -53,7 +53,10 @@ module.exports = function(grunt) {
                 files[key] = Array.isArray(files[key]) ? files[key] : [ files[key] ];
                 files[key].push(dest);
               }
-            } else {
+            } else if (Array.isArray(task)) {
+                task.push(dest);
+            }
+            else {
               grunt.log.error('Could not find src or files in concat target: ' + target);
               done(false);
 
