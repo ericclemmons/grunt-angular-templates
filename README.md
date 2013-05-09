@@ -134,6 +134,10 @@ This will append the output file `dist/js/templates.js` to
 
 ## Changelog
 
+### v0.3.6
+
+- Fix issue with dading to `concat` task when it's an array, thanks to @codefather ([#23](https://github.com/ericclemmons/grunt-angular-templates/pull/23))
+
 ### v0.3.5
 
 - Preserver line endings in templates, thanks to @groner ([#21](https://github.com/ericclemmons/grunt-angular-templates/pull/21))
