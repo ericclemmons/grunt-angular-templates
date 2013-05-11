@@ -1,4 +1,4 @@
-angular.module("multiple").run(["$templateCache", function($templateCache) {
+angular.module("multiple", []).run(["$templateCache", function($templateCache) {
 
   $templateCache.put("multiple/one.html",
     "<h1>One</h1>\n" +
