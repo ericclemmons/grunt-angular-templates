@@ -91,7 +91,15 @@ module.exports = function(grunt) {
         },
         src: 'test/fixtures/multiple/**/*.html',
         dest: 'tmp/concat_multiple_fixture.js'
-      }
+      },
+      noConflict: {
+        options: {
+          base: 'test/fixtures',
+          noConflict: 'notGlobalAngular'
+        },
+        src: 'test/fixtures/simple.html',
+        dest: 'tmp/options_noConflict_fixture.js'
+      },
     }
   });
 
