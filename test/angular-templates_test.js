@@ -45,6 +45,16 @@ exports.ngtemplates = {
     test.done();
   },
 
+  noConflict: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/options_noConflict_fixture.js');
+    var expected  = grunt.file.read('test/expected/options_noConflict.js');
+
+    test.equal(expected, actual, 'should reference angular by the noConflict options value');
+    test.done();
+  },
+
   concatSimple: function(test) {
     test.expect(1);
 

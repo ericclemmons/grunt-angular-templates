@@ -23,21 +23,22 @@ module.exports.init = function(grunt) {
     }, callback);
   };
 
-  var compile = function(id, options, files, callback) {
-    var template = 'angular.module("<%= id %>").run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
+  var compile = function(id, noConflict, options, files, callback) {
+    var template = '<%= noConflict %>.module("<%= id %>").run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
 
     concat(options, files, function(err, concated) {
-      var compiled = process(template, id, concated.join(''));
+      var compiled = process(template, id, concated.join(''), noConflict);
 
       callback(false, compiled);
     });
   };
 
-  var process = function(template, id, content) {
+  var process = function(template, id, content, noConflict) {
     return grunt.template.process(template, {
       data: {
-        id:       id,
-        content:  content
+        id:         id,
+        content:    content,
+        noConflict: noConflict
       }
     });
   };
