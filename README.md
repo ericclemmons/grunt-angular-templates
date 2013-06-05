@@ -135,6 +135,10 @@ This will append the output file `dist/js/templates.js` to
 
 ## Changelog
 
+### v0.3.8
+
+- Fix error that occurs when adding 0-length files, thanks to @robertklep ([#27](https://github.com/ericclemmons/grunt-angular-templates/pull/27))
+
 ### v0.3.7
 
 - Add `noConflict` option to work with [angular.noConflict](https://github.com/angular/angular.js/pull/1535), thanks to @mbrevoort ([#26](https://github.com/ericclemmons/grunt-angular-templates/pull/26))
