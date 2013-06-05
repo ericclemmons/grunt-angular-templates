@@ -37,7 +37,7 @@ module.exports.init = function(grunt) {
     return grunt.template.process(template, {
       data: {
         id:         id,
-        content:    content,
+        content:    content.length ? content : '""',
         noConflict: noConflict
       }
     });
