@@ -23,8 +23,14 @@ module.exports.init = function(grunt) {
     }, callback);
   };
 
-  var compile = function(id, noConflict, options, files, callback) {
-    var template = '<%= noConflict %>.module("<%= id %>").run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
+  var compile = function(id, noConflict, define, options, files, callback) {
+    var template = '<%= noConflict %>.module("<%= id %>"';
+
+    if (define) {
+      template += ', []';
+    }
+
+    template += ').run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
 
     concat(options, files, function(err, concated) {
       var compiled = process(template, id, concated.join(''), noConflict);
