@@ -37,7 +37,7 @@ grunt.initConfig({
         base:       'src/views',        // $templateCache ID will be relative to this folder
         prepend:    '/static/assets/',  // (Optional) Prepend path to $templateCache ID
         module:     'App'               // (Optional) The module the templates will be added to
-                                        //            Defaults to target name (e.g. `build`)
+                                        //            Defaults to target name (e.g. `myapp`)
         concat:     'dist/js/app.js'    // (Optional) Append to existing `concat` target
         noConflict: 'otherAngular'      // (Optional) Name of angular.noConflict() app uses
       },
@@ -132,6 +132,33 @@ ngtemplates:    {
 
 This will append the output file `dist/js/templates.js` to
 `usemin`'s dynamic `concat` task: `dist/js/app.js`.
+
+### Defining an Angular Module
+
+It's possible to define a new angular module in the generated JS file.
+
+```js
+ngtemplates:    {
+  myapp:        {
+    options:    {
+      module: {
+        name: 'templates',
+        define: true
+      }
+    },
+    src:        'src/views/**.html',
+    dest:       'dist/templates.js'
+  }
+}
+```
+
+This will generate the following at `dist/templates.js`:
+
+```js
+angular.module('templates', []).run(['$templateCache', function($templateCache) {
+  ...
+}]);
+```
 
 ## Changelog
 

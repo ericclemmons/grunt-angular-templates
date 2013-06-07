@@ -16,14 +16,27 @@ module.exports = function(grunt) {
   var compiler = require('./lib/compiler').init(grunt);
 
   grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates', function() {
-    var id          = this.options().module || this.target;
+    var id          = this.target;
     var noConflict  = this.options().noConflict || 'angular';
     var files       = grunt.file.expand(this.files[0].src);
     var dest        = path.normalize(this.files[0].dest);
     var done        = this.async();
     var options     = this.options();
+    var define      = false;
 
-    compiler.compile(id, noConflict, options, files, function(err, compiled) {
+    if (options.module) {
+      if (typeof options.module === 'string') {
+        id = options.module;
+      } else if (options.module.hasOwnProperty('name') && typeof options.module.name === 'string') {
+        id = options.module.name;
+      }
+
+      if (options.module.hasOwnProperty('define') && options.module.define === true ) {
+        define = true;
+      }
+    }
+
+    compiler.compile(id, noConflict, define, options, files, function(err, compiled) {
       if (err) {
         done(false);
       } else {

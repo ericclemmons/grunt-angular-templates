@@ -70,13 +70,44 @@ module.exports = function(grunt) {
         src: ['test/fixtures/simple.html'],
         dest: 'tmp/simple_prepend.js'
       },
-      target: {
+      moduleString: {
         options: {
           base: 'test/fixtures',
-          module: 'ImAModuleNotATarget'
+          module: 'ImNotATarget'
         },
         src: ['test/fixtures/simple.html'],
-        dest: 'tmp/options_module.js'
+        dest: 'tmp/module_option_string.js'
+      },
+      moduleObject: {
+        options: {
+          base: 'test/fixtures',
+          module: {
+            name: 'ImNotATarget',
+            define: true
+          }
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/module_option_object.js'
+      },
+      moduleObjectName: {
+        options: {
+          base: 'test/fixtures',
+          module: {
+            name: 'ImNotATarget'
+          }
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/module_option_object_name.js'
+      },
+      moduleObjectDefine: {
+        options: {
+          base: 'test/fixtures',
+          module: {
+            define: true
+          }
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/module_option_object_define.js'
       },
       concatSimple: {
         options: {
@@ -98,7 +129,7 @@ module.exports = function(grunt) {
           noConflict: 'notGlobalAngular'
         },
         src: 'test/fixtures/simple.html',
-        dest: 'tmp/options_noConflict_fixture.js'
+        dest: 'tmp/noConflict_option_fixture.js'
       },
     }
   });
