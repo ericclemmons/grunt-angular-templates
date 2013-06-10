@@ -7,7 +7,6 @@
  */
 
 'use strict';
-
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -100,6 +99,36 @@ module.exports = function(grunt) {
         src: 'test/fixtures/simple.html',
         dest: 'tmp/options_noConflict_fixture.js'
       },
+      template: {
+        options: {
+          base: 'test/fixtures',
+          baseIdent: 4,
+          template: 'define([],function(){\n'+
+            '  return {\n'+
+            '    loadTemplates: function($templateCache){'+
+            '{{content}}'+
+            '    }\n'+
+            '  };\n'+
+            '});'
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/options_template_fixture.js'
+      },
+      templateMulti: {
+        options: {
+          base: 'test/fixtures',
+          baseIdent: 4,
+          template: 'define([],function(){\n'+
+            '  return {\n'+
+            '    loadTemplates: function($templateCache){'+
+            '{{content}}'+
+            '    }\n'+
+            '  };\n'+
+            '});'
+        },
+        src: ['test/fixtures/multiple/**/*.html'],
+        dest: 'tmp/options_templateMulti_fixture.js'
+      }
     }
   });
 
