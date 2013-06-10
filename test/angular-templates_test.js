@@ -73,6 +73,24 @@ exports.ngtemplates = {
 
     test.equal(expected, actual, 'should create concat target that equals ngtemplate');
     test.done();
+  },
+
+  template: function(test){
+    test.expect(1);
+    var actual    = grunt.file.read('tmp/options_template_fixture.js');
+    var expected  = grunt.file.read('test/expected/options_template.js');
+    
+    test.equal(expected, actual, 'should use the alternative template');
+    test.done();
+  },
+
+  templateMulti: function(test){
+    test.expect(1);
+    var actual    = grunt.file.read('tmp/options_templateMulti_fixture.js');
+    var expected  = grunt.file.read('test/expected/options_templateMulti.js');
+    
+    test.equal(expected, actual, 'should use the alternative template with multiple templates');
+    test.done();
   }
 
 };
