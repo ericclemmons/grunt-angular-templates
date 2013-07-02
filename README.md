@@ -37,7 +37,12 @@ grunt.initConfig({
         base:       'src/views',        // $templateCache ID will be relative to this folder
         prepend:    '/static/assets/',  // (Optional) Prepend path to $templateCache ID
         module:     'App'               // (Optional) The module the templates will be added to
-                                        //            Defaults to target name (e.g. `myapp`)
+                                        //            Defaults to grunt target name (e.g. `myapp`)
+        // ...or...
+        module:     {
+          name:     'App',              // (Optional) Explicitly define module name
+          define:   true                // (Optional) Define new module (Default: false)
+        },
         concat:     'dist/js/app.js'    // (Optional) Append to existing `concat` target
         noConflict: 'otherAngular'      // (Optional) Name of angular.noConflict() app uses
       },
@@ -141,8 +146,8 @@ It's possible to define a new angular module in the generated JS file.
 ngtemplates:    {
   myapp:        {
     options:    {
-      module: {
-        name: 'templates',
+      module:   {
+        name:   'templates',
         define: true
       }
     },
@@ -159,6 +164,8 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
   ...
 }]);
 ```
+
+If you want the templates to append to a *pre-existing* module, simply leave off the `define` option by default.
 
 ## Changelog
 
