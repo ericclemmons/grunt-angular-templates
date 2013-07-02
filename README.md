@@ -169,6 +169,10 @@ If you want the templates to append to a *pre-existing* module, simply leave off
 
 ## Changelog
 
+### v0.3.9
+
+- Allow the creation of a new module via `module.define`, thanks to @sidwood ([#28](https://github.com/ericclemmons/grunt-angular-templates/pull/28))
+
 ### v0.3.8
 
 - Fix error that occurs when adding 0-length files, thanks to @robertklep ([#27](https://github.com/ericclemmons/grunt-angular-templates/pull/27))
