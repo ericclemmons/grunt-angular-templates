@@ -48,6 +48,7 @@ module.exports = function(grunt) {
           var concat  = grunt.config('concat') || {};
 
           targets.forEach(function(target) {
+            target = path.normalize(target);
             var task = concat[target];
 
             if (!task) {
