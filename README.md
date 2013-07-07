@@ -169,6 +169,10 @@ If you want the templates to append to a *pre-existing* module, simply leave off
 
 ## Changelog
 
+### v0.3.10
+
+- Fix *unknown concat target* bug on windows, thanks to @trask ([#31](https://github.com/ericclemmons/grunt-angular-templates/pull/31))
+
 ### v0.3.9
 
 - Allow the creation of a new module via `module.define`, thanks to @sidwood ([#28](https://github.com/ericclemmons/grunt-angular-templates/pull/28))
