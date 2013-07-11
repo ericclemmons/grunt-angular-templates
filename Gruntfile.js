@@ -55,6 +55,14 @@ module.exports = function(grunt) {
         src: ['test/fixtures/multiple/**/*.html'],
         dest: 'tmp/multiple.js'
       },
+      onlyFilenames: {
+        options: {
+          base: 'test/fixtures',
+          onlyFilenames: true
+        },
+        src: ['test/fixtures/multiple/**/*.html'],
+        dest: 'tmp/multiple_only_filenames.js'
+      },
       simple: {
         options: {
           base: 'test/fixtures'

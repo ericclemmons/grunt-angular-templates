@@ -31,23 +31,24 @@ which preloads `$templateCache` to prevent round-trips to the server.
 ```js
 // grunt.js
 grunt.initConfig({
-  ngtemplates:      {
-    myapp:          {
-      options:      {
-        base:       'src/views',        // $templateCache ID will be relative to this folder
-        prepend:    '/static/assets/',  // (Optional) Prepend path to $templateCache ID
-        module:     'App'               // (Optional) The module the templates will be added to
-                                        //            Defaults to grunt target name (e.g. `myapp`)
+  ngtemplates:         {
+    myapp:             {
+      options:         {
+        base:          'src/views',        // $templateCache ID will be relative to this folder
+        prepend:       '/static/assets/',  // (Optional) Prepend path to $templateCache ID
+        onlyFilenames: '/static/assets/',  // (Optional) $templateCache IDs are filenames without full path
+        module:        'App'               // (Optional) The module the templates will be added to
+                                           //            Defaults to grunt target name (e.g. `myapp`)
         // ...or...
-        module:     {
-          name:     'App',              // (Optional) Explicitly define module name
-          define:   true                // (Optional) Define new module (Default: false)
+        module:        {
+          name:        'App',              // (Optional) Explicitly define module name
+          define:      true                // (Optional) Define new module (Default: false)
         },
-        concat:     'dist/js/app.js'    // (Optional) Append to existing `concat` target
-        noConflict: 'otherAngular'      // (Optional) Name of angular.noConflict() app uses
+        concat:        'dist/js/app.js'    // (Optional) Append to existing `concat` target
+        noConflict:    'otherAngular'      // (Optional) Name of angular.noConflict() app uses
       },
-      src:          'src/views/**.html',
-      dest:         'dist/templates.js'
+      src:             'src/views/**.html',
+      dest:            'dist/templates.js'
     }
   }
 });

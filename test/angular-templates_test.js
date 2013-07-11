@@ -25,6 +25,16 @@ exports.ngtemplates = {
     test.done();
   },
 
+  onlyFilenames: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/multiple_only_filenames.js');
+    var expected  = grunt.file.read('test/expected/multiple_only_filenames.js');
+
+    test.equal(expected, actual, 'should put templates under ids being only filenames, not full paths');
+    test.done();
+  },
+
   prepend: function(test) {
     test.expect(1);
 
