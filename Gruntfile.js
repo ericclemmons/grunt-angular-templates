@@ -8,6 +8,8 @@
 
 'use strict';
 
+var path = require('path');
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -131,6 +133,15 @@ module.exports = function(grunt) {
         src: 'test/fixtures/simple.html',
         dest: 'tmp/noConflict_option_fixture.js'
       },
+      templateConfig: {
+        options: {
+          templateConfig: function (file) {
+            return path.join('foo', file);
+          }
+        },
+        src: ['test/fixtures/simple.html'],
+        dest: 'tmp/template_config.js'
+      }
     }
   });
 

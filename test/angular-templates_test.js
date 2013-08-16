@@ -103,6 +103,17 @@ exports.ngtemplates = {
 
     test.equal(expected, actual, 'should create concat target that equals ngtemplate');
     test.done();
+  },
+
+  templateConfig: function (test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/template_config.js');
+    var expected = grunt.file.read('test/expected/template_config.js');
+
+    test.equal(expected, actual, 'should allow the templateId to be customizable');
+
+    test.done();
   }
 
 };

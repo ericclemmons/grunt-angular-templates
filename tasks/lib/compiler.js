@@ -14,13 +14,20 @@ module.exports.init = function(grunt) {
 
   var concat = function(options, files, callback) {
     grunt.util.async.concatSeries(files, function(file, next) {
-      var id        = (options.prepend || '') + path.relative(options.base || '.', file).replace( /\\/g, '/');
+      var id        = templateId(options, file);
       var template  = '\n  $templateCache.put("<%= id %>",\n    <%= content %>\n  );\n';
       var cleaned   = grunt.file.read(file).split(/^/gm).map(function(line) { return JSON.stringify(line); }).join(' +\n    ');
       var cached    = process(template, id, cleaned);
 
       next(null, cached);
     }, callback);
+  };
+
+  var templateId = function(options, file) {
+    return (typeof options.templateConfig === 'function'?
+      options.templateConfig(file):
+      (options.prepend || '') + path.relative(options.base || '.', file)
+    ).replace(/\\/g, '/');
   };
 
   var compile = function(id, noConflict, define, options, files, callback) {
