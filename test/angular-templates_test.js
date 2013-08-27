@@ -103,6 +103,26 @@ exports.ngtemplates = {
 
     test.equal(expected, actual, 'should create concat target that equals ngtemplate');
     test.done();
+  },
+
+  markup: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/markup.js');
+    var expected  = grunt.file.read('test/expected/markup.js');
+
+    test.equal(expected, actual, 'should create minified target that equals ngtemplate');
+    test.done();
+  },
+
+  markupOption: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/markup.js');
+    var expected  = grunt.file.read('test/expected/markup_options.js');
+
+    test.equal(expected, actual, 'should create minified target that equals ngtemplate');
+    test.done();
   }
 
 };

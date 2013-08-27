@@ -8,7 +8,8 @@
 
 'use strict';
 
-var path = require('path');
+var minify  = require('html-minifier').minify;
+var path    = require('path');
 
 module.exports.init = function(grunt) {
 
@@ -16,7 +17,17 @@ module.exports.init = function(grunt) {
     grunt.util.async.concatSeries(files, function(file, next) {
       var id        = (options.prepend || '') + path.relative(options.base || '.', file).replace( /\\/g, '/');
       var template  = '\n  $templateCache.put("<%= id %>",\n    <%= content %>\n  );\n';
-      var cleaned   = grunt.file.read(file).split(/^/gm).map(function(line) { return JSON.stringify(line); }).join(' +\n    ');
+      var source    = grunt.file.read(file);
+
+      if (options.htmlmin) {
+        try {
+          source = minify(source, options.htmlmin);
+        } catch (err) {
+          grunt.warn(file + '\n' + err);
+        }
+      }
+
+      var cleaned   = source.split(/^/gm).map(function(line) { return JSON.stringify(line); }).join(' +\n    ');
       var cached    = process(template, id, cleaned);
 
       next(null, cached);

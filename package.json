@@ -32,7 +32,8 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-cli": "~0.1.6"
+    "grunt-cli": "~0.1.6",
+    "html-minifier": "~0.5.2"
   },
   "keywords": [
     "gruntplugin",

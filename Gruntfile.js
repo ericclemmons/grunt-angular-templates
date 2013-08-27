@@ -47,7 +47,40 @@ module.exports = function(grunt) {
         dest: 'tmp/concat_multiple_expected.js'
       }
     },
+    htmlmin: {
+      options: {
+        collapseBooleanAttributes:  true,
+        collapseWhitespace:         true,
+        removeAttributeQuotes:      true,
+        removeComments:             true,
+        removeEmptyAttributes:      true,
+        removeRedundantAttributes:  true
+      }
+    },
     ngtemplates: {
+      htmlmin: {
+        options: {
+          base: 'test/fixtures',
+          htmlmin: {
+            collapseBooleanAttributes:  true,
+            collapseWhitespace:         true,
+            removeAttributeQuotes:      true,
+            removeComments:             true,
+            removeEmptyAttributes:      true,
+            removeRedundantAttributes:  true
+          }
+        },
+        src: 'test/fixtures/markup.html',
+        dest: 'tmp/markup.js'
+      },
+      htmlmin_options: {
+        options: {
+          base:     'test/fixtures',
+          htmlmin:  '<%= htmlmin.options %>',
+        },
+        src: 'test/fixtures/markup.html',
+        dest: 'tmp/markup_options.js'
+      },
       multiple: {
         options: {
           base: 'test/fixtures'
