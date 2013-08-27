@@ -27,13 +27,15 @@
   "scripts": {
     "test": "./node_modules/.bin/grunt"
   },
+  "dependencies": {
+    "html-minifier": "~0.5.2"
+  },
   "devDependencies": {
     "grunt": "~0.4.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-jshint": "~0.1.1",
     "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-cli": "~0.1.6",
-    "html-minifier": "~0.5.2"
+    "grunt-cli": "~0.1.6"
   },
   "keywords": [
     "gruntplugin",
