@@ -45,6 +45,10 @@ grunt.initConfig({
         },
         concat:     'dist/js/app.js'    // (Optional) Append to existing `concat` target
         noConflict: 'otherAngular'      // (Optional) Name of angular.noConflict() app uses
+
+        htmlmin:    {                   // (Optional) html-minifier options. Can also be '<%= htmlmin.options %>'
+          ...
+        }
       },
       src:          'src/views/**.html',
       dest:         'dist/templates.js'
@@ -168,6 +172,10 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
 If you want the templates to append to a *pre-existing* module, simply leave off the `define` option by default.
 
 ## Changelog
+
+### v0.3.11
+
+- Add `htmlmin` option that supports both an `{ ... }` and `<%= htmlmin.options %>` for existing tasks.
 
 ### v0.3.10
 
