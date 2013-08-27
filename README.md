@@ -173,6 +173,10 @@ If you want the templates to append to a *pre-existing* module, simply leave off
 
 ## Changelog
 
+### v0.3.12
+
+- Whoops, forgot to make `htmlmin` a regular dependency. Thanks  @rubenv ([#37](https://github.com/ericclemmons/grunt-angular-templates/pull/37))
+
 ### v0.3.11
 
 - Add `htmlmin` option that supports both an `{ ... }` and `<%= htmlmin.options %>` for existing tasks.
