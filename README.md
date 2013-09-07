@@ -1,7 +1,7 @@
 # grunt-angular-templates [![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.png?branch=master)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
 
 > Speed up your AngularJS app by automatically minifying, combining,
-> and registering your external AngularJS templates with `$templateCache`.
+> and automatically caching your HTML templates with `$templateCache`.
 
 Here's an example of the output created by this task from multiple `.html` files:
 
@@ -16,6 +16,9 @@ angular.module('app').run(["$templateCache", function($templateCache) {
   );
 });
 ```
+
+Then, when you use `ng-include` or `templateUrl` with `$routeProvider`,
+the template is already loaded without an extra AJAX request!
 
 
 ## Installation
@@ -35,11 +38,76 @@ grunt.loadTasks('grunt-angular-templates');
 
 ## Options
 
-  - `module`  – **(Required)** Name of the module to register templates with.
-  - `angular` – Global namespace for Angular, if you use `angular.noConflict()`. *(Default: `angular`)*
-  - `url`     – Callback to create/modify the template URL after processing. *(e.g. `Function(url)`)*
-  - `source`  – Callback to create/modify the template source after processing. *(e.g. `Function(source)`)*
-  - `wrapper` – Callback to wrap compiled templates. *(e.g. `amd` or `Function(output)`)*
+### angular
+
+> Global namespace for Angular.
+
+If you use `angular.noConflict()`, then set this value to whatever you
+re-assign angular to.  Otherwise, it defaults to `angular`.
+
+### bootstrap
+
+> Callback to modify the bootstraper that registers the templates with `$templateCache`.
+
+By default, the bootstrap script wraps `function($templateCache) { ... }`
+with:
+
+```js
+angular.module('app').run(['$templateCache', ... ]);
+```
+
+If you want to create your own wrapper so you register the templates as an
+AMD or CommonJS module, set the `bootstrap` option to something like:
+
+```js
+bootstrap: function(script) {
+  return 'module.exports = ' + script + ';';
+}
+```
+
+### htmlmin
+
+Object containing [htmlmin options][2] that will *significantly* reduce
+the filesize of the compiled templates.
+
+Without this, the HTML (whitespace and all) will be faithfully compiled
+down into the final `.js` file.  Minifying that file will only cut down
+on the *Javascript* code, not the *HTML* within the strings.
+
+I recommend using the following settings for production:
+
+```js
+htmlmin: {
+  collapseBooleanAttributes:  true,
+  collapseWhitespace:         true,
+  removeAttributeQuotes:      true,
+  removeComments:             true, // Only if you don't use comment directives!
+  removeEmptyAttributes:      true,
+  removeRedundantAttributes:  true
+}
+```
+
+### module
+
+> `String` of the `angular.module` to register templates with.
+
+If not specified, it will automatically be the name of the `ngtemplates`
+subtask (e.g. `app`, based on the examples below).
+
+### source
+
+> Callback to modify the template's source code.
+
+If you would like to prepend a comment, strip whitespace, or do
+post-processing on the HTML that `ngtemplates` doesn't otherwise do,
+use this function.
+
+### url
+
+> Callback to modify the template's `$templateCache` URL.
+
+Normally, this isn't needed as specifying your files with `cwd`
+ensures that URLs load via both AJAX and `$templateCache`.
 
 
 ## Usage
@@ -73,6 +141,9 @@ application.
 
 #### Using Grunt's `concat` task:
 
+This is my personal preference, since you don't have to worry about
+what the destination file is actually called.
+
 ```js
 concat:   {
   app:    {
@@ -82,26 +153,22 @@ concat:   {
 }
 ```
 
-
 ### Examples
 
 
-#### Concat HTML Templates as `templates.js` Into `app` Module
+#### Register HTML Templates in `app` Module
 
 ```js
 ngtemplates:  {
   app:        {
     src:      '**.html',
-    dest:     'templates.js',
-    options:  {
-      module: 'app'
-    }
+    dest:     'templates.js'
   }
 }
 ```
 
 
-#### Register Relative Template Paths
+#### Register Relative Template URLs
 
 Normally, your app, templates, & server are in separate folders, which means
 that the template URL is **different** from the file path.
@@ -120,7 +187,7 @@ This will store the template URL as `templates/home.html` instead of
 `src/app/templates/home.html`, which would cause a 404.
 
 
-#### Minify HTML
+#### Minify Template HTML
 
 Simply pass the [same options][2] as the `htmlmin` task:
 
@@ -130,7 +197,6 @@ ngtemplates:    {
     src:        '**.html',
     dest:       'templates.js',
     options:    {
-      module:   'app',
       htmlmin:  { collapseWhitespace: true, collapseBooleanAttributes: true }
     }
   }
@@ -145,7 +211,6 @@ ngtemplates:    {
     src:        '**.html',
     dest:       'templates.js',
     options:    {
-      module:   'app',
       htmlmin:  '<%= htmlmin.app %>'
     }
   }
@@ -166,7 +231,6 @@ ngtemplates:  {
     src:      '**.html',
     dest:     'templates.js',
     options:  {
-      module: 'app',
       url:    function(url) { return url.replace('.html', ''); }
     }
   }
@@ -180,14 +244,13 @@ Some people like [AMD & RequireJS][3] and would like wrap the output
 in AMD or something else (don't ask me why!):
 
 ```js
-ngtemplates:    {
-  app:          {
-    src:        '**.html',
-    dest:       'templates.js',
-    options:    {
-      module:   'app',
-      wrapper:  function(output) {
-        return 'define([], function() { ... ' + output + ' ... }';
+ngtemplates:      {
+  app:            {
+    src:          '**.html',
+    dest:         'templates.js',
+    options:      {
+      bootstrap:  function(output) {
+        return 'define([], function() { return { init: ' + output + ' }; });';
       }
     }
   }
@@ -199,7 +262,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
-- v0.4.0 – Complete rewrite to simplify optinos & allow customizing `module`, `url`, `source`, and `wrapper`.
+- v0.4.0 – Complete rewrite.
 - v0.3.12 – Whoops, forgot to make `htmlmin` a regular dependency. Thanks  @rubenv ([#37](https://github.com/ericclemmons/grunt-angular-templates/pull/37))
 - v0.3.11 – Add `htmlmin` option that supports both an `{ ... }` and `<%= htmlmin.options %>` for existing tasks.
 - v0.3.10 – Fix *unknown concat target* bug on windows, thanks to @trask ([#31](https://github.com/ericclemmons/grunt-angular-templates/pull/31))
