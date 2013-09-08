@@ -21,6 +21,16 @@ Then, when you use `ng-include` or `templateUrl` with `$routeProvider`,
 the template is already loaded without an extra AJAX request!
 
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Options](#options)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Changelog](#changelog)
+- [License](#license)
+
+
 ## Installation
 
 *This plugin requires [Grunt][1] `~0.4.0`*
@@ -160,10 +170,10 @@ concat:   {
 }
 ```
 
-### Examples
+## Examples
 
 
-#### Register HTML Templates in `app` Module
+### Register HTML Templates in `app` Module
 
 ```js
 ngtemplates:  {
@@ -175,7 +185,7 @@ ngtemplates:  {
 ```
 
 
-#### Register Relative Template URLs
+### Register Relative Template URLs
 
 Normally, your app, templates, & server are in separate folders, which means
 that the template URL is **different** from the file path.
@@ -194,7 +204,7 @@ This will store the template URL as `templates/home.html` instead of
 `src/app/templates/home.html`, which would cause a 404.
 
 
-#### Minify Template HTML
+### Minify Template HTML
 
 Simply pass the [same options][2] as the `htmlmin` task:
 
@@ -225,7 +235,7 @@ ngtemplates:    {
 ```
 
 
-#### Customize Template URL
+### Customize Template URL
 
 Suppose you only use `ngtemplates` when on production, but locally you serve
 templates via Node, sans the `.html` extension.
@@ -245,7 +255,7 @@ ngtemplates:  {
 ```
 
 
-#### Customize Output
+### Customize Output
 
 Some people like [AMD & RequireJS][3] and would like wrap the output
 in AMD or something else (don't ask me why!):
