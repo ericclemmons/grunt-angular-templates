@@ -14,7 +14,7 @@ angular.module('app').run(["$templateCache", function($templateCache) {
   $templateCache.put("src/app/templates/button.html",
     // contents for button.html
   );
-});
+}]);
 ```
 
 Then, when you use `ng-include` or `templateUrl` with `$routeProvider`,
