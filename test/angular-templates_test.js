@@ -5,124 +5,114 @@ var fs        = require('fs');
 
 exports.ngtemplates = {
 
-  simple: function(test) {
+  custom_angular: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/simple.js');
-    var expected  = grunt.file.read('test/expected/simple.js');
+    var actual    = grunt.file.read('tmp/custom_angular.js');
+    var expected  = grunt.file.read('test/expected/custom_angular.js');
 
-    test.equal(expected, actual, 'should compile template as module `simple`');
+    test.equal(expected, actual);
     test.done();
   },
 
-  multiple: function(test) {
+  custom_bootstrap: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/multiple.js');
-    var expected  = grunt.file.read('test/expected/multiple.js');
+    var actual    = grunt.file.read('tmp/custom_bootstrap.js');
+    var expected  = grunt.file.read('test/expected/custom_bootstrap.js');
 
-    test.equal(expected, actual, 'should compile multiple templates together as `multiple`');
+    test.equal(expected, actual);
     test.done();
   },
 
-  prepend: function(test) {
+  custom_htmlmin: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/simple_prepend.js');
-    var expected  = grunt.file.read('test/expected/simple_prepend.js');
+    var actual    = grunt.file.read('tmp/custom_htmlmin.js');
+    var expected  = grunt.file.read('test/expected/custom_htmlmin.js');
 
-    test.equal(expected, actual, 'should prepend $templateCache ID with /prepend/simple.html"');
+    test.equal(expected, actual);
     test.done();
   },
 
-  moduleString: function(test) {
+  task_htmlmin: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/module_option_string.js');
-    var expected  = grunt.file.read('test/expected/module_option_string.js');
+    var actual    = grunt.file.read('tmp/task_htmlmin.js');
+    var expected  = grunt.file.read('test/expected/task_htmlmin.js');
 
-    test.equal(expected, actual, 'set angular module name to the one provided');
+    test.equal(expected, actual);
     test.done();
   },
 
-  moduleObject: function(test) {
+  default_module: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/module_option_object.js');
-    var expected  = grunt.file.read('test/expected/module_option_object.js');
+    var actual    = grunt.file.read('tmp/default_module.js');
+    var expected  = grunt.file.read('test/expected/default_module.js');
 
-    test.equal(expected, actual, ' define new angular module with provided name');
+    test.equal(expected, actual);
     test.done();
   },
 
-  moduleObjectName: function(test) {
+  custom_module: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/module_option_object_name.js');
-    var expected  = grunt.file.read('test/expected/module_option_string.js');
+    var actual    = grunt.file.read('tmp/custom_module.js');
+    var expected  = grunt.file.read('test/expected/custom_module.js');
 
-    test.equal(expected, actual, ' set angular module name to the one provided');
+    test.equal(expected, actual);
     test.done();
   },
 
-  moduleObjectDefine: function(test) {
+  custom_source: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/module_option_object_define.js');
-    var expected  = grunt.file.read('test/expected/module_option_object_define.js');
+    var actual    = grunt.file.read('tmp/custom_source.js');
+    var expected  = grunt.file.read('test/expected/custom_source.js');
 
-    test.equal(expected, actual, ' define new angular module with grunt target name');
+    test.equal(expected, actual);
     test.done();
   },
 
-  noConflict: function(test) {
+  standalone: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/noConflict_option_fixture.js');
-    var expected  = grunt.file.read('test/expected/noConflict_option.js');
+    var actual    = grunt.file.read('tmp/standalone.js');
+    var expected  = grunt.file.read('test/expected/standalone.js');
 
-    test.equal(expected, actual, 'should reference angular by the noConflict options value');
+    test.equal(expected, actual);
     test.done();
   },
 
-  concatSimple: function(test) {
+  full_url: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/concat_simple_fixture.js');
-    var expected  = grunt.file.read('tmp/concat_simple_expected.js');
+    var actual    = grunt.file.read('tmp/full_url.js');
+    var expected  = grunt.file.read('test/expected/full_url.js');
 
-    test.equal(expected, actual, 'should create concat target that equals ngtemplate');
+    test.equal(expected, actual);
     test.done();
   },
 
-  concatMultiple: function(test) {
+  relative_url: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/concat_multiple_fixture.js');
-    var expected  = grunt.file.read('tmp/concat_multiple_expected.js');
+    var actual    = grunt.file.read('tmp/relative_url.js');
+    var expected  = grunt.file.read('test/expected/relative_url.js');
 
-    test.equal(expected, actual, 'should create concat target that equals ngtemplate');
+    test.equal(expected, actual);
     test.done();
   },
 
-  markup: function(test) {
+  custom_url: function(test) {
     test.expect(1);
 
-    var actual    = grunt.file.read('tmp/markup.js');
-    var expected  = grunt.file.read('test/expected/markup.js');
+    var actual    = grunt.file.read('tmp/custom_url.js');
+    var expected  = grunt.file.read('test/expected/custom_url.js');
 
-    test.equal(expected, actual, 'should create minified target that equals ngtemplate');
+    test.equal(expected, actual);
     test.done();
   },
-
-  markupOption: function(test) {
-    test.expect(1);
-
-    var actual    = grunt.file.read('tmp/markup.js');
-    var expected  = grunt.file.read('test/expected/markup_options.js');
-
-    test.equal(expected, actual, 'should create minified target that equals ngtemplate');
-    test.done();
-  }
 
 };
