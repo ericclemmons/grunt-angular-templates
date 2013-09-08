@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
   var bootstrapper = function(script, options) {
     return grunt.template.process(
-      "<%= angular %>.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n<%= script %>\n});",
+      "<%= angular %>.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n<%= script %>\n}]);",
       {
         data: {
           'angular':    options.angular,
