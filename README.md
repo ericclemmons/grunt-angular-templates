@@ -291,9 +291,6 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 - v0.1.1 – [Fails to combine multiple templates](https://github.com/ericclemmons/grunt-angular-templates/issues/1). Added directions to README on how to integrate with AngularJS app. Integrated with TravisCI
 - v0.1.0 – Released to [NPM](https://npmjs.org/package/grunt-angular-templates)
 
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
-
 
 ## License
 
