@@ -8,60 +8,157 @@
 
 'use strict';
 
-var minify  = require('html-minifier').minify;
-var path    = require('path');
+var minify = require('html-minifier').minify;
 
-module.exports.init = function(grunt) {
+/**
+ * Angular Template Compiler
+ * @param  {Object} grunt   Grunt global variable
+ * @param  {Object} options Task options
+ * @param  {String} cwd     Determines if paths are relative or not
+ * @return {Object}
+ */
+var Compiler = function(grunt, options, cwd) {
 
-  var concat = function(options, files, callback) {
-    grunt.util.async.concatSeries(files, function(file, next) {
-      var id        = (options.prepend || '') + path.relative(options.base || '.', file).replace( /\\/g, '/');
-      var template  = '\n  $templateCache.put("<%= id %>",\n    <%= content %>\n  );\n';
-      var source    = grunt.file.read(file);
+  /**
+   * Wrap individual cache registration script in bootstrap function
+   *
+   * @param  {String} script  Multiline string of `$templateCache.put(...)`
+   * @return {String}         Final template aggregate script
+   */
+  this.bootstrap = function(script) {
+    return options.bootstrap(script, options);
+  };
 
-      if (options.htmlmin) {
-        try {
-          source = minify(source, options.htmlmin);
-        } catch (err) {
-          grunt.warn(file + '\n' + err);
+  /**
+   * Wrap HTML template in `$templateCache.put(...)`
+   * @param  {String} template  Multiline HTML template string
+   * @param  {String} url       URL to act as template ID
+   * @return {String}           Template wrapped in `$templateCache.put(...)`
+   */
+  this.cache = function(template, url) {
+    return grunt.template.process(
+      "\n  $templateCache.put('<%= url %>',\n    <%= template %>\n  );\n",
+      {
+        data: {
+          url:      url.replace(/\\/g, '/'),
+          template: template
         }
       }
-
-      var cleaned   = source.split(/^/gm).map(function(line) { return JSON.stringify(line); }).join(' +\n    ');
-      var cached    = process(template, id, cleaned);
-
-      next(null, cached);
-    }, callback);
+    );
   };
 
-  var compile = function(id, noConflict, define, options, files, callback) {
-    var template = '<%= noConflict %>.module("<%= id %>"';
+  /**
+   * Convert list of files into Javascript that caches their contents
+   * @param  {Array} files  List of files relative to `cwd`
+   * @return {String}       Final template aggregate script
+   */
+  this.compile = function(files) {
+    var paths = files.map(this.path).filter(function(path) {
+      if (!grunt.file.exists(path)) {
+        grunt.log.warn('Template "' + path + '" not found.');
+        return false;
+      }
 
-    if (define) {
-      template += ', []';
+      return true;
+    });
+
+    if (!paths.length) {
+      grunt.log.warn('No templates found');
     }
 
-    template += ').run(["$templateCache", function($templateCache) {\n<%= content %>\n}]);\n';
+    var script = paths
+      .map(this.load)
+      .map(this.minify)
+      .map(function(source, i) {
+        return this.customize(source, paths[i]);
+      }.bind(this))
+      .map(this.stringify)
+      .map(function(string, i) {
+        return this.cache(string, this.url(files[i]));
+      }.bind(this))
+      .join(grunt.util.normalizelf(grunt.util.linefeed))
+    ;
 
-    concat(options, files, function(err, concated) {
-      var compiled = process(template, id, concated.join(''), noConflict);
-
-      callback(false, compiled);
-    });
+    return this.bootstrap(script);
   };
 
-  var process = function(template, id, content, noConflict) {
-    return grunt.template.process(template, {
-      data: {
-        id:         id,
-        content:    content.length ? content : '""',
-        noConflict: noConflict
+  /**
+   * Customize template source
+   * @param  {String} source Possibly minified template source
+   * @param  {String} path   Path to template file
+   * @return {String}
+   */
+  this.customize = function(source, path) {
+    if (options.source instanceof Function) {
+      return options.source(source, path, options);
+    }
+
+    return source;
+  };
+
+  /**
+   * Load template path
+   * @param  {String} path  Template path
+   * @return {String}       Template source
+   */
+  this.load = function(path) {
+    return grunt.file.read(path);
+  };
+
+  /**
+   * Run template source through htmlmin
+   * @param  {String} source  Template source
+   * @return {String}         Minified template
+   */
+  this.minify = function(source) {
+    if (options.htmlmin) {
+      try {
+        source = minify(source, options.htmlmin);
+      } catch (err) {
+        grunt.warn(err);
       }
-    });
+    }
+
+    return source;
   };
 
-  return {
-    compile: compile
+  /**
+   * Get path to template file on filesystem
+   * @param  {String} file  Name of file relative to `cwd`
+   * @return {String}       Template path
+   */
+  this.path = function(file) {
+    if (cwd) {
+      return cwd + '/' + file;
+    }
+
+    return file;
+  };
+
+  /**
+   * Convert template source Javascript-friendly lines
+   * @param  {String} source Template source
+   * @return {String}
+   */
+  this.stringify = function(source) {
+    return source.split(/^/gm).map(function(line) {
+      return JSON.stringify(line);
+    }).join(' +\n    ');
+  };
+
+  /**
+   * Convert file name to URL
+   * @param  {String} file  File name
+   * @return {String}       URL
+   */
+  this.url = function(file) {
+    if (options.url instanceof Function) {
+      return options.url(file, options);
+    }
+
+    return file;
   };
 
 };
+
+module.exports = Compiler;

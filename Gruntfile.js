@@ -11,15 +11,18 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    clean: {
+      tests: 'tmp'
+    },
     nodeunit: {
-      files: ['test/*.js']
+      tests: ['test/*.js']
     },
     watch: {
-      files: '<config:jshint.files>',
+      tests: '<%= nodeunit.tests %>',
       tasks: 'default'
     },
     jshint: {
-      files: ['Gruntfile.js', 'tasks/**/*.js', 'test/*.js'],
+      all: ['Gruntfile.js', 'tasks/**/*.js', '<%= nodeunit.tests %>'],
       options: {
         curly: true,
         eqeqeq: true,
@@ -36,142 +39,122 @@ module.exports = function(grunt) {
       },
       globals: {}
     },
-    concat: {
-      simple: {
-        files: {
-          'tmp/concat_simple_expected.js': 'test/fixtures/DOES_NOT_EXIST/**/*.html'
+
+    // All supported examples should be here
+    ngtemplates: {
+      // Change `angular` namespace to something else
+      custom_angular: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_angular.js',
+        options: {
+          angular: 'myAngular'
         }
       },
-      multiple: {
-        src: ['test/fixtures/DOES_NOT_EXIST/**/*.html'],
-        dest: 'tmp/concat_multiple_expected.js'
-      }
-    },
-    htmlmin: {
-      options: {
-        collapseBooleanAttributes:  true,
-        collapseWhitespace:         true,
-        removeAttributeQuotes:      true,
-        removeComments:             true,
-        removeEmptyAttributes:      true,
-        removeRedundantAttributes:  true
-      }
-    },
-    ngtemplates: {
-      htmlmin: {
+
+      // Custom CommonJS bootstrapper
+      custom_bootstrap: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_bootstrap.js',
         options: {
-          base: 'test/fixtures',
+          bootstrap: function(script) {
+            return "module.exports = function($templateCache) {\n" + script + "\n};";
+          }
+        }
+      },
+
+      // Minify the HTML
+      custom_htmlmin: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_htmlmin.js',
+        options: {
           htmlmin: {
-            collapseBooleanAttributes:  true,
-            collapseWhitespace:         true,
-            removeAttributeQuotes:      true,
-            removeComments:             true,
-            removeEmptyAttributes:      true,
-            removeRedundantAttributes:  true
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            removeAttributeQuotes:          true,
+            removeComments:                 true,
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true
           }
-        },
-        src: 'test/fixtures/markup.html',
-        dest: 'tmp/markup.js'
+        }
       },
-      htmlmin_options: {
+
+      // Minify the HTML, but using another tasks' settings
+      task_htmlmin: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/task_htmlmin.js',
         options: {
-          base:     'test/fixtures',
-          htmlmin:  '<%= htmlmin.options %>',
-        },
-        src: 'test/fixtures/markup.html',
-        dest: 'tmp/markup_options.js'
+          htmlmin: '<%= ngtemplates.custom_htmlmin.options.htmlmin %>'
+        }
       },
-      multiple: {
-        options: {
-          base: 'test/fixtures'
-        },
-        src: ['test/fixtures/multiple/**/*.html'],
-        dest: 'tmp/multiple.js'
+
+      // Default `module` option to the sub-task name (`default_module`)
+      default_module: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/default_module.js'
       },
-      simple: {
+
+      // Customize angular module
+      custom_module: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_module.js',
         options: {
-          base: 'test/fixtures'
-        },
-        src: ['test/fixtures/simple.html'],
-        dest: 'tmp/simple.js'
+          module: 'customModule'
+        }
       },
-      prepend: {
+
+      // Customize template source
+      custom_source: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_source.js',
         options: {
-          base: 'test/fixtures',
-          prepend: '/prepend/'
-        },
-        src: ['test/fixtures/simple.html'],
-        dest: 'tmp/simple_prepend.js'
-      },
-      moduleString: {
-        options: {
-          base: 'test/fixtures',
-          module: 'ImNotATarget'
-        },
-        src: ['test/fixtures/simple.html'],
-        dest: 'tmp/module_option_string.js'
-      },
-      moduleObject: {
-        options: {
-          base: 'test/fixtures',
-          module: {
-            name: 'ImNotATarget',
-            define: true
+          source: function(source, url) {
+            return "<!-- Template: " + url + " -->\n" + source;
           }
-        },
-        src: ['test/fixtures/simple.html'],
-        dest: 'tmp/module_option_object.js'
+        }
       },
-      moduleObjectName: {
+
+      // Module should be new & have [] defined
+      standalone: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/standalone.js',
         options: {
-          base: 'test/fixtures',
-          module: {
-            name: 'ImNotATarget'
+          standalone: true
+        }
+      },
+
+      // URLs should match path exactly
+      full_url: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/full_url.js'
+      },
+
+      // URLs should match path, sans the `cwd`
+      relative_url: {
+        cwd: 'test/fixtures',
+        src: '**/*.html',
+        dest: 'tmp/relative_url.js'
+      },
+
+      // Customize URLs to not have an extension
+      custom_url:  {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_url.js',
+        options: {
+          url: function(url) {
+            return url.replace('.html', '');
           }
-        },
-        src: ['test/fixtures/simple.html'],
-        dest: 'tmp/module_option_object_name.js'
-      },
-      moduleObjectDefine: {
-        options: {
-          base: 'test/fixtures',
-          module: {
-            define: true
-          }
-        },
-        src: ['test/fixtures/simple.html'],
-        dest: 'tmp/module_option_object_define.js'
-      },
-      concatSimple: {
-        options: {
-          concat: 'simple'
-        },
-        src: 'test/fixtures/simple.html',
-        dest: 'tmp/concat_simple_fixture.js'
-      },
-      concatMultiple: {
-        options: {
-          concat: ['multiple']
-        },
-        src: 'test/fixtures/multiple/**/*.html',
-        dest: 'tmp/concat_multiple_fixture.js'
-      },
-      noConflict: {
-        options: {
-          base: 'test/fixtures',
-          noConflict: 'notGlobalAngular'
-        },
-        src: 'test/fixtures/simple.html',
-        dest: 'tmp/noConflict_option_fixture.js'
-      },
+        }
+      }
     }
   });
 
   // Load local tasks.
   grunt.loadTasks('tasks');
-  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('default', ['jshint', 'ngtemplates', 'concat', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'clean', 'ngtemplates', 'nodeunit']);
 };

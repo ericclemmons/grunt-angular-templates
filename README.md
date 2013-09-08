@@ -67,7 +67,7 @@ bootstrap: function(script) {
 
 ### htmlmin
 
-Object containing [htmlmin options][2] that will *significantly* reduce
+> Object containing [htmlmin options][2] that will *significantly* reduce
 the filesize of the compiled templates.
 
 Without this, the HTML (whitespace and all) will be faithfully compiled
@@ -78,12 +78,14 @@ I recommend using the following settings for production:
 
 ```js
 htmlmin: {
-  collapseBooleanAttributes:  true,
-  collapseWhitespace:         true,
-  removeAttributeQuotes:      true,
-  removeComments:             true, // Only if you don't use comment directives!
-  removeEmptyAttributes:      true,
-  removeRedundantAttributes:  true
+  collapseBooleanAttributes:      true,
+  collapseWhitespace:             true,
+  removeAttributeQuotes:          true,
+  removeComments:                 true, // Only if you don't use comment directives!
+  removeEmptyAttributes:          true,
+  removeRedundantAttributes:      true
+  removeScriptTypeAttributes:     true,
+  removeStyleLinkTypeAttributes:  true
 }
 ```
 
@@ -101,6 +103,11 @@ subtask (e.g. `app`, based on the examples below).
 If you would like to prepend a comment, strip whitespace, or do
 post-processing on the HTML that `ngtemplates` doesn't otherwise do,
 use this function.
+
+### standalone
+
+> Boolean indicated if the templates are part of an existing module or a standalone.
+Defaults to `false`.
 
 ### url
 
