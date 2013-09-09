@@ -74,6 +74,13 @@ bootstrap: function(module, script) {
 }
 ```
 
+### concat
+
+> Name of `concat` target to append the compiled template path to.
+
+This is especially handy if you combine your scripts using
+[grunt-contrib-concat][4] or [grunt-usemin][5].
+
 ### htmlmin
 
 > Object containing [htmlmin options][2] that will *significantly* reduce
@@ -165,6 +172,31 @@ concat:   {
   app:    {
     src:  [ '**.js', '<%= ngtemplates.app.dest %>' ]
     dest: [ 'app.js' ]
+  }
+}
+```
+
+#### Using [grunt-usemin][5]
+
+Using the following HTML as an example:
+
+```html
+<!-- build:js combined.js -->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+```
+
+The name of your `build:js` file automatically becomes the `concat` target
+name.  So, simply just copy/paste that name into the `concat` option:
+
+```js
+ngtemplates:  {
+  app:        {
+    src:      '**.html',
+    dest:     'template.js',
+    options:  {
+      concat: 'combined.js'
+    }
   }
 }
 ```
@@ -310,3 +342,5 @@ Licensed under the MIT license.
 [1]: http://gruntjs.com/
 [2]: https://github.com/gruntjs/grunt-contrib-htmlmin
 [3]: http://requirejs.org/docs/whyamd.html
+[4]: https://github.com/gruntjs/grunt-contrib-concat
+[5]: https://github.com/yeoman/grunt-usemin

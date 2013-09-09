@@ -39,6 +39,15 @@ module.exports = function(grunt) {
       },
       globals: {}
     },
+    concat: {
+      custom_concat: {
+        src: 'test/fixtures/one.html',
+        dest: 'tmp/custom_concat_combined.js',
+        options: {
+          separator: '\n\n'
+        }
+      }
+    },
 
     // All supported examples should be here
     ngtemplates: {
@@ -59,6 +68,15 @@ module.exports = function(grunt) {
           bootstrap: function(module, script) {
             return 'module.exports = function($templateCache) {\n' + script + '\n};\n';
           }
+        }
+      },
+
+      // Append dest to existing concat target
+      custom_concat: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/custom_concat.js',
+        options: {
+          concat: 'custom_concat'
         }
       },
 
@@ -167,8 +185,9 @@ module.exports = function(grunt) {
   // Load local tasks.
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
-  grunt.registerTask('default', ['jshint', 'clean', 'ngtemplates', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'clean', 'ngtemplates', 'concat', 'nodeunit']);
 };

@@ -25,6 +25,16 @@ exports.ngtemplates = {
     test.done();
   },
 
+  custom_concat: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/custom_concat_combined.js');
+    var expected  = grunt.file.read('test/expected/custom_concat.js');
+
+    test.equal(expected, actual);
+    test.done();
+  },
+
   custom_htmlmin: function(test) {
     test.expect(1);
 

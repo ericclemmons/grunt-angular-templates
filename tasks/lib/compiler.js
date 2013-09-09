@@ -133,6 +133,27 @@ var Compiler = function(grunt, options, cwd) {
   };
 
   /**
+   * Group files into individual modules
+   * @param  {Array} files  Files
+   * @return {Object}       Key/Value pair of module + files
+   */
+  this.modules = function(files) {
+    var modules = {};
+
+    files.forEach(function(file) {
+      var module = this.module(file);
+
+      if (!modules[module]) {
+        modules[module] = [];
+      }
+
+      modules[module].push(file);
+    }, this);
+
+    return modules;
+  };
+
+  /**
    * Get path to template file on filesystem
    * @param  {String} file  Name of file relative to `cwd`
    * @return {String}       Template path
