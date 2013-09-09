@@ -1,6 +1,6 @@
-angular.module('standalone', []).run(['$templateCache', function($templateCache) {
+angular.module('test.fixtures.one.html').run(['$templateCache', function($templateCache) {
 
-  $templateCache.put('test/fixtures/one.html',
+  $templateCache.put('test/fixtures/one',
     "<h1>One</h1>\n" +
     "\n" +
     "<p class=\"\">I am one.</p>\n" +
@@ -12,8 +12,11 @@ angular.module('standalone', []).run(['$templateCache', function($templateCache)
     "</script>"
   );
 
+}]);
 
-  $templateCache.put('test/fixtures/two/two.html',
+angular.module('test.fixtures.two.two.html').run(['$templateCache', function($templateCache) {
+
+  $templateCache.put('test/fixtures/two/two',
     "<h2>Two</h2>\n" +
     "\n" +
     "<!-- Comment for two -->\n" +

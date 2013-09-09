@@ -14,13 +14,13 @@ var util      = require('util');
 
 module.exports = function(grunt) {
 
-  var bootstrapper = function(script, options) {
+  var bootstrapper = function(module, script, options) {
     return grunt.template.process(
-      "<%= angular %>.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n<%= script %>\n}]);",
+      "<%= angular %>.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n<%= script %>\n}]);\n",
       {
         data: {
           'angular':    options.angular,
-          'module':     options.module,
+          'module':     module,
           'standalone': options.standalone ? ', []' : '',
           'script':     script
         }
@@ -42,10 +42,32 @@ module.exports = function(grunt) {
     grunt.verbose.writeflags(options, 'Options');
 
     this.files.forEach(function(file) {
-      var compiler = new Compiler(grunt, options, file.cwd);
-      var compiled = compiler.compile(file.src);
+      var compiler  = new Compiler(grunt, options, file.cwd);
+      var modules   = {};
 
-      grunt.file.write(file.dest, compiled);
+      if (!file.src.length) {
+        grunt.log.warn('No templates found');
+      }
+
+      file.src.forEach(function(file) {
+        var module = compiler.module(file);
+
+        if (!modules[module]) {
+          modules[module] = [];
+        }
+
+        modules[module].push(file);
+      });
+
+      var compiled = [];
+
+      for (var module in modules) {
+        var files = modules[module];
+
+        compiled.push(compiler.compile(module, files));
+      }
+
+      grunt.file.write(file.dest, compiled.join('\n'));
       grunt.log.writeln('File ' + file.dest.cyan + ' created.');
     });
   });

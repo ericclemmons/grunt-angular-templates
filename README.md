@@ -59,8 +59,7 @@ re-assign angular to.  Otherwise, it defaults to `angular`.
 
 > Callback to modify the bootstraper that registers the templates with `$templateCache`.
 
-By default, the bootstrap script wraps `function($templateCache) { ... }`
-with:
+By default, the bootstrap script wraps `function($templateCache) { ... }` with:
 
 ```js
 angular.module('app').run(['$templateCache', ... ]);
@@ -70,8 +69,8 @@ If you want to create your own wrapper so you register the templates as an
 AMD or CommonJS module, set the `bootstrap` option to something like:
 
 ```js
-bootstrap: function(script) {
-  return 'module.exports = ' + script + ';';
+bootstrap: function(module, script) {
+  return 'module.exports[module] = ' + script + ';';
 }
 ```
 
@@ -266,8 +265,8 @@ ngtemplates:      {
     src:          '**.html',
     dest:         'templates.js',
     options:      {
-      bootstrap:  function(output) {
-        return 'define([], function() { return { init: ' + output + ' }; });';
+      bootstrap:  function(module, script) {
+        return 'define(module, [], function() { return { init: ' + script + ' }; });';
       }
     }
   }

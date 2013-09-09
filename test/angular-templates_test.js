@@ -65,6 +65,16 @@ exports.ngtemplates = {
     test.done();
   },
 
+  callback_module: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/callback_module.js');
+    var expected  = grunt.file.read('test/expected/callback_module.js');
+
+    test.equal(expected, actual);
+    test.done();
+  },
+
   custom_source: function(test) {
     test.expect(1);
 

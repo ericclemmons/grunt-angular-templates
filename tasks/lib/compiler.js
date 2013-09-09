@@ -25,8 +25,8 @@ var Compiler = function(grunt, options, cwd) {
    * @param  {String} script  Multiline string of `$templateCache.put(...)`
    * @return {String}         Final template aggregate script
    */
-  this.bootstrap = function(script) {
-    return options.bootstrap(script, options);
+  this.bootstrap = function(module, script) {
+    return options.bootstrap(module, script, options);
   };
 
   /**
@@ -49,10 +49,11 @@ var Compiler = function(grunt, options, cwd) {
 
   /**
    * Convert list of files into Javascript that caches their contents
-   * @param  {Array} files  List of files relative to `cwd`
-   * @return {String}       Final template aggregate script
+   * @param  {String} module  Module name
+   * @param  {Array} files    List of files relative to `cwd`
+   * @return {String}         Final template aggregate script
    */
-  this.compile = function(files) {
+  this.compile = function(module, files) {
     var paths = files.map(this.path).filter(function(path) {
       if (!grunt.file.exists(path)) {
         grunt.log.warn('Template "' + path + '" not found.');
@@ -61,10 +62,6 @@ var Compiler = function(grunt, options, cwd) {
 
       return true;
     });
-
-    if (!paths.length) {
-      grunt.log.warn('No templates found');
-    }
 
     var script = paths
       .map(this.load)
@@ -79,7 +76,7 @@ var Compiler = function(grunt, options, cwd) {
       .join(grunt.util.normalizelf(grunt.util.linefeed))
     ;
 
-    return this.bootstrap(script);
+    return this.bootstrap(module, script);
   };
 
   /**
@@ -120,6 +117,19 @@ var Compiler = function(grunt, options, cwd) {
     }
 
     return source;
+  };
+
+  /**
+   * Get static or dynamic module name from file.
+   * @param  {String} file  File name
+   * @return {String}
+   */
+  this.module = function(file) {
+    if (options.module instanceof Function) {
+      return options.module(file, options);
+    }
+
+    return options.module;
   };
 
   /**

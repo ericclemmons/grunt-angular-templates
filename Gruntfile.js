@@ -56,8 +56,8 @@ module.exports = function(grunt) {
         src: 'test/fixtures/**/*.html',
         dest: 'tmp/custom_bootstrap.js',
         options: {
-          bootstrap: function(script) {
-            return "module.exports = function($templateCache) {\n" + script + "\n};";
+          bootstrap: function(module, script) {
+            return 'module.exports = function($templateCache) {\n' + script + '\n};\n';
           }
         }
       },
@@ -101,6 +101,20 @@ module.exports = function(grunt) {
         dest: 'tmp/custom_module.js',
         options: {
           module: 'customModule'
+        }
+      },
+
+      // Customize angular module
+      callback_module: {
+        src: 'test/fixtures/**/*.html',
+        dest: 'tmp/callback_module.js',
+        options: {
+          module: function(url, options) {
+            return url.split('/').join('.');
+          },
+          url: function(file) {
+            return file.replace('.html', '');
+          }
         }
       },
 
