@@ -86,7 +86,7 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}
    */
   this.customize = function(source, path) {
-    if (options.source instanceof Function) {
+    if (typeof options.source === 'function') {
       return options.source(source, path, options);
     }
 
@@ -125,7 +125,7 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}
    */
   this.module = function(file) {
-    if (options.module instanceof Function) {
+    if (typeof options.module === 'function') {
       return options.module(file, options);
     }
 
@@ -162,7 +162,7 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}       URL
    */
   this.url = function(file) {
-    if (options.url instanceof Function) {
+    if (typeof options.url === 'function') {
       return options.url(file, options);
     }
 
