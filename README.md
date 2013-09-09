@@ -1,274 +1,346 @@
 # grunt-angular-templates [![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.png?branch=master)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
 
-Grunt build task to concatenate & register your AngularJS templates in the $templateCache
+> Speed up your AngularJS app by automatically minifying, combining,
+> and automatically caching your HTML templates with `$templateCache`.
 
-**NOTE**:
-
-- Use `0.1.x` for Grunt `0.3.x`.
-- Use `0.2.x` or `0.3.x` for Grunt `0.4.x`.
-
-
-## Getting Started
-Install this grunt plugin next to your project's [grunt.js gruntfile][getting_started] with: `npm install grunt-angular-templates`
-
-Then add this line to your project's `grunt.js` gruntfile:
-
-```javascript
-grunt.loadNpmTasks('grunt-angular-templates');
-```
-
-[grunt]: http://gruntjs.com/
-[getting_started]: https://github.com/gruntjs/grunt/blob/master/docs/getting_started.md
-
-
-## Documentation
-
-This plugin provides the grunt task `ngtemplates`, which will allow you to compile your HTML templates into a single JS file,
-which preloads `$templateCache` to prevent round-trips to the server.
-
-### Update Grunt
+Here's an example of the output created by this task from multiple `.html` files:
 
 ```js
-// grunt.js
-grunt.initConfig({
-  ngtemplates:      {
-    myapp:          {
-      options:      {
-        base:       'src/views',        // $templateCache ID will be relative to this folder
-        prepend:    '/static/assets/',  // (Optional) Prepend path to $templateCache ID
-        module:     'App'               // (Optional) The module the templates will be added to
-                                        //            Defaults to grunt target name (e.g. `myapp`)
-        // ...or...
-        module:     {
-          name:     'App',              // (Optional) Explicitly define module name
-          define:   true                // (Optional) Define new module (Default: false)
-        },
-        concat:     'dist/js/app.js'    // (Optional) Append to existing `concat` target
-        noConflict: 'otherAngular'      // (Optional) Name of angular.noConflict() app uses
-
-        htmlmin:    {                   // (Optional) html-minifier options. Can also be '<%= htmlmin.options %>'
-          ...
-        }
-      },
-      src:          'src/views/**.html',
-      dest:         'dist/templates.js'
-    }
-  }
-});
-```
-
-This will generate the following at `dist/templates.js`:
-
-```js
-angular.module('App').run(['$templateCache', function($templateCache) {
+angular.module('app').run(["$templateCache", function($templateCache) {
+  $templateCache.put("home.html",
+    // contents for home.html ...
+  );
   ...
+  $templateCache.put("src/app/templates/button.html",
+    // contents for button.html
+  );
 }]);
 ```
 
-### Include Compiled Templates
-
-There are 3 different ways to make use of the compiled templates in your project:
-an HTML script tag, an existing `concat` task, or `usemin`'s dynamic `concat` task.
+Then, when you use `ng-include` or `templateUrl` with `$routeProvider`,
+the template is already loaded without an extra AJAX request!
 
 
-### Using HTML
+## Table of Contents
 
-```html
-<script src="dist/templates.js"></script>
-```
+- [Installation](#installation)
+- [Options](#options)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Changelog](#changelog)
+- [License](#license)
 
-### Using Your Gruntfile
 
-Either add it explicitly to your `concat` task:
+## Installation
+
+*This plugin requires [Grunt][1] `~0.4.0`*
+
+Install the plugin:
+
+    $ npm install grunt-angular-templates --save-dev
+
+Enable the plugin within your `Gruntfile`:
 
 ```js
-concat: {
-  myapp: {
-    src: [
-      'src/js/**/*.js',               // MyApp module first
-      '<%= ngtemplates.myapp.dest %>' // Generated templates (`dist/templates.js`)
-    ],
-    dest: 'dist/js/app.js'
-  }
+grunt.loadTasks('grunt-angular-templates');
+```
+
+
+## Options
+
+### angular
+
+> Global namespace for Angular.
+
+If you use `angular.noConflict()`, then set this value to whatever you
+re-assign angular to.  Otherwise, it defaults to `angular`.
+
+### bootstrap
+
+> Callback to modify the bootstraper that registers the templates with `$templateCache`.
+
+By default, the bootstrap script wraps `function($templateCache) { ... }` with:
+
+```js
+angular.module('app').run(['$templateCache', ... ]);
+```
+
+If you want to create your own wrapper so you register the templates as an
+AMD or CommonJS module, set the `bootstrap` option to something like:
+
+```js
+bootstrap: function(module, script) {
+  return 'module.exports[module] = ' + script + ';';
 }
 ```
 
-or have `ngtemplates` add it to an existing `concat` task for you:
+### concat
+
+> Name of `concat` target to append the compiled template path to.
+
+This is especially handy if you combine your scripts using
+[grunt-contrib-concat][4] or [grunt-usemin][5].
+
+### htmlmin
+
+> Object containing [htmlmin options][2] that will *significantly* reduce
+the filesize of the compiled templates.
+
+Without this, the HTML (whitespace and all) will be faithfully compiled
+down into the final `.js` file.  Minifying that file will only cut down
+on the *Javascript* code, not the *HTML* within the strings.
+
+I recommend using the following settings for production:
+
+```js
+htmlmin: {
+  collapseBooleanAttributes:      true,
+  collapseWhitespace:             true,
+  removeAttributeQuotes:          true,
+  removeComments:                 true, // Only if you don't use comment directives!
+  removeEmptyAttributes:          true,
+  removeRedundantAttributes:      true
+  removeScriptTypeAttributes:     true,
+  removeStyleLinkTypeAttributes:  true
+}
+```
+
+### module
+
+> `String` of the `angular.module` to register templates with.
+
+If not specified, it will automatically be the name of the `ngtemplates`
+subtask (e.g. `app`, based on the examples below).
+
+### source
+
+> Callback to modify the template's source code.
+
+If you would like to prepend a comment, strip whitespace, or do
+post-processing on the HTML that `ngtemplates` doesn't otherwise do,
+use this function.
+
+### standalone
+
+> Boolean indicated if the templates are part of an existing module or a standalone.
+Defaults to `false`.
+
+### url
+
+> Callback to modify the template's `$templateCache` URL.
+
+Normally, this isn't needed as specifying your files with `cwd`
+ensures that URLs load via both AJAX and `$templateCache`.
+
+
+## Usage
+
+
+### Compiling HTML Templates
+
+After configuring your `ngtemplates` task, you can either run the
+task directly:
+
+    $ grunt ngtemplates
+
+Or, bake it into an existing task:
+
+```js
+grunt.registerTask('default', [ 'jshint', 'ngtemplates', 'concat' ]);
+```
+
+### Including Compiled Templates
+
+Finally, you have to load the compiled templates' `.js` file into your
+application.
+
+
+#### Using HTML
+
+```html
+<script src="templates.js"></script>
+```
+
+
+#### Using Grunt's `concat` task:
+
+This is my personal preference, since you don't have to worry about
+what the destination file is actually called.
 
 ```js
 concat:   {
-  myapp:  {
-    src:  'src/js/**/*.js', // Will automatically have `dist/templates.js` appended
-    dest: 'dist/js/app.js'
-  }
-},
-
-ngtemplates:  {
-  myapp:      {
-    options:  {
-      concat: 'myapp' // Name of concat target to append to
-    },
-    src:      'src/views/**.html',
-    dest:     'dist/templates.js'
+  app:    {
+    src:  [ '**.js', '<%= ngtemplates.app.dest %>' ]
+    dest: [ 'app.js' ]
   }
 }
 ```
 
+#### Using [grunt-usemin][5]
 
-### Using [grunt-usemin](https://github.com/yeoman/grunt-usemin)
-
-First, note the **output of `build:js`** in your HTML:
+Using the following HTML as an example:
 
 ```html
-  <!-- build:js dist/js/app.js -->
-  <script src="src/js/app.js"></script>
-  ...
+<!-- build:js combined.js -->
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
 ```
 
-Finally, add `concat: 'dist/js/app.js` to the `concat` option
+The name of your `build:js` file automatically becomes the `concat` target
+name.  So, simply just copy/paste that name into the `concat` option:
 
 ```js
-ngtemplates:    {
-  myapp:        {
-    options:    {
-      concat:   'dist/js/app.js'
-    },
-    src:        'src/views/**.html',
-    dest:       'dist/templates.js'
+ngtemplates:  {
+  app:        {
+    src:      '**.html',
+    dest:     'template.js',
+    options:  {
+      concat: 'combined.js'
+    }
   }
 }
 ```
 
-This will append the output file `dist/js/templates.js` to
-`usemin`'s dynamic `concat` task: `dist/js/app.js`.
+## Examples
 
-### Defining an Angular Module
 
-It's possible to define a new angular module in the generated JS file.
+### Register HTML Templates in `app` Module
+
+```js
+ngtemplates:  {
+  app:        {
+    src:      '**.html',
+    dest:     'templates.js'
+  }
+}
+```
+
+
+### Register Relative Template URLs
+
+Normally, your app, templates, & server are in separate folders, which means
+that the template URL is **different** from the file path.
+
+```js
+ngtemplates:  {
+  app:        {
+    cwd:      'src/app',
+    src:      'src/app/templates/**.html',
+    dest:     'build/app.templates.js'
+  }
+}
+```
+
+This will store the template URL as `templates/home.html` instead of
+`src/app/templates/home.html`, which would cause a 404.
+
+
+### Minify Template HTML
+
+Simply pass the [same options][2] as the `htmlmin` task:
 
 ```js
 ngtemplates:    {
-  myapp:        {
+  app:          {
+    src:        '**.html',
+    dest:       'templates.js',
     options:    {
-      module:   {
-        name:   'templates',
-        define: true
+      htmlmin:  { collapseWhitespace: true, collapseBooleanAttributes: true }
+    }
+  }
+}
+```
+
+Or, if you already have an existing `htmlmin` task, you can reference it:
+
+```js
+ngtemplates:    {
+  app:          {
+    src:        '**.html',
+    dest:       'templates.js',
+    options:    {
+      htmlmin:  '<%= htmlmin.app %>'
+    }
+  }
+}
+```
+
+
+### Customize Template URL
+
+Suppose you only use `ngtemplates` when on production, but locally you serve
+templates via Node, sans the `.html` extension.
+
+You can specify a `url` callback to further customize the registered URL:
+
+```js
+ngtemplates:  {
+  app:        {
+    src:      '**.html',
+    dest:     'templates.js',
+    options:  {
+      url:    function(url) { return url.replace('.html', ''); }
+    }
+  }
+}
+```
+
+
+### Customize Output
+
+Some people like [AMD & RequireJS][3] and would like wrap the output
+in AMD or something else (don't ask me why!):
+
+```js
+ngtemplates:      {
+  app:            {
+    src:          '**.html',
+    dest:         'templates.js',
+    options:      {
+      bootstrap:  function(module, script) {
+        return 'define(module, [], function() { return { init: ' + script + ' }; });';
       }
-    },
-    src:        'src/views/**.html',
-    dest:       'dist/templates.js'
+    }
   }
 }
 ```
 
-This will generate the following at `dist/templates.js`:
+You will be able to custom everything surrounding `$templateCache.put(...)`.
 
-```js
-angular.module('templates', []).run(['$templateCache', function($templateCache) {
-  ...
-}]);
-```
-
-If you want the templates to append to a *pre-existing* module, simply leave off the `define` option by default.
 
 ## Changelog
 
-### v0.3.12
-
-- Whoops, forgot to make `htmlmin` a regular dependency. Thanks  @rubenv ([#37](https://github.com/ericclemmons/grunt-angular-templates/pull/37))
-
-### v0.3.11
-
-- Add `htmlmin` option that supports both an `{ ... }` and `<%= htmlmin.options %>` for existing tasks.
-
-### v0.3.10
-
-- Fix *unknown concat target* bug on windows, thanks to @trask ([#31](https://github.com/ericclemmons/grunt-angular-templates/pull/31))
-
-### v0.3.9
-
-- Allow the creation of a new module via `module.define`, thanks to @sidwood ([#28](https://github.com/ericclemmons/grunt-angular-templates/pull/28))
-
-### v0.3.8
-
-- Fix error that occurs when adding 0-length files, thanks to @robertklep ([#27](https://github.com/ericclemmons/grunt-angular-templates/pull/27))
-
-### v0.3.7
-
-- Add `noConflict` option to work with [angular.noConflict](https://github.com/angular/angular.js/pull/1535), thanks to @mbrevoort ([#26](https://github.com/ericclemmons/grunt-angular-templates/pull/26))
-
-### v0.3.6
-
-- Fix issue with dading to `concat` task when it's an array, thanks to @codefather ([#23](https://github.com/ericclemmons/grunt-angular-templates/pull/23))
-
-### v0.3.5
-
-- Preserver line endings in templates, thanks to @groner ([#21](https://github.com/ericclemmons/grunt-angular-templates/pull/21))
-
-### v0.3.4
-
-- Attempt to fix a bug with `Path`, thanks to @cgross ([#19](https://github.com/ericclemmons/grunt-angular-templates/issues/19))
-
-### v0.3.3
-
-- Add `concat` option for automatically adding compiled template file to existing `concat` (or `usemin`-created) task, thanks to @cgross ([#17](https://github.com/ericclemmons/grunt-angular-templates/pull/17))
-
-### v0.3.2
-
-- Add `module` option for setting which module the templates will be added to, thanks to @sidwood ([#20](https://github.com/ericclemmons/grunt-angular-templates/pull/20))
-
-### v0.3.1
-
-- Add `prepend` option for modifying final `$templateCache` IDs, thanks to @mbarchein. ([#16](https://github.com/ericclemmons/grunt-angular-templates/pull/16))
-
-### v0.3.0
-
-- **BC break** - Templates are added to an existing module (e.g. `myapp`) rather than being their own `myapp.templates` module to be manually included, thanks to @geddesign. ([#10](https://github.com/ericclemmons/grunt-angular-templates/issues/10))
-
-### v0.2.2
-
-- Fixes
-
-  - Escape backslashes, thanks to @dallonf. ([#9](https://github.com/ericclemmons/grunt-angular-templates/pull/9))
-
-### v0.2.1
-
-  - Remove `./bin/grunt-angular-templates`.  No need for it!
-
-### v0.2.0
-
-  - Update to Grunt 0.4, thanks to @jgrund. ([#5](https://github.com/ericclemmons/grunt-angular-templates/issues/5))
-
-### v0.1.3
-
-- Fixes
-
-    - Convert `\\` to `/` in template IDs (for on win32 systems) ([#3](https://github.com/ericclemmons/grunt-angular-templates/issues/3))
-
-### v0.1.2
-
-- Added NPM keywords
-
-### v0.1.1
-
-- Fixes
-
-    - [Fails to combine multiple templates](https://github.com/ericclemmons/grunt-angular-templates/issues/1)
-
-- New
-
-    - Added directions to README on how to integrate with AngularJS app
-    - Integrated with TravisCI
-
-### v0.1.0
-
-- Released to [NPM](https://npmjs.org/package/grunt-angular-templates)
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
+- v0.4.0 – Complete rewrite.
+- v0.3.12 – Whoops, forgot to make `htmlmin` a regular dependency. Thanks  @rubenv ([#37](https://github.com/ericclemmons/grunt-angular-templates/pull/37))
+- v0.3.11 – Add `htmlmin` option that supports both an `{ ... }` and `<%= htmlmin.options %>` for existing tasks.
+- v0.3.10 – Fix *unknown concat target* bug on windows, thanks to @trask ([#31](https://github.com/ericclemmons/grunt-angular-templates/pull/31))
+- v0.3.9 – Allow the creation of a new module via `module.define`, thanks to @sidwood ([#28](https://github.com/ericclemmons/grunt-angular-templates/pull/28))
+- v0.3.8 – Fix error that occurs when adding 0-length files, thanks to @robertklep ([#27](https://github.com/ericclemmons/grunt-angular-templates/pull/27))
+- v0.3.7 – Add `noConflict` option to work with [angular.noConflict](https://github.com/angular/angular.js/pull/1535), thanks to @mbrevoort ([#26](https://github.com/ericclemmons/grunt-angular-templates/pull/26))
+- v0.3.6 – Fix issue with dading to `concat` task when it's an array, thanks to @codefather ([#23](https://github.com/ericclemmons/grunt-angular-templates/pull/23))
+- v0.3.5 – Preserver line endings in templates, thanks to @groner ([#21](https://github.com/ericclemmons/grunt-angular-templates/pull/21))
+- v0.3.4 – Attempt to fix a bug with `Path`, thanks to @cgross ([#19](https://github.com/ericclemmons/grunt-angular-templates/issues/19))
+- v0.3.3 – Add `concat` option for automatically adding compiled template file to existing `concat` (or `usemin`-created) task, thanks to @cgross ([#17](https://github.com/ericclemmons/grunt-angular-templates/pull/17))
+- v0.3.2 – Add `module` option for setting which module the templates will be added to, thanks to @sidwood ([#20](https://github.com/ericclemmons/grunt-angular-templates/pull/20))
+- v0.3.1 – Add `prepend` option for modifying final `$templateCache` IDs, thanks to @mbarchein. ([#16](https://github.com/ericclemmons/grunt-angular-templates/pull/16))
+- v0.3.0 – **BC break** - Templates are added to an existing module (e.g. `myapp`) rather than being their own `myapp.templates` module to be manually included, thanks to @geddesign. ([#10](https://github.com/ericclemmons/grunt-angular-templates/issues/10))
+- v0.2.2 – Escape backslashes, thanks to @dallonf. ([#9](https://github.com/ericclemmons/grunt-angular-templates/pull/9))
+- v0.2.1 – Remove `./bin/grunt-angular-templates`.  No need for it!
+- v0.2.0 – Update to Grunt 0.4, thanks to @jgrund. ([#5](https://github.com/ericclemmons/grunt-angular-templates/issues/5))
+- v0.1.3 – Convert `\\` to `/` in template IDs (for on win32 systems) ([#3](https://github.com/ericclemmons/grunt-angular-templates/issues/3))
+- v0.1.2 – Added NPM keywords
+- v0.1.1 – [Fails to combine multiple templates](https://github.com/ericclemmons/grunt-angular-templates/issues/1). Added directions to README on how to integrate with AngularJS app. Integrated with TravisCI
+- v0.1.0 – Released to [NPM](https://npmjs.org/package/grunt-angular-templates)
 
 
 ## License
 
 Copyright (c) 2013 Eric Clemmons
 Licensed under the MIT license.
+
+
+[1]: http://gruntjs.com/
+[2]: https://github.com/gruntjs/grunt-contrib-htmlmin
+[3]: http://requirejs.org/docs/whyamd.html
+[4]: https://github.com/gruntjs/grunt-contrib-concat
+[5]: https://github.com/yeoman/grunt-usemin

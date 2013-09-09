@@ -8,82 +8,82 @@
 
 'use strict';
 
-var path = require('path');
-var util = require('util');
+var Compiler  = require('./lib/compiler');
+var path      = require('path');
+var util      = require('util');
 
 module.exports = function(grunt) {
 
-  var compiler = require('./lib/compiler').init(grunt);
+  var bootstrapper = function(module, script, options) {
+    return grunt.template.process(
+      "<%= angular %>.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n<%= script %>\n}]);\n",
+      {
+        data: {
+          'angular':    options.angular,
+          'module':     module,
+          'standalone': options.standalone ? ', []' : '',
+          'script':     script
+        }
+      }
+    );
+  };
 
-  grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates', function() {
-    var id          = this.target;
-    var noConflict  = this.options().noConflict || 'angular';
-    var files       = grunt.file.expand(this.files[0].src);
-    var dest        = path.normalize(this.files[0].dest);
-    var done        = this.async();
-    var options     = this.options();
-    var define      = false;
+  grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates for $templateCache', function() {
+    var options = this.options({
+      angular:    'angular',
+      bootstrap:  bootstrapper,
+      concat:     null,
+      htmlmin:    {},
+      module:     this.target,
+      source:     function(source) { return source; },
+      standalone: false,
+      url:        function(path) { return path; }
+    });
 
-    if (options.module) {
-      if (typeof options.module === 'string') {
-        id = options.module;
-      } else if (options.module.hasOwnProperty('name') && typeof options.module.name === 'string') {
-        id = options.module.name;
+    grunt.verbose.writeflags(options, 'Options');
+
+    this.files.forEach(function(file) {
+      if (!file.src.length) {
+        grunt.log.warn('No templates found');
       }
 
-      if (options.module.hasOwnProperty('define') && options.module.define === true ) {
-        define = true;
+      var compiler  = new Compiler(grunt, options, file.cwd);
+      var modules   = compiler.modules(file.src);
+      var compiled  = [];
+
+      for (var module in modules) {
+        compiled.push(compiler.compile(module, modules[module]));
       }
-    }
 
-    compiler.compile(id, noConflict, define, options, files, function(err, compiled) {
-      if (err) {
-        done(false);
-      } else {
-        grunt.file.write(dest, compiled);
-        grunt.log.writeln('File ' + dest.cyan + ' created.');
+      grunt.file.write(file.dest, compiled.join('\n'));
+      grunt.log.writeln('File ' + file.dest.cyan + ' created.');
 
-        if (options.concat) {
-          var targets = Array.isArray(options.concat) ? options.concat : [ options.concat ];
-          var concat  = grunt.config('concat') || {};
+      // Append file.dest to specified concat target
+      if (options.concat) {
+        var config = grunt.config(['concat', options.concat]);
 
-          targets.forEach(function(target) {
-            target = path.normalize(target);
-            var task = concat[target];
+        if (!config) {
+          grunt.log.warn('Concat target not found: ' + options.concat.red);
 
-            if (!task) {
-              grunt.log.error('Unknown concat target: ' + target);
-              done(false);
-
-              return;
-            }
-
-            if (task.src) {
-              task.src = Array.isArray(task.src) ? task.src : [ task.src ];
-              task.src.push(dest);
-            } else if (task.files) {
-              var files = task.files;
-
-              for (var key in files) {
-                files[key] = Array.isArray(files[key]) ? files[key] : [ files[key] ];
-                files[key].push(dest);
-              }
-            } else if (Array.isArray(task)) {
-                task.push(dest);
-            } else {
-              grunt.log.error('Could not find src or files in concat target: ' + target);
-              done(false);
-
-              return;
-            }
-
-            grunt.log.writeln('Added ' + dest.cyan + ' to ' + ('concat.' + target).cyan);
-
-            grunt.config('concat', concat);
-          });
+          return false;
         }
 
-        done();
+        // Grunt handles files 400 different ways.  Not me.
+        var normal  = grunt.task.normalizeMultiTaskFiles(config, options.concat);
+        var files   = normal.map(function(files) {
+          files.src.push(file.dest);
+          delete files.orig;
+
+          return files;
+        });
+
+        grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
+
+        // Re-save processed concat target
+        grunt.config(['concat', options.concat], {
+          files:    files,
+          options:  config.options || {}
+        });
       }
     });
   });
