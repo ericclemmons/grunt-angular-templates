@@ -310,6 +310,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.4.1 – Fix bug with empty files.
 - v0.4.0 – Complete rewrite.
 - v0.3.12 – Whoops, forgot to make `htmlmin` a regular dependency. Thanks  @rubenv ([#37](https://github.com/ericclemmons/grunt-angular-templates/pull/37))
 - v0.3.11 – Add `htmlmin` option that supports both an `{ ... }` and `<%= htmlmin.options %>` for existing tasks.
