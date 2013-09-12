@@ -174,7 +174,7 @@ var Compiler = function(grunt, options, cwd) {
   this.stringify = function(source) {
     return source.split(/^/gm).map(function(line) {
       return JSON.stringify(line);
-    }).join(' +\n    ');
+    }).join(' +\n    ') || '""';
   };
 
   /**
