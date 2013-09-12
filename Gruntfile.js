@@ -53,7 +53,7 @@ module.exports = function(grunt) {
     ngtemplates: {
       // Change `angular` namespace to something else
       custom_angular: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_angular.js',
         options: {
           angular: 'myAngular'
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 
       // Custom CommonJS bootstrapper
       custom_bootstrap: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_bootstrap.js',
         options: {
           bootstrap: function(module, script) {
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
 
       // Append dest to existing concat target
       custom_concat: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_concat.js',
         options: {
           concat: 'custom_concat'
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 
       // Minify the HTML
       custom_htmlmin: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_htmlmin.js',
         options: {
           htmlmin: {
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
 
       // Minify the HTML, but using another tasks' settings
       task_htmlmin: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/task_htmlmin.js',
         options: {
           htmlmin: '<%= ngtemplates.custom_htmlmin.options.htmlmin %>'
@@ -109,13 +109,13 @@ module.exports = function(grunt) {
 
       // Default `module` option to the sub-task name (`default_module`)
       default_module: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/default_module.js'
       },
 
       // Customize angular module
       custom_module: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_module.js',
         options: {
           module: 'customModule'
@@ -124,7 +124,7 @@ module.exports = function(grunt) {
 
       // Customize angular module
       callback_module: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/callback_module.js',
         options: {
           module: function(url, options) {
@@ -138,7 +138,7 @@ module.exports = function(grunt) {
 
       // Customize template source
       custom_source: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_source.js',
         options: {
           source: function(source, url) {
@@ -149,7 +149,7 @@ module.exports = function(grunt) {
 
       // Module should be new & have [] defined
       standalone: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/standalone.js',
         options: {
           standalone: true
@@ -158,20 +158,20 @@ module.exports = function(grunt) {
 
       // URLs should match path exactly
       full_url: {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/full_url.js'
       },
 
       // URLs should match path, sans the `cwd`
       relative_url: {
         cwd: 'test/fixtures',
-        src: '**/*.html',
+        src: ['one.html', 'two/**/*.html'],
         dest: 'tmp/relative_url.js'
       },
 
       // Customize URLs to not have an extension
       custom_url:  {
-        src: 'test/fixtures/**/*.html',
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_url.js',
         options: {
           url: function(url) {
