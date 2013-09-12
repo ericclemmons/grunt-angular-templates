@@ -178,6 +178,12 @@ module.exports = function(grunt) {
             return url.replace('.html', '');
           }
         }
+      },
+
+      // Empty file
+      empty_file: {
+        src: 'test/fixtures/empty.html',
+        dest: 'tmp/empty_file.js'
       }
     }
   });
