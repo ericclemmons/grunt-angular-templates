@@ -145,4 +145,14 @@ exports.ngtemplates = {
     test.done();
   },
 
+  undefined_file: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/undefined_file.js');
+    var expected  = grunt.file.read('test/expected/undefined_file.js');
+
+    test.equal(expected, actual);
+    test.done();
+  },
+
 };

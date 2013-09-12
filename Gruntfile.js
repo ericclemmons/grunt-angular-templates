@@ -184,6 +184,12 @@ module.exports = function(grunt) {
       empty_file: {
         src: 'test/fixtures/empty.html',
         dest: 'tmp/empty_file.js'
+      },
+
+      // undefined file
+      undefined_file: {
+        src: 'test/fixtures/undefined.html',
+        dest: 'tmp/undefined_file.js'
       }
     }
   });
