@@ -225,7 +225,7 @@ that the template URL is **different** from the file path.
 ngtemplates:  {
   app:        {
     cwd:      'src/app',
-    src:      'src/app/templates/**.html',
+    src:      'templates/**.html',
     dest:     'build/app.templates.js'
   }
 }
