@@ -310,6 +310,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.4.3 - `options.concat` targets on Windows convert `/` to `\\`. [#48](https://github.com/ericclemmons/grunt-angular-templates/issues/48)
 - v0.4.2 - Fix for using `grunt-env` to change environments. Thanks to @FredrikAppelros ([#20](https://github.com/ericclemmons/grunt-express-server/pull/20))
 - v0.4.1 – Fix bug with empty files.
 - v0.4.0 – Complete rewrite.
