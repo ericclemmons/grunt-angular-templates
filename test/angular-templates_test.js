@@ -35,6 +35,16 @@ exports.ngtemplates = {
     test.done();
   },
 
+  html5: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/html5.js');
+    var expected  = grunt.file.read('test/expected/html5.js');
+
+    test.equal(expected, actual);
+    test.done();
+  },
+
   custom_htmlmin: function(test) {
     test.expect(1);
 
