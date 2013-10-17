@@ -9,7 +9,7 @@ myAngular.module('custom_angular').run(['$templateCache', function($templateCach
     "  // Test\n" +
     "  /* comments */\n" +
     "  var foo = 'bar';\n" +
-    "</script>"
+    "</script>\n"
   );
 
 
@@ -18,7 +18,7 @@ myAngular.module('custom_angular').run(['$templateCache', function($templateCach
     "\n" +
     "<!-- Comment for two -->\n" +
     "\n" +
-    "<textarea readonly=\"readonly\">We are two.</textarea>"
+    "<textarea readonly=\"readonly\">We are two.</textarea>\n"
   );
 
 }]);

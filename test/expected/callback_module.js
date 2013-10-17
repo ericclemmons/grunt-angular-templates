@@ -9,7 +9,7 @@ angular.module('test.fixtures.one.html').run(['$templateCache', function($templa
     "  // Test\n" +
     "  /* comments */\n" +
     "  var foo = 'bar';\n" +
-    "</script>"
+    "</script>\n"
   );
 
 }]);
@@ -21,7 +21,7 @@ angular.module('test.fixtures.two.two.html').run(['$templateCache', function($te
     "\n" +
     "<!-- Comment for two -->\n" +
     "\n" +
-    "<textarea readonly=\"readonly\">We are two.</textarea>"
+    "<textarea readonly=\"readonly\">We are two.</textarea>\n"
   );
 
 }]);

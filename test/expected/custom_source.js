@@ -10,7 +10,7 @@ angular.module('custom_source').run(['$templateCache', function($templateCache) 
     "  // Test\n" +
     "  /* comments */\n" +
     "  var foo = 'bar';\n" +
-    "</script>"
+    "</script>\n"
   );
 
 
@@ -20,7 +20,7 @@ angular.module('custom_source').run(['$templateCache', function($templateCache) 
     "\n" +
     "<!-- Comment for two -->\n" +
     "\n" +
-    "<textarea readonly=\"readonly\">We are two.</textarea>"
+    "<textarea readonly=\"readonly\">We are two.</textarea>\n"
   );
 
 }]);
