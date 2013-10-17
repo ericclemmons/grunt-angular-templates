@@ -136,6 +136,15 @@ module.exports = function(grunt) {
         }
       },
 
+      // Customize template URL prefix
+      custom_prefix: {
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
+        dest: 'tmp/custom_prefix.js',
+        options: {
+          prefix: '/static'
+        }
+      },
+
       // Customize template source
       custom_source: {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
