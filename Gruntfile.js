@@ -80,6 +80,11 @@ module.exports = function(grunt) {
         }
       },
 
+      html5: {
+        src: ['test/fixtures/html5.html'],
+        dest: 'tmp/html5.js'
+      },
+
       // Minify the HTML
       custom_htmlmin: {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],

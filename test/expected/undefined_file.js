@@ -9,7 +9,7 @@ angular.module('undefined_file').run(['$templateCache', function($templateCache)
     "  // Test\n" +
     "  /* comments */\n" +
     "  var foo = 'bar';\n" +
-    "</script>"
+    "</script>\n"
   );
 
 }]);
