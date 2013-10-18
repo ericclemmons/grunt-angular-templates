@@ -310,6 +310,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.4.5 – Attempt to better normalize templates based on current OS ([#52](https://github.com/ericclemmons/grunt-angular-templates/pull/52))
 - v0.4.4 – Fixed regression caused by `htmlmin` ([#54](https://github.com/ericclemmons/grunt-angular-templates/pull/54))
 - v0.4.3 - `options.concat` targets on Windows convert `/` to `\\`. [#48](https://github.com/ericclemmons/grunt-angular-templates/issues/48)
 - v0.4.2 - Fix for using `grunt-env` to change environments. Thanks to @FredrikAppelros ([#20](https://github.com/ericclemmons/grunt-express-server/pull/20))
