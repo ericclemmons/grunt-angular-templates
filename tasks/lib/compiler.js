@@ -73,7 +73,8 @@ var Compiler = function(grunt, options, cwd) {
       .map(function(string, i) {
         return this.cache(string, this.url(files[i]));
       }.bind(this))
-      .join(grunt.util.normalizelf(grunt.util.linefeed))
+      .map(grunt.util.normalizelf)
+      .join(grunt.util.linefeed)
     ;
 
     return this.bootstrap(module, script);
