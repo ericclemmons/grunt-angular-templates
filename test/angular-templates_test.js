@@ -95,6 +95,16 @@ exports.ngtemplates = {
     test.done();
   },
 
+  custom_prefix: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/custom_prefix.js');
+    var expected  = grunt.file.read('test/expected/custom_prefix.js');
+
+    test.equal(expected, actual);
+    test.done();
+  },
+
   custom_source: function(test) {
     test.expect(1);
 

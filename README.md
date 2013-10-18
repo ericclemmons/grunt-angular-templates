@@ -112,6 +112,25 @@ htmlmin: {
 If not specified, it will automatically be the name of the `ngtemplates`
 subtask (e.g. `app`, based on the examples below).
 
+### prefix
+
+> `String` to prefix template URLs with.
+Defaults to `null`
+
+If you need to use absolute urls:
+
+```js
+ngtemplates: {
+  app: {
+    options: {
+      prefix: '/'
+    }
+  }
+}
+```
+
+If you serve static assets from another directory, you specify that as well.
+
 ### source
 
 > Callback to modify the template's source code.
