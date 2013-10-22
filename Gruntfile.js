@@ -103,6 +103,14 @@ module.exports = function(grunt) {
         }
       },
 
+      missing_htmlmin: {
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
+        dest: 'tmp/missing_htmlmin.js',
+        options: {
+          htmlmin: null
+        }
+      },
+
       // Minify the HTML, but using another tasks' settings
       task_htmlmin: {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],

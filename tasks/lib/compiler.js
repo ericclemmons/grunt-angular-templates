@@ -112,7 +112,7 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}         Minified template
    */
   this.minify = function(source) {
-    if (Object.keys(options.htmlmin).length) {
+    if (options.htmlmin && Object.keys(options.htmlmin).length) {
       try {
         source = minify(source, options.htmlmin);
       } catch (err) {
