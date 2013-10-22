@@ -37,7 +37,10 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}           Template wrapped in `$templateCache.put(...)`
    */
   this.cache = function(template, url, prefix) {
-    var path = Path.join(prefix || '', url).replace(/\\/g, '/');
+  	prefix = prefix || '';
+  	var hasSchemeRegex = /:\/\//g;
+  	url.replace(/\\/g, '/');
+  	var path = hasSchemeRegex.test(prefix) || hasSchemeRegex.test(url) || hasSchemeRegex.test(prefix + url) ? prefix + url : Path.join( prefix, url );
 
     return grunt.template.process(
       "\n  $templateCache.put('<%= path %>',\n    <%= template %>\n  );\n",
