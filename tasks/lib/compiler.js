@@ -9,7 +9,7 @@
 'use strict';
 
 var minify  = require('html-minifier').minify;
-var Path    = require('path');
+var Url    = require('url');
 
 /**
  * Angular Template Compiler
@@ -38,9 +38,7 @@ var Compiler = function(grunt, options, cwd) {
    */
   this.cache = function(template, url, prefix) {
   	prefix = prefix || '';
-  	var hasSchemeRegex = /:\/\//g;
-  	url.replace(/\\/g, '/');
-  	var path = hasSchemeRegex.test(prefix) || hasSchemeRegex.test(url) || hasSchemeRegex.test(prefix + url) ? prefix + url : Path.join( prefix, url );
+  	var path = prefix + Url.format( Url.parse( url.replace(/\\/g, '/') ) );
 
     return grunt.template.process(
       "\n  $templateCache.put('<%= path %>',\n    <%= template %>\n  );\n",
