@@ -151,6 +151,11 @@ Defaults to `false`.
 Normally, this isn't needed as specifying your files with `cwd`
 ensures that URLs load via both AJAX and `$templateCache`.
 
+### usestrict
+
+> If `true` then the first line of generated function will be `'use strict';`
+
+Helpful if output will be integrated where using ECMA 5 strict mode is required.
 
 ## Usage
 

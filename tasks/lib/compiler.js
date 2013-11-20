@@ -80,6 +80,10 @@ var Compiler = function(grunt, options, cwd) {
       .join(grunt.util.linefeed)
     ;
 
+    if (options.usestrict === true) {
+      script = '  \'use strict\';' + grunt.util.linefeed + script;
+    }
+
     return this.bootstrap(module, script);
   };
 
