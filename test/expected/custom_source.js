@@ -1,4 +1,5 @@
 angular.module('custom_source').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('test/fixtures/one.html',
     "<!-- Template: test/fixtures/one.html -->\n" +

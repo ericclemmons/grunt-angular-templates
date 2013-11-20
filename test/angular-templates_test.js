@@ -35,16 +35,6 @@ exports.ngtemplates = {
     test.done();
   },
 
-  use_strict: function(test) {
-    test.expect(1);
-
-    var actual    = grunt.file.read('tmp/use_strict.js');
-    var expected  = grunt.file.read('test/expected/use_strict.js');
-
-    test.equal(expected, actual);
-    test.done();
-  },
-
   html5: function(test) {
     test.expect(1);
 

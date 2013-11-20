@@ -1,4 +1,5 @@
 angular.module('custom_url').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('test/fixtures/one',
     "<h1>One</h1>\n" +

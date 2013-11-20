@@ -1,4 +1,5 @@
 angular.module('custom_prefix').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('/static/test/fixtures/one.html',
     "<h1>One</h1>\n" +

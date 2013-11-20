@@ -1,4 +1,5 @@
 angular.module('html5').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('test/fixtures/html5.html',
     "<div>\n" +

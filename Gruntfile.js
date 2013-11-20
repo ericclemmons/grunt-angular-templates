@@ -71,15 +71,6 @@ module.exports = function(grunt) {
         }
       },
 
-      // Begin generated function with 'use strict;'
-      use_strict: {
-        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
-        dest: 'tmp/use_strict.js',
-        options: {
-          usestrict: true
-        }
-      },
-
       // Append dest to existing concat target
       custom_concat: {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
