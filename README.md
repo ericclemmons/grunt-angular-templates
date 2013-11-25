@@ -370,3 +370,7 @@ Licensed under the MIT license.
 [3]: http://requirejs.org/docs/whyamd.html
 [4]: https://github.com/gruntjs/grunt-contrib-concat
 [5]: https://github.com/yeoman/grunt-usemin
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ericclemmons/grunt-angular-templates/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
