@@ -37,8 +37,15 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}           Template wrapped in `$templateCache.put(...)`
    */
   this.cache = function(template, url, prefix) {
-  	prefix = prefix || '';
-  	var path = prefix + Url.format( Url.parse( url.replace(/\\/g, '/') ) );
+    var path = prefix;
+
+    // Force trailing slash
+    if (path.length) {
+      path = path.replace(/\/?$/, '/');
+    }
+
+    // Append formatted URL
+    path += Url.format( Url.parse( url.replace(/\\/g, '/') ) );
 
     return grunt.template.process(
       "\n  $templateCache.put('<%= path %>',\n    <%= template %>\n  );\n",
