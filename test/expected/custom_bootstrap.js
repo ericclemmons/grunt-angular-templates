@@ -1,4 +1,5 @@
 module.exports = function($templateCache) {
+  'use strict';
 
   $templateCache.put('test/fixtures/one.html',
     "<h1>One</h1>\n" +

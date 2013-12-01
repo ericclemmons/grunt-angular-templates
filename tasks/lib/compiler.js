@@ -66,7 +66,9 @@ var Compiler = function(grunt, options, cwd) {
       return true;
     });
 
-    var script = paths
+    var script = '  \'use strict\';' + grunt.util.linefeed;
+
+    script += paths
       .map(this.load)
       .map(this.minify)
       .map(function(source, i) {
@@ -79,6 +81,8 @@ var Compiler = function(grunt, options, cwd) {
       .map(grunt.util.normalizelf)
       .join(grunt.util.linefeed)
     ;
+
+
 
     return this.bootstrap(module, script);
   };

@@ -1,4 +1,5 @@
 angular.module('test.fixtures.one.html').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('test/fixtures/one',
     "<h1>One</h1>\n" +
@@ -15,6 +16,7 @@ angular.module('test.fixtures.one.html').run(['$templateCache', function($templa
 }]);
 
 angular.module('test.fixtures.two.two.html').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('test/fixtures/two/two',
     "<h2>Two</h2>\n" +

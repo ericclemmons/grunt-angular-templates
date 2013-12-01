@@ -1,4 +1,5 @@
 angular.module('relative_url').run(['$templateCache', function($templateCache) {
+  'use strict';
 
   $templateCache.put('one.html',
     "<h1>One</h1>\n" +
