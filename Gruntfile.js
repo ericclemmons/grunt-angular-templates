@@ -24,20 +24,8 @@ module.exports = function(grunt) {
     jshint: {
       all: ['Gruntfile.js', 'tasks/**/*.js', '<%= nodeunit.tests %>'],
       options: {
-        curly: true,
-        eqeqeq: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        node: true,
-        es5: true
-      },
-      globals: {}
+        jshintrc: '.jshintrc',
+      }
     },
     concat: {
       custom_concat: {
