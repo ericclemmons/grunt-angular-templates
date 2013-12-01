@@ -75,21 +75,33 @@ module.exports = function(grunt) {
         }
 
         // Grunt handles files 400 different ways.  Not me.
-        var normal  = grunt.task.normalizeMultiTaskFiles(config, options.concat);
-        var files   = normal.map(function(files) {
-          files.src.push(file.dest);
-          delete files.orig;
+        var normalized = grunt.task.normalizeMultiTaskFiles(config, options.concat);
+
+        // Only work on the original src/dest, since files.src is a [GETTER]
+        var originals = normalized.map(function(files) {
+          return files.orig;
+        });
+
+        // Append output templates to only .JS targets
+        var modified = originals.map(function(files) {
+          var jsFiles = files.src.filter(function(file) {
+            return '.js' === file.substr(-3);
+          });
+
+          if (jsFiles.length) {
+            files.src.push(file.dest);
+          }
 
           return files;
         });
 
-        grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
-
         // Re-save processed concat target
         grunt.config(['concat', options.concat], {
-          files:    files,
+          files:    originals,
           options:  config.options || {}
         });
+
+        grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
       }
     });
   });
