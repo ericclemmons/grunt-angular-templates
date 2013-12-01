@@ -333,6 +333,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.4.8 – Compiled assets are JSHint-able ([#58](https://github.com/ericclemmons/grunt-angular-templates/pull/58))
 - v0.4.7 – Fix bug for when htmlmin is not an Object ([#56](https://github.com/ericclemmons/grunt-angular-templates/issues/56))
 - v0.4.6 – Add `prefix` option for easier URL prefixes ([#53](https://github.com/ericclemmons/grunt-angular-templates/pull/53))
 - v0.4.5 – Attempt to better normalize templates based on current OS ([#52](https://github.com/ericclemmons/grunt-angular-templates/pull/52))
