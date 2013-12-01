@@ -61,11 +61,11 @@ module.exports = function(grunt) {
 
       // Append file.dest to specified concat target
       if (options.concat) {
-        
+
         if (process.platform === 'win32') {
           options.concat = options.concat.replace(/\//g, '\\');
         }
-        
+
         var config = grunt.config(['concat', options.concat]);
 
         if (!config) {
