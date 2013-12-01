@@ -14,6 +14,16 @@ module.exports = function(grunt) {
     clean: {
       tests: 'tmp'
     },
+    copy: {
+      tmp: {
+        files: [{
+          expand: true,
+          cwd: 'test/fixtures',
+          src: ['usemin.html', 'usemin/*'],
+          dest: 'tmp/'
+        }]
+      }
+    },
     nodeunit: {
       tests: ['test/*.js']
     },
@@ -36,6 +46,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    usemin: {
+      html: 'tmp/usemin.html'
+    },
+    useminPrepare: {
+      html: 'test/fixtures/usemin.html',
+      options: {
+        dest: 'tmp',
+        staging: 'tmp'
+      }
+    },
+    cssmin: {},
 
     // All supported examples should be here
     ngtemplates: {
@@ -65,6 +86,14 @@ module.exports = function(grunt) {
         dest: 'tmp/custom_concat.js',
         options: {
           concat: 'custom_concat'
+        }
+      },
+
+      custom_concat_usemin: {
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
+        dest: 'tmp/custom_concat_usemin.js',
+        options: {
+          concat: 'generated'
         }
       },
 
@@ -208,8 +237,12 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-usemin');
 
-  grunt.registerTask('default', ['jshint', 'clean', 'ngtemplates', 'concat', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'useminPrepare', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'usemin', 'nodeunit']);
 };
