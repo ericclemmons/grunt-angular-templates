@@ -1,4 +1,8 @@
-# grunt-angular-templates [![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.png?branch=master)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
+# grunt-angular-templates
+
+[![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.png)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
+[![Dependencies](https://david-dm.org/ericclemmons/grunt-angular-templates.png)](https://david-dm.org/ericclemmons/grunt-angular-templates)
+[![devDependencies](https://david-dm.org/ericclemmons/grunt-angular-templates/dev-status.png)](https://david-dm.org/ericclemmons/grunt-angular-templates#info=devDependencies&view=table)
 
 > Speed up your AngularJS app by automatically minifying, combining,
 > and automatically caching your HTML templates with `$templateCache`.
