@@ -115,7 +115,7 @@ subtask (e.g. `app`, based on the examples below).
 ### prefix
 
 > `String` to prefix template URLs with.
-Defaults to `null`
+Defaults to `''`
 
 If you need to use absolute urls:
 
