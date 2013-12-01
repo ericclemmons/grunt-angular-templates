@@ -65,7 +65,8 @@ module.exports = function(grunt) {
           options.concat = options.concat.replace(/\//g, '\\');
         }
         
-        var config = grunt.config(['concat', options.concat]);
+        grunt.config(['concat', options.concat]);
+        var config = grunt.config(['concat']);
 
         if (!config) {
           grunt.log.warn('Concat target not found: ' + options.concat.red);
