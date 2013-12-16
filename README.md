@@ -346,6 +346,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.5.1 – Add `usemin` option form v0.4.10
 - v0.5.0 – Works with `grunt-usemin` ([#44](https://github.com/ericclemmons/grunt-angular-templates/issues/44))
 - v0.4.10 – Add `usemin` option
 - v0.4.9 – Improve `prefix` and support for URLs ([#57](https://github.com/ericclemmons/grunt-angular-templates/pull/57))
