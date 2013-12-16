@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     }
 
     // Grunt handles files 400 different ways.  Not me.
-    var normalized = grunt.task.normalizeMultiTaskFiles(config, target);
+    var normalized = grunt.task.normalizeMultiTaskFiles(config);
 
     // Only work on the original src/dest, since files.src is a [GETTER]
     var originals = normalized.map(function(files) {
