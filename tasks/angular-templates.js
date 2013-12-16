@@ -9,8 +9,7 @@
 'use strict';
 
 var Compiler  = require('./lib/compiler');
-var path      = require('path');
-var util      = require('util');
+var Appender  = require('./lib/appender');
 
 module.exports = function(grunt) {
 
@@ -28,7 +27,7 @@ module.exports = function(grunt) {
     );
   };
 
-  grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates for $templateCache', function() {
+  var ngtemplatesTask = function() {
     var options = this.options({
       angular:    'angular',
       bootstrap:  bootstrapper,
@@ -38,7 +37,8 @@ module.exports = function(grunt) {
       prefix:     '',
       source:     function(source) { return source; },
       standalone: false,
-      url:        function(path) { return path; }
+      url:        function(path) { return path; },
+      usemin:     null,
     });
 
     grunt.verbose.writeflags(options, 'Options');
@@ -49,6 +49,7 @@ module.exports = function(grunt) {
       }
 
       var compiler  = new Compiler(grunt, options, file.cwd);
+      var appender  = new Appender(grunt);
       var modules   = compiler.modules(file.src);
       var compiled  = [];
 
@@ -59,51 +60,20 @@ module.exports = function(grunt) {
       grunt.file.write(file.dest, compiled.join('\n'));
       grunt.log.writeln('File ' + file.dest.cyan + ' created.');
 
-      // Append file.dest to specified concat target
+      if (options.usemin) {
+        if (appender.save('generated', appender.concatUseminFiles(options.usemin, file))) {
+          grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('<!-- build:js ' + options.usemin + ' -->').yellow);
+        }
+      }
+
       if (options.concat) {
-
-        if (process.platform === 'win32') {
-          options.concat = options.concat.replace(/\//g, '\\');
+        if (appender.save(options.concat, appender.concatFiles(options.concat, file))) {
+          grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
         }
-
-        var config = grunt.config(['concat', options.concat]);
-
-        if (!config) {
-          grunt.log.warn('Concat target not found: ' + options.concat.red);
-
-          return false;
-        }
-
-        // Grunt handles files 400 different ways.  Not me.
-        var normalized = grunt.task.normalizeMultiTaskFiles(config, options.concat);
-
-        // Only work on the original src/dest, since files.src is a [GETTER]
-        var originals = normalized.map(function(files) {
-          return files.orig;
-        });
-
-        // Append output templates to only .JS targets
-        var modified = originals.map(function(files) {
-          var jsFiles = files.src.filter(function(file) {
-            return '.js' === file.substr(-3);
-          });
-
-          if (jsFiles.length) {
-            files.src.push(file.dest);
-          }
-
-          return files;
-        });
-
-        // Re-save processed concat target
-        grunt.config(['concat', options.concat], {
-          files:    originals,
-          options:  config.options || {}
-        });
-
-        grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
       }
     });
-  });
+  };
+
+  grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates for $templateCache', ngtemplatesTask);
 
 };

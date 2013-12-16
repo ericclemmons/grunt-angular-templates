@@ -155,6 +155,12 @@ Defaults to `false`.
 Normally, this isn't needed as specifying your files with `cwd`
 ensures that URLs load via both AJAX and `$templateCache`.
 
+### usemin
+
+> Path to `<!-- build:js [path/to/output.js] -->` usemin target
+
+This should be the output path of the compiled JS indicated in your HTML,
+such as `path/to/output.js` shown here.
 
 ## Usage
 
@@ -204,13 +210,15 @@ concat:   {
 Using the following HTML as an example:
 
 ```html
-<!-- build:js combined.js -->
+<!-- build:js dist/vendors.js -->
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
+<!-- endbuild -->
 ```
 
-The name of your `build:js` file automatically becomes the `concat` target
-name.  So, simply just copy/paste that name into the `concat` option:
+**Do not use the `concat` option**, even though grunt-usemin generates a `concat.generated`
+object behind the scenes.  Instead, use the `usemin` option to indicate the anticipated
+output filepath from grunt-usemin.
 
 ```js
 ngtemplates:  {
@@ -218,11 +226,16 @@ ngtemplates:  {
     src:      '**.html',
     dest:     'template.js',
     options:  {
-      concat: 'combined.js'
+      usemin: 'dist/vendors.js' // <~~ This came from the <!-- build:js --> block
     }
   }
 }
 ```
+
+**Note**: Earlier versions of grunt-usemin (*correctly, in my opinion*) would have generated
+a `concat['dist/vendors.js']` object for each build section in the HTML.  Now,
+because there's a single `concat.generated` object with **all** JS/CSS files within it,
+I'm back-tracking the proper `concat` target for you.
 
 ## Examples
 
@@ -334,6 +347,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 ## Changelog
 
 - v0.5.0 – Works with `grunt-usemin` ([#44](https://github.com/ericclemmons/grunt-angular-templates/issues/44))
+- v0.4.10 – Add `usemin` option
 - v0.4.9 – Improve `prefix` and support for URLs ([#57](https://github.com/ericclemmons/grunt-angular-templates/pull/57))
 - v0.4.8 – Compiled assets are JSHint-able ([#58](https://github.com/ericclemmons/grunt-angular-templates/pull/58))
 - v0.4.7 – Fix bug for when htmlmin is not an Object ([#56](https://github.com/ericclemmons/grunt-angular-templates/issues/56))

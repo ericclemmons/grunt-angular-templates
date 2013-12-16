@@ -9,6 +9,20 @@
     <script src="usemin/foo.js"></script>
     <!-- endbuild -->
 
+    <!-- build:js usemin/bar.js -->
+    <script src="usemin/bar.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js usemin/all.js -->
+    <script src="usemin/foo.js"></script>
+    <script src="usemin/bar.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js duplicate/usemin/all.js -->
+    <script src="usemin/foo.js"></script>
+    <script src="usemin/bar.js"></script>
+    <!-- endbuild -->
+
     <!-- build:css usemin/bar.css -->
     <script src="usemin/bar.css"></script>
     <!-- endbuild -->
