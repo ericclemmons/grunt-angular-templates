@@ -28,7 +28,7 @@ module.exports = function(grunt) {
     );
   };
 
-  var appendToConcatTarget = function(target, file) {
+  var appendToConcatTarget = function(target, file, filter) {
     if (process.platform === 'win32') {
       target = target.replace(/\//g, '\\');
     }
@@ -47,6 +47,10 @@ module.exports = function(grunt) {
     // Only work on the original src/dest, since files.src is a [GETTER]
     var originals = normalized.map(function(files) {
       return files.orig;
+    });
+
+    originals.filter(filter || function(files) {
+      return true;
     }).map(function(files) {
       files.src.push(file.dest);
 
