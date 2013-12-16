@@ -62,6 +62,49 @@ module.exports = function(grunt) {
       files:    originals,
       options:  config.options || {}
     });
+
+    grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + target).yellow);
+  };
+
+  var appendToUseminTarget = function(target, file) {
+    if (process.platform === 'win32') {
+      target = target.replace(/\//g, '\\');
+    }
+
+    var config = grunt.config('uglify.generated');
+
+    if (!config) {
+      grunt.log.warn('Usemin-generated target not found: ' + 'uglify.generated'.red);
+
+      return false;
+    }
+
+    var normalized  = grunt.task.normalizeMultiTaskFiles(config);
+    var matches     = normalized.map(function(files) {
+      return files.orig;
+    }).filter(function(files) {
+      return target === files.dest.substr(-target.length);
+    });
+
+    if (!matches.length) {
+      grunt.log.warn('Could not find usemin target matching: ' + target.red);
+
+      return false;
+    }
+
+    var match = matches.shift();
+
+    if (matches.length > 1) {
+      grunt.log.warn('Multiple matches for ' + target.yellow + '.  Using ' + match.dest);
+    }
+
+    var uglify = match.src.pop();
+
+    appendToConcatTarget('generated', file, function(files) {
+      return uglify === files.dest;
+    });
+
+    grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('<!-- build:js ' + target + ' -->').yellow);
   };
 
   var ngtemplatesTask = function() {
@@ -96,10 +139,14 @@ module.exports = function(grunt) {
       grunt.file.write(file.dest, compiled.join('\n'));
       grunt.log.writeln('File ' + file.dest.cyan + ' created.');
 
+      // Append file.dest to usemin's build js
+      if (options.usemin) {
+        appendToUseminTarget(options.usemin, file);
+      }
+
       // Append file.dest to specified concat target
       if (options.concat) {
         appendToConcatTarget(options.concat, file);
-        grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
       }
     });
   };
