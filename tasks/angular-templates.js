@@ -38,7 +38,8 @@ module.exports = function(grunt) {
       prefix:     '',
       source:     function(source) { return source; },
       standalone: false,
-      url:        function(path) { return path; }
+      url:        function(path) { return path; },
+      usemin:     null,
     });
 
     grunt.verbose.writeflags(options, 'Options');
