@@ -81,17 +81,8 @@ module.exports = function(grunt) {
         // Only work on the original src/dest, since files.src is a [GETTER]
         var originals = normalized.map(function(files) {
           return files.orig;
-        });
-
-        // Append output templates to only .JS targets
-        var modified = originals.map(function(files) {
-          var jsFiles = files.src.filter(function(file) {
-            return '.js' === file.substr(-3);
-          });
-
-          if (jsFiles.length) {
-            files.src.push(file.dest);
-          }
+        }).map(function(files) {
+          files.src.push(file.dest);
 
           return files;
         });
