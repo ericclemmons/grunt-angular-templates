@@ -9,8 +9,6 @@
 'use strict';
 
 var Compiler  = require('./lib/compiler');
-var path      = require('path');
-var util      = require('util');
 
 module.exports = function(grunt) {
 
