@@ -93,7 +93,7 @@ module.exports = function(grunt) {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_concat_usemin.js',
         options: {
-          usemin: 'usemin/foo.js'
+          usemin: 'usemin/all.js'
         }
       },
 

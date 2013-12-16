@@ -35,11 +35,13 @@ exports.ngtemplates = {
     test.done();
   },
 
-  custom_concat_usemin: function(test) {
-    test.expect(3);
+  custom_usemin: function(test) {
+    test.expect(5);
 
     test.equal(grunt.file.read('test/expected/usemin.html'), grunt.file.read('tmp/usemin.html'));
-    test.equal(grunt.file.read('test/expected/usemin/foo.js'), grunt.file.read('tmp/usemin/foo.js'));
+    test.equal(grunt.file.read('test/expected/usemin/foo.js').slice(0, -1), grunt.file.read('tmp/usemin/foo.js'));
+    test.equal(grunt.file.read('test/expected/usemin/bar.js').slice(0, -1), grunt.file.read('tmp/usemin/bar.js'));
+    test.equal(grunt.file.read('test/expected/usemin/all.js').slice(0, -1), grunt.file.read('tmp/usemin/all.js'));
     test.equal(grunt.file.read('test/expected/usemin/bar.css'), grunt.file.read('tmp/usemin/bar.css'));
 
     test.done();
