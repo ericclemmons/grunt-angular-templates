@@ -89,11 +89,11 @@ module.exports = function(grunt) {
         }
       },
 
-      custom_concat_usemin: {
+      custom_usemin: {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_concat_usemin.js',
         options: {
-          concat: 'generated'
+          usemin: 'usemin/foo.js'
         }
       },
 
