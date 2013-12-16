@@ -28,7 +28,39 @@ module.exports = function(grunt) {
     );
   };
 
-  grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates for $templateCache', function() {
+  var appendToConcatTarget = function(target, file) {
+    if (process.platform === 'win32') {
+      target = target.replace(/\//g, '\\');
+    }
+
+    var config = grunt.config(['concat', target]);
+
+    if (!config) {
+      grunt.log.warn('Concat target not found: ' + target.red);
+
+      return false;
+    }
+
+    // Grunt handles files 400 different ways.  Not me.
+    var normalized = grunt.task.normalizeMultiTaskFiles(config, target);
+
+    // Only work on the original src/dest, since files.src is a [GETTER]
+    var originals = normalized.map(function(files) {
+      return files.orig;
+    }).map(function(files) {
+      files.src.push(file.dest);
+
+      return files;
+    });
+
+    // Re-save processed concat target
+    grunt.config(['concat', target], {
+      files:    originals,
+      options:  config.options || {}
+    });
+  };
+
+  var ngtemplatesTask = function() {
     var options = this.options({
       angular:    'angular',
       bootstrap:  bootstrapper,
@@ -62,40 +94,12 @@ module.exports = function(grunt) {
 
       // Append file.dest to specified concat target
       if (options.concat) {
-
-        if (process.platform === 'win32') {
-          options.concat = options.concat.replace(/\//g, '\\');
-        }
-
-        var config = grunt.config(['concat', options.concat]);
-
-        if (!config) {
-          grunt.log.warn('Concat target not found: ' + options.concat.red);
-
-          return false;
-        }
-
-        // Grunt handles files 400 different ways.  Not me.
-        var normalized = grunt.task.normalizeMultiTaskFiles(config, options.concat);
-
-        // Only work on the original src/dest, since files.src is a [GETTER]
-        var originals = normalized.map(function(files) {
-          return files.orig;
-        }).map(function(files) {
-          files.src.push(file.dest);
-
-          return files;
-        });
-
-        // Re-save processed concat target
-        grunt.config(['concat', options.concat], {
-          files:    originals,
-          options:  config.options || {}
-        });
-
+        appendToConcatTarget(options.concat, file);
         grunt.log.writeln('Added ' + file.dest.cyan + ' to ' + ('concat:' + options.concat).yellow);
       }
     });
-  });
+  };
+
+  grunt.registerMultiTask('ngtemplates', 'Compile AngularJS templates for $templateCache', ngtemplatesTask);
 
 };
