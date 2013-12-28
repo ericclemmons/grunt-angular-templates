@@ -68,9 +68,14 @@ var Appender = function(grunt) {
    */
   this.concatUseminFiles = function(path, file) {
     var config = grunt.config('uglify.generated');
+    var willUglify = !!config;
 
     if (!config) {
-      grunt.log.warn('Usemin has not created ' + 'uglify.generated'.red + ' yet!');
+      config = grunt.config('concat.generated');
+    }
+
+    if (!config) {
+      grunt.log.warn('Usemin has not created ' + 'uglify.generated'.red + ' or ' + 'concat.generated'.red + ' yet!');
 
       return false;
     }
@@ -99,11 +104,11 @@ var Appender = function(grunt) {
       grunt.log.warn('Multiple matches for ' + path.yellow + '.  Using ' + match.dest);
     }
 
-    var uglified = match.src.pop();
+    var target = (willUglify)?match.src.pop():match.dest;
 
     // Finally, modify concat target sourced by matching uglify target
     return this.concatFiles('generated', file, function(files) {
-      return uglified === files.dest;
+      return target === files.dest;
     });
   };
 
@@ -124,3 +129,4 @@ var Appender = function(grunt) {
 };
 
 module.exports = Appender;
+
