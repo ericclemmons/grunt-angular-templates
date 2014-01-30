@@ -39,6 +39,8 @@ the template is already loaded without an extra AJAX request!
 
 *This plugin requires [Grunt][1] `~0.4.0`*
 
+*Usemin integration requires [grunt-usemin][5] `~2.0.0`*
+
 Install the plugin:
 
     $ npm install grunt-angular-templates --save-dev
