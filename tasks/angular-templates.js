@@ -14,17 +14,7 @@ var Appender  = require('./lib/appender');
 module.exports = function(grunt) {
 
   var bootstrapper = function(module, script, options) {
-    return grunt.template.process(
-      "<%= angular %>.module('<%= module %>'<%= standalone %>).run(['$templateCache', function($templateCache) {\n<%= script %>\n}]);\n",
-      {
-        data: {
-          'angular':    options.angular,
-          'module':     module,
-          'standalone': options.standalone ? ', []' : '',
-          'script':     script
-        }
-      }
-    );
+    return options.angular+".module('"+module+"'"+(options.standalone ? ', []' : '')+").run(['$templateCache', function($templateCache) {\n"+script+"\n}]);\n";
   };
 
   var ngtemplatesTask = function() {
