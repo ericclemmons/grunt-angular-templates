@@ -8,6 +8,8 @@
 
 'use strict';
 
+var Path = require('path');
+
 /**
  * Utility for modifying other grunt tasks
  * @param {Object} grunt Grunt global object
@@ -81,7 +83,7 @@ var Appender = function(grunt) {
         return files.orig;
       })
       .filter(function(files) {
-        return path === files.dest.substr(-path.length);
+        return Path.normalize(path) === files.dest.substr(-path.length);
       })
     ;
 
