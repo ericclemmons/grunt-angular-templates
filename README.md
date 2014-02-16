@@ -351,6 +351,8 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.5.3 – Fix bug with Underscore templates ([#79](https://github.com/ericclemmons/grunt-angular-templates/pull/79))
+- v0.5.2 – Fix `usemin` matching issue on Windows ([#80](https://github.com/ericclemmons/grunt-angular-templates/pull/80))
 - v0.5.1 – Add `usemin` option form v0.4.10
 - v0.5.0 – Works with `grunt-usemin` ([#44](https://github.com/ericclemmons/grunt-angular-templates/issues/44))
 - v0.4.10 – Add `usemin` option
