@@ -47,15 +47,7 @@ var Compiler = function(grunt, options, cwd) {
     // Append formatted URL
     path += Url.format( Url.parse( url.replace(/\\/g, '/') ) );
 
-    return grunt.template.process(
-      "\n  $templateCache.put('<%= path %>',\n    <%= template %>\n  );\n",
-      {
-        data: {
-          path:     path,
-          template: template
-        }
-      }
-    );
+    return "\n  $templateCache.put('" + path + "',\n    " + template + "\n  );\n";
   };
 
   /**
