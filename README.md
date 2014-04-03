@@ -150,8 +150,8 @@ use this function.
 > Boolean indicated if the templates are part of an existing module or a standalone.
 Defaults to `false`.
 
-- If the value is `true`, the module will look like `angular.module('app')`, meaning `app` module is retrieved.
-- If the value is `false`, the module will look like `angular.module('app', [])`, meaning `app` module is created.
+- If the value is `false`, the module will look like `angular.module('app')`, meaning `app` module is retrieved.
+- If the value is `true`, the module will look like `angular.module('app', [])`, meaning `app` module is created.
 
 ### url
 
