@@ -47,6 +47,14 @@ exports.ngtemplates = {
     test.done();
   },
 
+  custom_usemin_not_found: function(test) {
+    test.expect(1);
+
+    test.equal(grunt.file.read('test/expected/custom_concat_usemin_not_found.js'), grunt.file.read('tmp/custom_concat_usemin_not_found.js'));
+
+    test.done();
+  },
+
   html5: function(test) {
     test.expect(1);
 
