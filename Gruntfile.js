@@ -97,6 +97,14 @@ module.exports = function(grunt) {
         }
       },
 
+      custom_usemin_not_found: {
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
+        dest: 'tmp/custom_concat_usemin_not_found.js',
+        options: {
+          usemin: 'usemin/not_found.js'
+        }
+      },
+
       html5: {
         src: ['test/fixtures/html5.html'],
         dest: 'tmp/html5.js'

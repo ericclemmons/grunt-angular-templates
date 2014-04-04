@@ -117,7 +117,7 @@ var Appender = function(grunt) {
    */
   this.save = function(target, files) {
     grunt.config(['concat', target], {
-      files:    files,
+      files:    files || grunt.config(['concat', target, 'files']),
       options:  grunt.config(['concat', target, 'options']) || {}
     });
 
