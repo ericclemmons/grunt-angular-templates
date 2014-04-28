@@ -48,7 +48,7 @@ Install the plugin:
 Enable the plugin within your `Gruntfile`:
 
 ```js
-grunt.loadTasks('grunt-angular-templates');
+grunt.loadNpmTasks('grunt-angular-templates');
 ```
 
 
