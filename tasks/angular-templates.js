@@ -10,6 +10,7 @@
 
 var Compiler  = require('./lib/compiler');
 var Appender  = require('./lib/appender');
+var fs        = require('fs');
 
 module.exports = function(grunt) {
 
@@ -29,6 +30,7 @@ module.exports = function(grunt) {
       standalone: false,
       url:        function(path) { return path; },
       usemin:     null,
+      append:     false
     });
 
     grunt.verbose.writeflags(options, 'Options');
@@ -47,8 +49,15 @@ module.exports = function(grunt) {
         compiled.push(compiler.compile(module, modules[module]));
       }
 
-      grunt.file.write(file.dest, compiled.join('\n'));
-      grunt.log.writeln('File ' + file.dest.cyan + ' created.');
+      if (options.append){
+        fs.appendFileSync(file.dest, compiled.join('\n'));
+        grunt.log.writeln('File ' + file.dest.cyan + ' updated.');
+      }
+      else{
+        grunt.file.write(file.dest, compiled.join('\n'));  
+        grunt.log.writeln('File ' + file.dest.cyan + ' created.');
+      }
+      
 
       if (options.usemin) {
         if (appender.save('generated', appender.concatUseminFiles(options.usemin, file))) {
