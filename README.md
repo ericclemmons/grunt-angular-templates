@@ -145,6 +145,13 @@ If you would like to prepend a comment, strip whitespace, or do
 post-processing on the HTML that `ngtemplates` doesn't otherwise do,
 use this function.
 
+### append
+
+Normally grunt-angular-templates creates a new file at `dest`. 
+This option makes it append the compiled templates to the `dest` file rather than replace its contents.
+This is just a useful alternative to creating a temporary `dest` file and concatting it to your application.
+
+
 ### standalone
 
 > Boolean indicated if the templates are part of an existing module or a standalone.
