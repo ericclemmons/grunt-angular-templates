@@ -358,6 +358,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.5.6 – Updated `html-minifier` to correct whitespace issues. ([96](https://github.com/ericclemmons/grunt-angular-templates/pull/96))
 - v0.5.5 – Add `append` option to concat, not overwrite the `dest`. ([#89](https://github.com/ericclemmons/grunt-angular-templates/pull/89))
 - v0.5.4 – Specifying an invalid `usemin` option still creates file ([#84](https://github.com/ericclemmons/grunt-angular-templates/pull/84))
 - v0.5.3 – Fix bug with Underscore templates ([#79](https://github.com/ericclemmons/grunt-angular-templates/pull/79))
