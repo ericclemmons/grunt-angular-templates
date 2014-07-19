@@ -118,7 +118,7 @@ var Compiler = function(grunt, options, cwd) {
       try {
         source = minify(source, options.htmlmin);
       } catch (err) {
-        grunt.warn(err);
+        grunt.warn(err + '\n\n' + source + '\n\n');
       }
     }
 
