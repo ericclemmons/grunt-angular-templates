@@ -211,7 +211,7 @@ what the destination file is actually called.
 ```js
 concat:   {
   app:    {
-    src:  [ '**.js', '<%= ngtemplates.app.dest %>' ]
+    src:  [ '**.js', '<%= ngtemplates.app.dest %>' ],
     dest: [ 'app.js' ]
   }
 }
