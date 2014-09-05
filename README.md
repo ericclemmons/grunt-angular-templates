@@ -80,6 +80,16 @@ bootstrap: function(module, script) {
 }
 ```
 
+#### filter templates
+
+If you need to exclude some templates form the $templateCache (e.g. for some authentication frameworks, to give them a chance to intercept the HTTP request to the server and forward you to the login page), you can exclude entire paths like this:
+
+```js
+templateCache: {
+  excludes: ['app/secured']
+}
+```
+
 ### concat
 
 > Name of `concat` target to append the compiled template path to.

@@ -30,6 +30,31 @@ var Compiler = function(grunt, options, cwd) {
     return options.bootstrap(module, script, options);
   };
 
+  /***
+   * Filter out templates, which are configured not to be placed in the cache.
+   * Configuration in options.templateCache.excludes
+   *
+   * @param  {String} string    Multiline HTML template string
+   * @param  {String} i         number of template
+   */
+  this.filterTemplates = function(files) {
+    return function(string, i) {
+      var excluded = false;
+      if (options.templateCache && options.templateCache.excludes) {
+        options.templateCache.excludes.forEach(function(exclude) {
+          excluded = (files[i].substring(0, exclude.length) === exclude);
+        });
+      }
+      if (!excluded) {
+        grunt.log.writeln('included \x1b[36m' + files[i] + '\x1b[39m');
+        return this.cache(string, this.url(files[i]), options.prefix);
+      } else {
+        grunt.log.writeln('excluded \x1b[31m' + files[i] + '\x1b[39m');
+        return '';
+      }
+    }.bind(this)
+  }
+
   /**
    * Wrap HTML template in `$templateCache.put(...)`
    * @param  {String} template  Multiline HTML template string
@@ -75,12 +100,9 @@ var Compiler = function(grunt, options, cwd) {
         return this.customize(source, paths[i]);
       }.bind(this))
       .map(this.stringify)
-      .map(function(string, i) {
-        return this.cache(string, this.url(files[i]), options.prefix);
-      }.bind(this))
+      .map(this.filterTemplates(files))
       .map(grunt.util.normalizelf)
-      .join(grunt.util.linefeed)
-    ;
+      .join(grunt.util.linefeed);
 
     return this.bootstrap(module, script);
   };
