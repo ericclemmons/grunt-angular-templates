@@ -31,7 +31,8 @@ module.exports = function(grunt) {
       url:        function(path) { return path; },
       usemin:     null,
       append:     false,
-      quotes:     'double'
+      quotes:     'double',
+      merge:      true
     });
 
     grunt.verbose.writeflags(options, 'Options');
@@ -50,7 +51,14 @@ module.exports = function(grunt) {
       var compiled  = [];
 
       for (var module in modules) {
-        compiled.push(compiler.compile(module, modules[module]));
+        if (options.merge) {
+          compiled.push(compiler.compile(module, modules[module]));
+        } else {
+          //Compiling each file to the same module
+          for (var j = 0; j < file.src.length; j++) {
+            compiled.push(compiler.compile(module, [file.src[j]]));
+          }
+        }
       }
 
       if (options.append){
@@ -58,8 +66,19 @@ module.exports = function(grunt) {
         grunt.log.writeln('File ' + file.dest.cyan + ' updated.');
       }
       else{
-        grunt.file.write(file.dest, compiled.join('\n'));
-        grunt.log.writeln('File ' + file.dest.cyan + ' created.');
+        if (options.merge) {
+          grunt.file.write(file.dest, compiled.join('\n'));
+          grunt.log.writeln('File ' + file.dest.cyan + ' created.');
+        } else {
+          //Writing compiled file to the same relative location as source, without merging them together 
+          for (var i = 0; i < compiled.length; i++) {
+            var dest = file.dest + file.src[i];
+            //Change extension to js from html/htm
+            dest = dest.replace(/(html|htm)$/i, "js");
+            grunt.file.write(dest, compiled[i]);
+            grunt.log.writeln('File ' + dest.cyan + ' created.');
+          }
+        }
       }
 
 
