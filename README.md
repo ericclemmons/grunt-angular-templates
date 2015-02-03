@@ -147,6 +147,7 @@ use this function.
 
 ### append
 
+> Boolean to indicate the templates should be appended to dest instead of replacing it.
 Normally grunt-angular-templates creates a new file at `dest`. 
 This option makes it append the compiled templates to the `dest` file rather than replace its contents.
 This is just a useful alternative to creating a temporary `dest` file and concatting it to your application.
