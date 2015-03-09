@@ -31,10 +31,10 @@ var Compiler = function(grunt, options, cwd) {
   };
 
   /**
-   * Wrap HTML template in `$templateCache.put(...)`
+   * Wrap HTML template in what is returned from `options.templateWrap`
    * @param  {String} template  Multiline HTML template string
    * @param  {String} url       URL to act as template ID
-   * @return {String}           Template wrapped in `$templateCache.put(...)`
+   * @return {String}           Template wrapped using the `options.templateWrap` function
    */
   this.cache = function(template, url, prefix) {
     var path = prefix;
@@ -47,7 +47,7 @@ var Compiler = function(grunt, options, cwd) {
     // Append formatted URL
     path += Url.format( Url.parse( url.replace(/\\/g, '/') ) );
 
-    return "\n  $templateCache.put('" + path + "',\n    " + template + "\n  );\n";
+    return options.templateWrap(path, template);
   };
 
   /**
@@ -66,7 +66,11 @@ var Compiler = function(grunt, options, cwd) {
       return true;
     });
 
-    var script = "  'use strict';" + grunt.util.linefeed;
+    var script = grunt.util.linefeed;
+
+    if(options.strictMode) {
+      script = "  'use strict';" + script;
+    }
 
     script += paths
       .map(this.load)
