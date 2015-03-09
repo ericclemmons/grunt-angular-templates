@@ -80,6 +80,24 @@ bootstrap: function(module, script) {
 }
 ```
 
+### templateWrap
+
+> Callback to modify the way each template is registered
+
+By default, the templateWrap wraps each template with
+
+```js
+$templateCache.put(path, template);
+```
+
+If you want to create your own wrapper so you can use a different caching service, or wrap them in a different manner:
+
+```js
+templateWrap: function(path, script) {
+  return "$localStorage.put('" + path + "', " + template + ");"
+}
+```
+
 ### concat
 
 > Name of `concat` target to append the compiled template path to.
@@ -173,6 +191,10 @@ ensures that URLs load via both AJAX and `$templateCache`.
 
 This should be the output path of the compiled JS indicated in your HTML,
 such as `path/to/output.js` shown here.
+
+### strictMode
+
+> Boolean indicated if 'use strict' should be attached to the top of the generated templates file.
 
 ## Usage
 
