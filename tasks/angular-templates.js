@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 
   var templateWrapper = function(path, template) {
     return "\n  $templateCache.put('" + path + "',\n    " + template + "\n  );\n";
-  }
+  };
 
   var ngtemplatesTask = function() {
     var options = this.options({
