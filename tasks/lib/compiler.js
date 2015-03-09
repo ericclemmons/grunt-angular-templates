@@ -34,9 +34,10 @@ var Compiler = function(grunt, options, cwd) {
    * Wrap HTML template in what is returned from `options.templateWrap`
    * @param  {String} template  Multiline HTML template string
    * @param  {String} url       URL to act as template ID
+   * @param 
    * @return {String}           Template wrapped using the `options.templateWrap` function
    */
-  this.cache = function(template, url, prefix) {
+  this.cache = function(template, url, prefix, index, files) {
     var path = prefix;
 
     // Force trailing slash
@@ -47,7 +48,7 @@ var Compiler = function(grunt, options, cwd) {
     // Append formatted URL
     path += Url.format( Url.parse( url.replace(/\\/g, '/') ) );
 
-    return options.templateWrap(path, template);
+    return options.templateWrap(path, template, index, files);
   };
 
   /**
@@ -80,7 +81,7 @@ var Compiler = function(grunt, options, cwd) {
       }.bind(this))
       .map(this.stringify)
       .map(function(string, i) {
-        return this.cache(string, this.url(files[i]), options.prefix);
+        return this.cache(string, this.url(files[i]), options.prefix, i, files);
       }.bind(this))
       .map(grunt.util.normalizelf)
       .join(grunt.util.linefeed)

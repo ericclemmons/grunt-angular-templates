@@ -93,7 +93,7 @@ $templateCache.put(path, template);
 If you want to create your own wrapper so you can use a different caching service, or wrap them in a different manner:
 
 ```js
-templateWrap: function(path, script) {
+templateWrap: function(path, script, index, files) {
   return "$localStorage.put('" + path + "', " + template + ");"
 }
 ```
