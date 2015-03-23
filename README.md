@@ -1,5 +1,9 @@
 # grunt-angular-templates
 
+## This is a fork of the original [grunt-angular-templates](https://github.com/ericclemmons/grunt-angular-templates), to support the features added (but not yet merged) in this pull request: [added templateWrap callback option and strictMode boolean option](https://github.com/ericclemmons/grunt-angular-templates/pull/119)
+
+### All credits to the original project collaborators.
+
 [![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.svg)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
 [![Dependencies](https://david-dm.org/ericclemmons/grunt-angular-templates.svg)](https://david-dm.org/ericclemmons/grunt-angular-templates)
 [![devDependencies](https://david-dm.org/ericclemmons/grunt-angular-templates/dev-status.svg)](https://david-dm.org/ericclemmons/grunt-angular-templates#info=devDependencies&view=table)
