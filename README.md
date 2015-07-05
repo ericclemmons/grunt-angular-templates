@@ -346,7 +346,7 @@ ngtemplates:      {
     dest:         'templates.js',
     options:      {
       bootstrap:  function(module, script) {
-        return 'define(module, [], function() { return { init: ' + script + ' }; });';
+        return 'define(' + module + ', [], function() { return { init: ' + script + ' }; });';
       }
     }
   }
