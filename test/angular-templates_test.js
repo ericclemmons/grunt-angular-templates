@@ -165,6 +165,22 @@ exports.ngtemplates = {
     test.done();
   },
 
+  relative_url_expand: function(test) {
+    test.expect(2);
+
+    var actual    = grunt.file.read('tmp/three/three.js');
+    var expected  = grunt.file.read('test/expected/relative_url_expand_three.js');
+
+    test.equal(expected, actual);
+
+    actual    = grunt.file.read('tmp/three/three_two.js');
+    expected  = grunt.file.read('test/expected/relative_url_expand_three_two.js');
+
+    test.equal(expected, actual);
+
+    test.done();
+  },
+
   custom_url: function(test) {
     test.expect(1);
 

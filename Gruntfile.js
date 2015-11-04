@@ -216,6 +216,15 @@ module.exports = function(grunt) {
         dest: 'tmp/relative_url.js'
       },
 
+      // URLs should match path, sans the `cwd`
+      relative_url_expand: {
+        expand: true,
+        cwd: 'test/fixtures',
+        src: ['three/**/*.html'],
+        dest: 'tmp',
+        ext: '.js'
+      },
+
       // Customize URLs to not have an extension
       custom_url:  {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
