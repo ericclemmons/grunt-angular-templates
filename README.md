@@ -148,7 +148,7 @@ use this function.
 ### append
 
 > Boolean to indicate the templates should be appended to dest instead of replacing it.
-Normally grunt-angular-templates creates a new file at `dest`. 
+Normally grunt-angular-templates creates a new file at `dest`.
 This option makes it append the compiled templates to the `dest` file rather than replace its contents.
 This is just a useful alternative to creating a temporary `dest` file and concatting it to your application.
 
@@ -359,6 +359,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v0.5.8 - Fixes `cwd` being part of the $templateCache string when `expand:true` ([#134](https://github.com/ericclemmons/grunt-angular-templates/pull/134)), Added verbose logging for minify ([#136](https://github.com/ericclemmons/grunt-angular-templates/pull/136))
 - v0.5.7 – Improve error messages ([#100](https://github.com/ericclemmons/grunt-angular-templates/pull/100))
 - v0.5.6 – Updated `html-minifier` to correct whitespace issues. ([96](https://github.com/ericclemmons/grunt-angular-templates/pull/96))
 - v0.5.5 – Add `append` option to concat, not overwrite the `dest`. ([#89](https://github.com/ericclemmons/grunt-angular-templates/pull/89))
