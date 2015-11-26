@@ -18,7 +18,7 @@ var Url     = require('url');
  * @param  {String} cwd     Determines if paths are relative or not
  * @return {Object}
  */
-var Compiler = function(grunt, options, cwd) {
+var Compiler = function(grunt, options, cwd, expanded) {
 
   /**
    * Wrap individual cache registration script in bootstrap function
@@ -42,6 +42,10 @@ var Compiler = function(grunt, options, cwd) {
     // Force trailing slash
     if (path.length) {
       path = path.replace(/\/?$/, '/');
+    }
+
+    if(cwd && expanded){
+      url = url.replace(cwd, '').replace(/^\//,'');
     }
 
     // Append formatted URL
@@ -166,7 +170,7 @@ var Compiler = function(grunt, options, cwd) {
    * @return {String}       Template path
    */
   this.path = function(file) {
-    if (cwd) {
+    if (cwd && !expanded) {
       return cwd + '/' + file;
     }
 
