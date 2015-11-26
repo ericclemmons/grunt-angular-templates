@@ -110,6 +110,7 @@ htmlmin: {
   removeStyleLinkTypeAttributes:  true
 }
 ```
+If you are using SVG, please make sure you set ```keepClosingSlash:true```
 
 ### module
 
