@@ -1,5 +1,9 @@
 # grunt-angular-templates
 
+## This is a fork of the original [grunt-angular-templates](https://github.com/ericclemmons/grunt-angular-templates), to support the features added (but not yet merged) in this pull request: [added templateWrap callback option and strictMode boolean option](https://github.com/ericclemmons/grunt-angular-templates/pull/119)
+
+### All credits to the original project collaborators.
+
 [![Build Status](https://travis-ci.org/ericclemmons/grunt-angular-templates.svg)](https://travis-ci.org/ericclemmons/grunt-angular-templates)
 [![Dependencies](https://david-dm.org/ericclemmons/grunt-angular-templates.svg)](https://david-dm.org/ericclemmons/grunt-angular-templates)
 [![devDependencies](https://david-dm.org/ericclemmons/grunt-angular-templates/dev-status.svg)](https://david-dm.org/ericclemmons/grunt-angular-templates#info=devDependencies&view=table)
@@ -77,6 +81,24 @@ AMD or CommonJS module, set the `bootstrap` option to something like:
 ```js
 bootstrap: function(module, script) {
   return 'module.exports[module] = ' + script + ';';
+}
+```
+
+### templateWrap
+
+> Callback to modify the way each template is registered
+
+By default, the templateWrap wraps each template with
+
+```js
+$templateCache.put(path, template);
+```
+
+If you want to create your own wrapper so you can use a different caching service, or wrap them in a different manner:
+
+```js
+templateWrap: function(path, script, index, files) {
+  return "$localStorage.put('" + path + "', " + template + ");"
 }
 ```
 
@@ -174,6 +196,10 @@ ensures that URLs load via both AJAX and `$templateCache`.
 
 This should be the output path of the compiled JS indicated in your HTML,
 such as `path/to/output.js` shown here.
+
+### strictMode
+
+> Boolean indicated if 'use strict' should be attached to the top of the generated templates file.
 
 ## Usage
 

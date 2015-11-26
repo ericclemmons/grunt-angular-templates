@@ -1,23 +1,23 @@
 {
-  "name": "grunt-angular-templates",
+  "name": "grunt-angular-templates-taylorcode",
   "description": "Grunt build task to concatenate & register your AngularJS templates in the $templateCache",
-  "version": "0.5.7",
-  "homepage": "https://github.com/ericclemmons/grunt-angular-templates",
+  "version": "0.5.7-m",
+  "homepage": "https://github.com/taylorcode/grunt-angular-templates",
   "author": {
-    "name": "Eric Clemmons",
-    "email": "eric@smarterspam.com"
+    "name": "Taylor McIntyre",
+    "email": "taylorsmcintyre@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ericclemmons/grunt-angular-templates.git"
+    "url": "git://github.com/taylorcode/grunt-angular-templates.git"
   },
   "bugs": {
-    "url": "https://github.com/ericclemmons/grunt-angular-templates/issues"
+    "url": "https://github.com/taylorcode/grunt-angular-templates/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/ericclemmons/grunt-angular-templates/blob/master/LICENSE-MIT"
+      "url": "https://github.com/taylorcode/grunt-angular-templates/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",

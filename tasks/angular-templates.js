@@ -18,6 +18,10 @@ module.exports = function(grunt) {
     return options.angular+".module('"+module+"'"+(options.standalone ? ', []' : '')+").run(['$templateCache', function($templateCache) {\n"+script+"\n}]);\n";
   };
 
+  var templateWrapper = function(path, template) {
+    return "\n  $templateCache.put('" + path + "',\n    " + template + "\n  );\n";
+  };
+
   var ngtemplatesTask = function() {
     var options = this.options({
       angular:    'angular',
@@ -28,6 +32,8 @@ module.exports = function(grunt) {
       prefix:     '',
       source:     function(source) { return source; },
       standalone: false,
+      strictMode: true,
+      templateWrap: templateWrapper,
       url:        function(path) { return path; },
       usemin:     null,
       append:     false
