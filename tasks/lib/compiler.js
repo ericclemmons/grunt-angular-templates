@@ -116,6 +116,7 @@ var Compiler = function(grunt, options, cwd) {
   this.minify = function(source) {
     if (options.htmlmin && Object.keys(options.htmlmin).length) {
       try {
+        grunt.verbose.writeln('Minifying file: ' +source);
         source = minify(source, options.htmlmin);
       } catch (err) {
         grunt.warn(err + '\n\n' + source + '\n\n');
