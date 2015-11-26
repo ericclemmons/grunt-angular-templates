@@ -123,7 +123,7 @@ var Compiler = function(grunt, options, cwd, expanded) {
         grunt.verbose.writeln('Minifying file: ' +source);
         source = minify(source, options.htmlmin);
       } catch (err) {
-        grunt.warn(err + '\n\n' + source + '\n\n');
+        grunt.log.error(err + '\n\n' + source + '\n\n');
       }
     }
 
