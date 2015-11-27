@@ -45,7 +45,8 @@ var Compiler = function(grunt, options, cwd, expanded) {
     }
 
     if(cwd && expanded){
-      url = url.replace(cwd, '').replace(/^\//,'');
+      var cwdRegExp = new RegExp('^' + cwd + '\/?');
+      url = url.replace(cwdRegExp, '');
     }
 
     // Append formatted URL
