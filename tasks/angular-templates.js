@@ -30,7 +30,8 @@ module.exports = function(grunt) {
       standalone: false,
       url:        function(path) { return path; },
       usemin:     null,
-      append:     false
+      append:     false,
+      quotes:     'double'
     });
 
     grunt.verbose.writeflags(options, 'Options');
@@ -57,10 +58,10 @@ module.exports = function(grunt) {
         grunt.log.writeln('File ' + file.dest.cyan + ' updated.');
       }
       else{
-        grunt.file.write(file.dest, compiled.join('\n'));  
+        grunt.file.write(file.dest, compiled.join('\n'));
         grunt.log.writeln('File ' + file.dest.cyan + ' created.');
       }
-      
+
 
       if (options.usemin) {
         if (appender.save('generated', appender.concatUseminFiles(options.usemin, file))) {

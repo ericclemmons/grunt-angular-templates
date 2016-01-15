@@ -246,6 +246,14 @@ module.exports = function(grunt) {
       undefined_file: {
         src: 'test/fixtures/undefined.html',
         dest: 'tmp/undefined_file.js'
+      },
+
+      single_quotes: {
+        src: 'test/fixtures/one.html',
+        dest: 'tmp/single_quotes.js',
+        options: {
+          quotes: 'single'
+        }
       }
     }
   });
