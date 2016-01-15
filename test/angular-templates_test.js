@@ -211,4 +211,14 @@ exports.ngtemplates = {
     test.done();
   },
 
+  single_quote: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/single_quotes.js');
+    var expected  = grunt.file.read('test/expected/single_quotes.js');
+
+    test.equal(expected, actual);
+    test.done();
+  }
+
 };

@@ -185,7 +185,13 @@ var Compiler = function(grunt, options, cwd, expanded) {
    */
   this.stringify = function(source) {
     return source.split(/^/gm).map(function(line) {
-      return JSON.stringify(line);
+      var quote = options.quotes === 'single' ? '\'' : '"';
+
+      line = line.replace(/\n/g, '\\n');
+      var quoteRegExp = new RegExp(quote, 'g');
+      line = line.replace(quoteRegExp, '\\' + quote);
+
+      return quote + line + quote;
     }).join(' +\n    ') || '""';
   };
 
