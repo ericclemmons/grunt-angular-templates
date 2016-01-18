@@ -259,15 +259,6 @@ module.exports = function(grunt) {
       linebreak: {
         src: 'test/fixtures/linebreak.html',
         dest: 'tmp/linebreak.js',
-        options: {
-          htmlmin: {
-            collapseWhitespace: true,
-            conservativeCollapse: true,
-            collapseBooleanAttributes: true,
-            removeCommentsFromCDATA: true,
-            removeComments: true
-          }
-        }
       }
     }
   });
