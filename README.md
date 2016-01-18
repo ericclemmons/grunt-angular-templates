@@ -366,6 +366,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v1.0.1 - Log error instead of warning when minify fails ([#139](https://github.com/ericclemmons/grunt-angular-templates/pull/139))
 - v1.0.0 - Updated unit tests for performance and bumps dependency versions ([#143](https://github.com/ericclemmons/grunt-angular-templates/pull/143))
 - v0.6.0 - Adds `quotes` options to allow wrapping in single instead of double quotes ([#142](https://github.com/ericclemmons/grunt-angular-templates/pull/142))
 - v0.5.9 - Fixes over-matching on `cwd` when `expand:true`
