@@ -219,6 +219,16 @@ exports.ngtemplates = {
 
     test.equal(expected, actual);
     test.done();
-  }
+  },
 
+  linebreak: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/linebreak.js');
+    var expected  = grunt.file.read('test/expected/linebreak.js');
+
+    test.equal(expected, actual);
+    test.done();
+  }
+  
 };
