@@ -229,6 +229,16 @@ exports.ngtemplates = {
 
     test.equal(expected, actual);
     test.done();
+  },
+
+  regexp: function(test) {
+    test.expect(1);
+
+    var actual    = grunt.file.read('tmp/regexp.js');
+    var expected  = grunt.file.read('test/expected/regexp.js');
+
+    test.equal(expected, actual);
+    test.done();
   }
   
 };
