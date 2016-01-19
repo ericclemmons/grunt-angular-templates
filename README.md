@@ -366,6 +366,7 @@ You will be able to custom everything surrounding `$templateCache.put(...)`.
 
 ## Changelog
 
+- v1.0.2 - Fixes issue with escaping carriage returns ([#147](https://github.com/ericclemmons/grunt-angular-templates/pull/147)), Fixes issue with escaping backslashes ([#146](https://github.com/ericclemmons/grunt-angular-templates/pull/146))
 - v1.0.1 - Log error instead of warning when minify fails ([#139](https://github.com/ericclemmons/grunt-angular-templates/pull/139))
 - v1.0.0 - Updated unit tests for performance and bumps dependency versions ([#143](https://github.com/ericclemmons/grunt-angular-templates/pull/143))
 - v0.6.0 - Adds `quotes` options to allow wrapping in single instead of double quotes ([#142](https://github.com/ericclemmons/grunt-angular-templates/pull/142))
