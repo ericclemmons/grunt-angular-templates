@@ -254,6 +254,11 @@ module.exports = function(grunt) {
         options: {
           quotes: 'single'
         }
+      },
+
+      linebreak: {
+        src: 'test/fixtures/linebreak.html',
+        dest: 'tmp/linebreak.js',
       }
     }
   });
