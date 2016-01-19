@@ -185,15 +185,20 @@ var Compiler = function(grunt, options, cwd, expanded) {
    */
   this.stringify = function(source) {
     return source.split(/^/gm).map(function(line) {
-      var quote = options.quotes === 'single' ? '\'' : '"';
+      if(options.experimental){
+        var quote = options.quotes === 'single' ? '\'' : '"';
 
-      line = line.replace(/\\/g, '\\\\');
-      line = line.replace(/\n/g, '\\n');
-      line = line.replace(/\r/g, '\\r');
-      var quoteRegExp = new RegExp(quote, 'g');
-      line = line.replace(quoteRegExp, '\\' + quote);
+        line = line.replace(/\\/g, '\\\\');
+        line = line.replace(/\n/g, '\\n');
+        line = line.replace(/\r/g, '\\r');
+        var quoteRegExp = new RegExp(quote, 'g');
+        line = line.replace(quoteRegExp, '\\' + quote);
 
-      return quote + line + quote;
+        return quote + line + quote;
+      }
+      else {
+        return JSON.stringify(line);
+      }
     }).join(' +\n    ') || '""';
   };
 

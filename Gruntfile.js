@@ -11,6 +11,9 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    config: {
+      experimental: false
+    },
     clean: {
       tests: 'tmp'
     },
@@ -252,6 +255,7 @@ module.exports = function(grunt) {
         src: 'test/fixtures/one.html',
         dest: 'tmp/single_quotes.js',
         options: {
+          experimental: true,
           quotes: 'single'
         }
       },
@@ -279,5 +283,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-usemin');
 
-  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'useminPrepare', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'usemin', 'nodeunit']);
+  grunt.registerTask('runTemplates', function(experimental){
+    grunt.config('ngtemplates.options.experimental', experimental === 'true');
+    grunt.task.run(['ngtemplates', 'concat', 'uglify', 'cssmin', 'usemin', 'nodeunit']);
+  });
+
+  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'useminPrepare', 'runTemplates:false', 'runTemplates:true']);
 };

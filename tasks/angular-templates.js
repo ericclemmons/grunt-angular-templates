@@ -31,10 +31,15 @@ module.exports = function(grunt) {
       url:        function(path) { return path; },
       usemin:     null,
       append:     false,
+      experimental: false,
       quotes:     'double'
     });
 
     grunt.verbose.writeflags(options, 'Options');
+
+    if(options.quotes !== 'double' && !options.experimental){
+      grunt.log.error('Single `quotes` option can only be used in experimental mode!');
+    }
 
     this.files.forEach(function(file) {
       if (!file.src.length) {
