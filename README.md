@@ -176,6 +176,10 @@ ensures that URLs load via both AJAX and `$templateCache`.
 This should be the output path of the compiled JS indicated in your HTML,
 such as `path/to/output.js` shown here.
 
+## Experimental Options
+
+These options require `experimental: true` to also be set in your options
+
 ### quotes
 
 > Use single or double quotes to wrap the template strings
