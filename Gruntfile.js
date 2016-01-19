@@ -259,6 +259,11 @@ module.exports = function(grunt) {
       linebreak: {
         src: 'test/fixtures/linebreak.html',
         dest: 'tmp/linebreak.js',
+      },
+
+      regexp: {
+        src: 'test/fixtures/regexp.html',
+        dest: 'tmp/regexp.js'
       }
     }
   });

@@ -187,6 +187,7 @@ var Compiler = function(grunt, options, cwd, expanded) {
     return source.split(/^/gm).map(function(line) {
       var quote = options.quotes === 'single' ? '\'' : '"';
 
+      line = line.replace(/\\/g, '\\\\');
       line = line.replace(/\n/g, '\\n');
       line = line.replace(/\r/g, '\\r');
       var quoteRegExp = new RegExp(quote, 'g');
