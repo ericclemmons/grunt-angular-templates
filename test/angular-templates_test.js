@@ -38,10 +38,22 @@ exports.ngtemplates = {
   custom_usemin: function(test) {
     test.expect(5);
 
+    test.equal(grunt.file.read('test/expected/useminUgly.html'), grunt.file.read('tmp/useminUgly.html'));
+    test.equal(grunt.file.read('test/expected/useminUgly/foo.js').slice(0, -1), grunt.file.read('tmp/useminUgly/foo.js'));
+    test.equal(grunt.file.read('test/expected/useminUgly/bar.js').slice(0, -1), grunt.file.read('tmp/useminUgly/bar.js'));
+    test.equal(grunt.file.read('test/expected/useminUgly/all.js').slice(0, -1), grunt.file.read('tmp/useminUgly/all.js'));
+    test.equal(grunt.file.read('test/expected/useminUgly/bar.css'), grunt.file.read('tmp/useminUgly/bar.css'));
+
+    test.done();
+  },
+
+  custom_usemin_no_uglify: function(test) {
+    test.expect(5);
+
     test.equal(grunt.file.read('test/expected/usemin.html'), grunt.file.read('tmp/usemin.html'));
-    test.equal(grunt.file.read('test/expected/usemin/foo.js').slice(0, -1), grunt.file.read('tmp/usemin/foo.js'));
-    test.equal(grunt.file.read('test/expected/usemin/bar.js').slice(0, -1), grunt.file.read('tmp/usemin/bar.js'));
-    test.equal(grunt.file.read('test/expected/usemin/all.js').slice(0, -1), grunt.file.read('tmp/usemin/all.js'));
+    test.equal(grunt.file.read('test/expected/usemin/foo.js'), grunt.file.read('tmp/usemin/foo.js'));
+    test.equal(grunt.file.read('test/expected/usemin/bar.js'), grunt.file.read('tmp/usemin/bar.js'));
+    test.equal(grunt.file.read('test/expected/usemin/all.js'), grunt.file.read('tmp/usemin/all.js'));
     test.equal(grunt.file.read('test/expected/usemin/bar.css'), grunt.file.read('tmp/usemin/bar.css'));
 
     test.done();
@@ -240,5 +252,5 @@ exports.ngtemplates = {
     test.equal(expected, actual);
     test.done();
   }
-  
+
 };

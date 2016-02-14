@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'test/fixtures',
-          src: ['usemin.html', 'usemin/*'],
+          src: ['usemin.html', 'useminUgly.html', 'usemin/*', 'useminUgly/*'],
           dest: 'tmp/'
         }]
       }
@@ -47,13 +47,39 @@ module.exports = function(grunt) {
       }
     },
     usemin: {
+      html: 'tmp/useminUgly.html'
+    },
+    useminWithoutUglify: {
       html: 'tmp/usemin.html'
     },
     useminPrepare: {
+      html: 'test/fixtures/useminUgly.html',
+      options: {
+        dest: 'tmp',
+        staging: 'tmp',
+        flow: {
+          html: {
+            steps: {
+              js: ['concat', 'uglify'],
+              css: ['concat', 'cssmin']
+            }
+          }
+        }
+      }
+    },
+    useminPrepareWithoutUglify: {
       html: 'test/fixtures/usemin.html',
       options: {
         dest: 'tmp',
-        staging: 'tmp'
+        staging: 'tmp',
+        flow: {
+          html: {
+            steps: {
+              js: ['concat'],
+              css: ['concat']
+            }
+          }
+        }
       }
     },
     cssmin: {},
@@ -93,7 +119,7 @@ module.exports = function(grunt) {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_concat_usemin.js',
         options: {
-          usemin: 'usemin/all.js'
+          usemin: 'useminUgly/all.js'
         }
       },
 
@@ -101,7 +127,7 @@ module.exports = function(grunt) {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_concat_usemin_not_found.js',
         options: {
-          usemin: 'usemin/not_found.js'
+          usemin: 'useminUgly/not_found.js'
         }
       },
 
@@ -264,8 +290,60 @@ module.exports = function(grunt) {
       regexp: {
         src: 'test/fixtures/regexp.html',
         dest: 'tmp/regexp.js'
+      },
+
+      usemin_no_uglify: {
+        src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
+        dest: 'tmp/custom_concat_usemin_no_uglify.js',
+        options: {
+          usemin: 'usemin/all.js'
+        }
       }
     }
+  });
+
+  grunt.registerTask('useminPrepareWithoutUglify', function () {
+    grunt.config.set('concat.generated', null);
+    grunt.config.set('uglify.generated', null);
+    var useminPrepareWithoutUglify = grunt.config('useminPrepareWithoutUglify');
+    grunt.config.set('useminPrepare', useminPrepareWithoutUglify);
+    grunt.task.run('useminPrepare');
+  });
+
+  grunt.registerTask('useminWithoutUglify', function () {
+    var useminWithoutUglify = grunt.config('useminWithoutUglify');
+    grunt.config.set('usemin', useminWithoutUglify);
+    grunt.task.run('usemin');
+  });
+
+  var prettyTemplates = [
+    'usemin_no_uglify'
+  ];
+
+  grunt.registerTask('uglyTemplates', function(){
+    var templateKeys = Object.keys(grunt.config('ngtemplates'));
+    var tasks = [];
+
+    for(var i in templateKeys){
+      if(prettyTemplates.indexOf(templateKeys[i]) === -1){
+        tasks.push('ngtemplates:' + templateKeys[i]);
+      }
+    }
+
+    grunt.task.run(tasks);
+  });
+
+  grunt.registerTask('prettyTemplates', function(){
+    var templateKeys = Object.keys(grunt.config('ngtemplates'));
+    var tasks = [];
+
+    for(var i in templateKeys){
+      if(prettyTemplates.indexOf(templateKeys[i]) !== -1){
+        tasks.push('ngtemplates:' + templateKeys[i]);
+      }
+    }
+
+    grunt.task.run(tasks);
   });
 
   // Load local tasks.
@@ -279,5 +357,20 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-usemin');
 
-  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'useminPrepare', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'usemin', 'nodeunit']);
+  grunt.registerTask('default', [
+    'jshint',
+    'clean',
+    'copy',
+    'useminPrepare',
+    'uglyTemplates',
+    'concat',
+    'uglify',
+    'cssmin',
+    'usemin',
+    'useminPrepareWithoutUglify',
+    'prettyTemplates',
+    'concat',
+    'useminWithoutUglify',
+    'nodeunit'
+  ]);
 };
