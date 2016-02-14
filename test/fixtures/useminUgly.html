@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+    <head>
+        <link rel="stylesheet" href="styles/main.css">
+        <script src="scripts/vendor/modernizr.min.js"></script>
+    </head>
+    <body>
+
+    <!-- build:js useminUgly/foo.js -->
+    <script src="useminUgly/foo.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js useminUgly/bar.js -->
+    <script src="useminUgly/bar.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js useminUgly/all.js -->
+    <script src="useminUgly/foo.js"></script>
+    <script src="useminUgly/bar.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js duplicate/useminUgly/all.js -->
+    <script src="useminUgly/foo.js"></script>
+    <script src="useminUgly/bar.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:css useminUgly/bar.css -->
+    <script src="useminUgly/bar.css"></script>
+    <!-- endbuild -->
+</body>
+</html>
