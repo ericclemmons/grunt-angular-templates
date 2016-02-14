@@ -106,7 +106,7 @@ var Appender = function(grunt) {
       grunt.log.warn('Multiple matches for ' + path.yellow + '.  Using ' + match.dest);
     }
 
-    var target = (willUglify)?match.src.pop():match.dest;
+    var target =  willUglify ? match.src.pop() : match.dest;
 
     // Finally, modify concat target sourced by matching uglify target
     return this.concatFiles('generated', file, function(files) {
@@ -131,4 +131,3 @@ var Appender = function(grunt) {
 };
 
 module.exports = Appender;
-
