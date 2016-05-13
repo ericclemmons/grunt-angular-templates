@@ -96,6 +96,9 @@ Without this, the HTML (whitespace and all) will be faithfully compiled
 down into the final `.js` file.  Minifying that file will only cut down
 on the *Javascript* code, not the *HTML* within the strings.
 
+Note - this does incur a performance cost. Simply leave out this option to
+prevent minificaiton.
+
 I recommend using the following settings for production:
 
 ```js
