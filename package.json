@@ -28,7 +28,7 @@
     "test": "./node_modules/.bin/grunt"
   },
   "dependencies": {
-    "html-minifier": "~1.1.1"
+    "html-minifier": "~2.1.2"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
