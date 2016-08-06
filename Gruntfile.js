@@ -297,6 +297,14 @@ module.exports = function(grunt) {
         dest: 'tmp/custom_concat_usemin_no_uglify.js',
         options: {
           usemin: 'usemin/all.js'
+      },
+
+      // bunch of files at different level in a directory (unmerged in dest)
+      unmerged_files: {
+        src: 'test/fixtures/unmerged/**/*.html',
+        dest: 'tmp/unmerged/',
+        options: {
+          merge: false
         }
       }
     }
