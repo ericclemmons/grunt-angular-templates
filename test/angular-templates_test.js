@@ -250,6 +250,7 @@ exports.ngtemplates = {
     var expected  = grunt.file.read('test/expected/regexp.js');
 
     test.equal(expected, actual);
+    test.done();
   },
 
   unmerged_files: function(test) {
