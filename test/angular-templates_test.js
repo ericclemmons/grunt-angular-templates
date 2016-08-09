@@ -251,6 +251,17 @@ exports.ngtemplates = {
 
     test.equal(expected, actual);
     test.done();
+  },
+
+  unmerged_files: function(test) {
+    test.expect(5);
+
+    test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/undefined.js'), grunt.file.read('test/expected/unmerged_files/undefined.js'));
+    test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/usemin.js'), grunt.file.read('test/expected/unmerged_files/usemin.js'));
+    test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/empty.js'), grunt.file.read('test/expected/unmerged_files/empty.js'));
+    test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/html5.js'), grunt.file.read('test/expected/unmerged_files/html5.js'));
+    test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/level3/one.js'), grunt.file.read('test/expected/unmerged_files/one.js'));
+    test.done();
   }
 
 };
