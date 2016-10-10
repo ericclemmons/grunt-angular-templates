@@ -32,8 +32,10 @@ module.exports = function(grunt) {
       usemin:     null,
       append:     false,
       quotes:     'double',
-      merge:      true
+      merge:      true,
+      htmlminThrowOnError: false,
     });
+
 
     grunt.verbose.writeflags(options, 'Options');
 

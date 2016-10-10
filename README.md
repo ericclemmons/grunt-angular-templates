@@ -105,6 +105,7 @@ I recommend using the following settings for production:
 htmlmin: {
   collapseBooleanAttributes:      true,
   collapseWhitespace:             true,
+  keepClosingSlash:               true, // Only if you are using SVG in HTML
   removeAttributeQuotes:          true,
   removeComments:                 true, // Only if you don't use comment directives!
   removeEmptyAttributes:          true,
@@ -113,7 +114,13 @@ htmlmin: {
   removeStyleLinkTypeAttributes:  true
 }
 ```
-If you are using SVG, please make sure you set ```keepClosingSlash:true```
+
+
+###htmlminThrowOnError
+Default: ```false```
+
+> If you set it to ```true```, it will throw an error. It is good for a build.  
+
 
 ### module
 
