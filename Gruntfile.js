@@ -357,6 +357,32 @@ module.exports = function(grunt) {
     grunt.task.run(tasks);
   });
 
+  grunt.registerTask('throwsOnErrorForHtmlminTest', function() {
+    grunt.config.merge(
+    {
+      ngtemplates: {
+        throwsOnErrorForHtmlminTest: {
+          options: {
+            htmlminThrowOnError: true,
+              htmlmin: {
+              collapseBooleanAttributes: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true,
+                removeComments: true,
+                removeEmptyAttributes: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true
+            }
+          },
+          src: ['test/fixtures/htmlmin-throw-on-error.html'],
+            dest: 'tmp/htmlmin-throw-on-error.js'
+        }
+      }
+    });
+    grunt.task.run('ngtemplates:throwsOnErrorForHtmlminTest');
+  });
+
   // Load local tasks.
   grunt.loadTasks('tasks');
   grunt.loadNpmTasks('grunt-contrib-clean');

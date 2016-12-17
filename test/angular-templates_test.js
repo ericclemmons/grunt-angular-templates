@@ -264,37 +264,27 @@ exports.ngtemplates = {
     test.done();
   },
 
-  throwsOnErrorForHtmlmin: function (test) {
-    var config = {
-        options: {
-       htmlminThrowOnError: true,
-      htmlmin: {
-        collapseBooleanAttributes: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-        removeEmptyAttributes: true,
-        removeRedundantAttributes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true
+  throwsOnErrorForHtmlminTest: function (test) {
+    var findsError = 'Aborted due to warnings.';
+
+    var child = grunt.util.spawn({
+        cmd: 'grunt',
+        args: ['throwsOnErrorForHtmlminTest'],
+      }, function() {});
+
+    var result = '';
+    child.stdout.on('data', function (data) {
+      result += data;
+    });
+
+    child.stdout.on('end', function () {
+//      console.log(result);
+      if (result.indexOf(findsError) === -1) {
+        test.fail();
       }
-    },
-    src: ['test/fixtures/htmlmin-throw-on-error.html'],
-    dest: 'tmp/htmlmin-throw-on-error.js'
-  };
-  grunt.config.set('ngtemplates.throwsOnErrorForHtmlmin', config);
+      test.done();
+    });
 
-  try {
-      grunt.task.run(['ngtemplates:throwsOnErrorForHtmlmin']);
-      console.log('nem jo');
-    //  test.fail('Must throw error');
-  } catch(e) {
-      console.log('jo');
-//          test.ok();
-  }
-   // grunt.config.set('ngtemplates.throwsOnErrorForHtmlmin', {});
-
-  test.done();
   }
 
 };
