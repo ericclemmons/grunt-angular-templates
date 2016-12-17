@@ -310,7 +310,7 @@ module.exports = function(grunt) {
       },
 
 
-        /*
+      /*
       throwsOnErrorForHtmlmin: {
         options: {
           htmlminThrowOnError: true,
@@ -328,7 +328,6 @@ module.exports = function(grunt) {
         src: ['test/fixtures/htmlmin-throw-on-error.html'],
         dest: 'tmp/htmlmin-throw-on-error.js'
       },
-
       */
 
     }
