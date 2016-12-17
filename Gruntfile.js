@@ -310,26 +310,6 @@ module.exports = function(grunt) {
       },
 
 
-      /*
-      throwsOnErrorForHtmlmin: {
-        options: {
-          htmlminThrowOnError: true,
-          htmlmin: {
-              collapseBooleanAttributes:      true,
-              collapseWhitespace:             true,
-              removeAttributeQuotes:          true,
-              removeComments:                 true,
-              removeEmptyAttributes:          true,
-              removeRedundantAttributes:      true,
-              removeScriptTypeAttributes:     true,
-              removeStyleLinkTypeAttributes:  true
-          }
-        },
-        src: ['test/fixtures/htmlmin-throw-on-error.html'],
-        dest: 'tmp/htmlmin-throw-on-error.js'
-      },
-      */
-
     }
   });
 

@@ -262,6 +262,39 @@ exports.ngtemplates = {
     test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/html5.js'), grunt.file.read('test/expected/unmerged_files/html5.js'));
     test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/level3/one.js'), grunt.file.read('test/expected/unmerged_files/one.js'));
     test.done();
+  },
+
+  throwsOnErrorForHtmlmin: function (test) {
+    var config = {
+        options: {
+       htmlminThrowOnError: true,
+      htmlmin: {
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true
+      }
+    },
+    src: ['test/fixtures/htmlmin-throw-on-error.html'],
+    dest: 'tmp/htmlmin-throw-on-error.js'
+  };
+  grunt.config.set('ngtemplates.throwsOnErrorForHtmlmin', config);
+
+  try {
+      grunt.task.run(['ngtemplates:throwsOnErrorForHtmlmin']);
+      console.log('nem jo');
+    //  test.fail('Must throw error');
+  } catch(e) {
+      console.log('jo');
+//          test.ok();
+  }
+   // grunt.config.set('ngtemplates.throwsOnErrorForHtmlmin', {});
+
+  test.done();
   }
 
 };
