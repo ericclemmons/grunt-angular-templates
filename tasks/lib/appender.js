@@ -82,6 +82,10 @@ var Appender = function(grunt) {
       return false;
     }
 
+    if (process.platform === 'win32') {
+      path = path.replace(/\//g, '\\');
+    }
+
     // Find uglify destination(s) matching output path
     var matches = grunt.task.normalizeMultiTaskFiles(config)
       .map(function(files) {
