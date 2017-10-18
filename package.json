@@ -31,13 +31,13 @@
     "html-minifier": "~2.1.2"
   },
   "devDependencies": {
-    "grunt": "~0.4.0",
+    "grunt": "~1.0.0",
     "grunt-cli": "~0.1.6",
     "grunt-contrib-cssmin": "~0.14.0",
     "grunt-contrib-clean": "~0.7.0",
     "grunt-contrib-concat": "~0.5.1",
     "grunt-contrib-jshint": "~0.12.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-nodeunit": "~1.0.0",
     "grunt-contrib-uglify": "~0.11.0",
     "grunt-usemin": "~3.1.1",
     "grunt-contrib-copy": "~0.8.2"
