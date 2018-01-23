@@ -68,15 +68,15 @@ module.exports = function(grunt) {
       else{
         if (options.merge) {
           grunt.file.write(file.dest, compiled.join('\n'));
-          grunt.log.writeln('File ' + file.dest.cyan + ' created.');
+          // grunt.log.writeln('File ' + file.dest.cyan + ' created.');
         } else {
-          //Writing compiled file to the same relative location as source, without merging them together 
+          //Writing compiled file to the same relative location as source, without merging them together
           for (var i = 0; i < compiled.length; i++) {
             var dest = file.dest + file.src[i];
             //Change extension to js from html/htm
             dest = dest.replace(/(html|htm)$/i, "js");
             grunt.file.write(dest, compiled[i]);
-            grunt.log.writeln('File ' + dest.cyan + ' created.');
+            // grunt.log.writeln('File ' + dest.cyan + ' created.');
           }
         }
       }
