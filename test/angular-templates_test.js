@@ -262,6 +262,29 @@ exports.ngtemplates = {
     test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/html5.js'), grunt.file.read('test/expected/unmerged_files/html5.js'));
     test.equal(grunt.file.read('tmp/unmerged/test/fixtures/unmerged/level2/level3/one.js'), grunt.file.read('test/expected/unmerged_files/one.js'));
     test.done();
+  },
+
+  throwsOnErrorForHtmlminTest: function (test) {
+    var findsError = 'Aborted due to warnings.';
+
+    var child = grunt.util.spawn({
+        cmd: 'grunt',
+        args: ['throwsOnErrorForHtmlminTest'],
+      }, function() {});
+
+    var result = '';
+    child.stdout.on('data', function (data) {
+      result += data;
+    });
+
+    child.stdout.on('end', function () {
+//      console.log(result);
+      if (result.indexOf(findsError) === -1) {
+        test.fail();
+      }
+      test.done();
+    });
+
   }
 
 };

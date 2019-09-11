@@ -115,6 +115,13 @@ htmlmin: {
 }
 ```
 
+
+###htmlminThrowOnError
+Default: ```false```
+
+> If you set it to ```true```, it will throw an error. It is good for a build.  
+
+
 ### module
 
 > `String` of the `angular.module` to register templates with.

@@ -141,16 +141,16 @@ module.exports = function(grunt) {
         src: ['test/fixtures/one.html', 'test/fixtures/two/**/*.html'],
         dest: 'tmp/custom_htmlmin.js',
         options: {
-          htmlmin: {
-            collapseBooleanAttributes:      true,
-            collapseWhitespace:             true,
-            removeAttributeQuotes:          true,
-            removeComments:                 true,
-            removeEmptyAttributes:          true,
-            removeRedundantAttributes:      true,
-            removeScriptTypeAttributes:     true,
-            removeStyleLinkTypeAttributes:  true
-          }
+            htmlmin: {
+                collapseBooleanAttributes: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true,
+                removeComments: true,
+                removeEmptyAttributes: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true
+            }
         }
       },
 
@@ -307,7 +307,9 @@ module.exports = function(grunt) {
         options: {
           merge: false
         }
-      }
+      },
+
+
     }
   });
 
@@ -353,6 +355,32 @@ module.exports = function(grunt) {
     }
 
     grunt.task.run(tasks);
+  });
+
+  grunt.registerTask('throwsOnErrorForHtmlminTest', function() {
+    grunt.config.merge(
+    {
+      ngtemplates: {
+        throwsOnErrorForHtmlminTest: {
+          options: {
+            htmlminThrowOnError: true,
+              htmlmin: {
+              collapseBooleanAttributes: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true,
+                removeComments: true,
+                removeEmptyAttributes: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true
+            }
+          },
+          src: ['test/fixtures/htmlmin-throw-on-error.html'],
+            dest: 'tmp/htmlmin-throw-on-error.js'
+        }
+      }
+    });
+    grunt.task.run('ngtemplates:throwsOnErrorForHtmlminTest');
   });
 
   // Load local tasks.

@@ -125,6 +125,9 @@ var Compiler = function(grunt, options, cwd, expanded) {
         source = minify(source, options.htmlmin);
       } catch (err) {
         grunt.log.error(err + '\n\n' + source + '\n\n');
+        if (options.htmlminThrowOnError) {
+          throw err;
+        }
       }
     }
 
