@@ -133,27 +133,30 @@ var Compiler = function(grunt, options, cwd, expanded) {
 
   /**
    * Get static or dynamic module name from file.
+   * @param  {Object} files Files source
    * @param  {String} file  File name
    * @return {String}
    */
-  this.module = function(file) {
-    if (typeof options.module === 'function') {
-      return options.module(file, options);
+  this.module = function(files, file) {
+    var module = files.module || options.module;
+
+    if (typeof module === 'function') {
+      return module(file, options);
     }
 
-    return options.module;
+    return module;
   };
 
   /**
    * Group files into individual modules
-   * @param  {Array} files  Files
+   * @param  {Object} files  Files source
    * @return {Object}       Key/Value pair of module + files
    */
   this.modules = function(files) {
     var modules = {};
 
-    files.forEach(function(file) {
-      var module = this.module(file);
+    files.src.forEach(function(file) {
+      var module = this.module(files, file);
 
       if (!modules[module]) {
         modules[module] = [];

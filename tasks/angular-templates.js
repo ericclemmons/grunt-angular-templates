@@ -47,7 +47,7 @@ module.exports = function(grunt) {
 
       var compiler  = new Compiler(grunt, options, cwd, expanded);
       var appender  = new Appender(grunt);
-      var modules   = compiler.modules(file.src);
+      var modules   = compiler.modules(file);
       var compiled  = [];
 
       for (var module in modules) {
