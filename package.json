@@ -31,8 +31,8 @@
     "html-minifier": "~4.0.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.0",
-    "grunt-cli": "~0.1.6",
+    "grunt": "~1.5.3",
+    "grunt-cli": "~1.4.3",
     "grunt-contrib-cssmin": "~0.14.0",
     "grunt-contrib-clean": "~0.7.0",
     "grunt-contrib-concat": "~0.5.1",
